@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:contextClickable="false">
+
+
+    <include layout="@layout/regsuc_title"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="12dp">
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_centerInParent="true"
+        android:text="返回登录页面"
+        android:textSize="18sp"
+        android:background="@drawable/button_green"
+        android:textColor="#ffffff"
+        android:id="@+id/btn_register3_return"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

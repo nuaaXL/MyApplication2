@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+
+        <include layout="@layout/infomodify_title"/>
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <ImageView
+                android:id="@+id/img_back"
+                android:layout_width="40dp"
+                android:layout_height="22dp"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/icon_back" />
+        </RelativeLayout>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:orientation="vertical" >
+
+
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+            <TextView
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp"
+                android:text="姓名:"
+                android:id="@+id/tv_iname"
+                android:layout_marginTop="10dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="#000000"
+                android:id="@+id/et_iname"
+                android:layout_alignBaseline="@+id/tv_iname"
+                android:layout_toRightOf="@+id/tv_iname" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <TextView
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp"
+                android:text="性别:"
+                android:id="@+id/tv_igender"
+                />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                android:layout_toEndOf="@+id/tv_igender"
+                android:weightSum="2"
+                style="@style/Base.Widget.AppCompat.CompoundButton.RadioButton"
+                android:id="@+id/RG_igender"
+                android:layout_toRightOf="@+id/tv_igender" >
+
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="男"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="女"
+                    />
+
+
+                </RadioGroup>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <TextView
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp"
+                android:text="生日:"
+                android:id="@+id/tv_ibirth"
+                />
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:hint="1996年11月6日"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_toRightOf="@+id/textView12"
+
+                android:id="@+id/tv_modifydate" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="选择日期"
+                android:textColor="#000000"
+                android:background="@drawable/button_grey"
+                android:layout_alignParentRight="true"
+                android:id="@+id/btn_modifyDate"
+                android:layout_toEndOf="@+id/tv_modifydate"
+
+                />;
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <TextView
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp"
+                android:text="校区:"
+                android:id="@+id/textView13"
+                />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_toEndOf="@+id/textView13"
+                style="@style/Base.Widget.AppCompat.CompoundButton.RadioButton"
+                >
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="将军路"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="明故宫"
+                    />
+
+            </RadioGroup>
+
+
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <TextView
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp"
+                android:text="学号:"
+                android:id="@+id/textView15"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:id="@+id/editText11"
+                android:ems="16"
+                android:textColor="#000000"
+                android:layout_alignBaseline="@+id/textView15"
+                android:layout_toRightOf="@+id/textView15" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <TextView
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp"
+                android:text="头像："
+                android:id="@+id/textView17"
+                android:layout_centerHorizontal="true"
+                />
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:hint="请选择你的头像"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_toRightOf="@+id/textView17"
+
+                android:id="@+id/tv_headphoto" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/button_grey"
+                android:text="插入图片"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:id="@+id/selectImage_modify"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/tv_headphoto" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="158dp"
+            android:id="@+id/headphoto_modify"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+
+
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:text="修改"
+            android:id="@+id/btn_modify"
+            android:textColor="@android:color/white"
+            android:textSize="25sp"
+            android:background="@color/button_g"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true" />
+
+
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>

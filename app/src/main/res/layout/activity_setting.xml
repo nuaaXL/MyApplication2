@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+
+        <include layout="@layout/setting_title"/>
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <ImageView
+                android:id="@+id/img_back"
+                android:layout_width="40dp"
+                android:layout_height="22dp"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/icon_back" />
+        </RelativeLayout>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="12dp"
+        android:orientation="vertical"
+        android:id="@+id/MainLinear">
+
+
+
+
+        <Button
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:background="#ffffff"
+        android:text="版本信息"
+        android:textSize="20dp"
+        android:id="@+id/Version"
+        android:gravity="center" />
+
+        <View  android:layout_height="1px"
+            android:layout_width="match_parent"
+            android:background="#444444" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:background="#ffffff"
+            android:paddingRight="12dp"
+            android:text="检查更新"
+            android:textSize="20dp"
+            android:id="@+id/Update"
+            android:gravity="center" />
+
+        <View  android:layout_height="1px"
+            android:layout_width="match_parent"
+            android:background="#444444" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:background="#ffffff"
+            android:text="推送设置"
+            android:textSize="20dp"
+            android:id="@+id/Pushsetting"
+            android:gravity="center" />
+
+        <View  android:layout_height="1px"
+            android:layout_width="match_parent"
+            android:background="#444444" />
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/button_red"
+            android:text="退出当前账号"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:id="@+id/Logout"
+            android:gravity="center" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
