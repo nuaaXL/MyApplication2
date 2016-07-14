@@ -71,50 +71,51 @@
 
         </RelativeLayout>
 
+
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:paddingLeft="12dp"
-            android:paddingRight="12dp">
+            android:paddingRight="12dp" >
 
-    <TextView
-        android:layout_width="96dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:paddingLeft="8dp"
-        android:textColor="#AAAAAA"
-        android:textSize="16sp"
-        android:text="性别:"
-        android:id="@+id/textView11"
-         />
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="性别："
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
 
             <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/gp_r_group2"
                 android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
                 android:orientation="horizontal"
                 android:weightSum="2"
-                android:id="@+id/gp_r_group2"
-                android:layout_toEndOf="@+id/textView11"
-                style="@style/Base.Widget.AppCompat.CompoundButton.RadioButton"
-                >
+                android:layout_toRightOf="@+id/textView11">
+
+
                 <RadioButton
+                    android:id="@+id/rb_r_nan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:checked="true"
-                    android:id="@+id/rb_r_nan"
                     android:text="男"/>
-
                 <RadioButton
+                    android:id="@+id/rb_r_nv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rb_r_nv"
-                    android:text="女" />
+                    android:layout_weight="1"
+                    android:text="女"/>
 
             </RadioGroup>
-
 
         </RelativeLayout>
 

@@ -140,14 +140,12 @@
 
             <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:orientation="horizontal"
                 android:weightSum="2"
                 android:id="@+id/gp_r_group"
-                android:layout_toEndOf="@+id/textView13"
-                style="@style/Base.Widget.AppCompat.CompoundButton.RadioButton"
-                >
+                android:layout_toEndOf="@+id/textView13">
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

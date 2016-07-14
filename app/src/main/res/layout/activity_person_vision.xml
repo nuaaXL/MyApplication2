@@ -91,12 +91,11 @@
 
             <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:orientation="horizontal"
                 android:layout_toEndOf="@+id/tv_igender"
                 android:weightSum="2"
-                style="@style/Base.Widget.AppCompat.CompoundButton.RadioButton"
                 android:id="@+id/RG_igender"
                 android:layout_toRightOf="@+id/tv_igender" >
 
@@ -181,12 +180,11 @@
 
             <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:orientation="horizontal"
                 android:weightSum="2"
                 android:layout_toEndOf="@+id/textView13"
-                style="@style/Base.Widget.AppCompat.CompoundButton.RadioButton"
                 >
                 <RadioButton
                     android:layout_width="wrap_content"
