@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/LLhome"
-            android:visibility="gone"
+            android:visibility="visible"
             >
             <ListView
                 android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     fab:fab_colorNormal="@color/pink"
-                    fab:fab_title="我要寄快递"
+                    fab:fab_icon="@mipmap/send"
                     fab:fab_colorPressed="@color/pink_pressed"/>
 
 
@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/RLme"
-            android:visibility="visible"
+            android:visibility="invisible"
             android:orientation="vertical">
 
             <LinearLayout
@@ -122,6 +122,15 @@
                                 android:textColor="#353535"
                                 android:textSize="18sp" />
 
+                            <TextView
+                                android:id="@+id/tv_gender"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16dp"
+                                android:text="男"
+                                android:textColor="#353535"
+                                android:textSize="18sp"/>
+
                         </LinearLayout>
 
                         <TextView
@@ -147,49 +156,188 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal">
 
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="我的订单"
-                        android:id="@+id/button2"
-                        android:paddingTop="0dp"
-                        android:background="#FFFFFFFF"
-                        android:layout_gravity="center_horizontal" />
+                    <LinearLayout
+                        android:id="@+id/LL_help"
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:background="@drawable/setting_item_selector"
+                        android:layout_height="51dp">
 
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="我的积分"
-                        android:id="@+id/btn_wdjf"
-                        android:background="#FFFFFFFF"
-                        android:layout_gravity="center_horizontal" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="20dp"
+                                android:src="@drawable/order"/>
+
+                            <TextView
+                                style="@style/TxtTitle"
+                                android:textSize="16sp"
+                                android:gravity="center_vertical"
+                                android:layout_width="fill_parent"
+                                android:layout_height="50dp"
+                                android:paddingLeft="16dp"
+                                android:paddingRight="16dp"
+                                android:drawablePadding="10dp"
+                                android:text="我帮助的" />
+                        </LinearLayout>
+                        <View
+                            android:background="@color/black2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="1.0dip" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/LL_helped"
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:background="@drawable/setting_item_selector"
+                        android:layout_height="51dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="20dp"
+                                android:src="@drawable/order"/>
+
+                        <TextView
+                            style="@style/TxtTitle"
+                            android:textSize="16sp"
+                            android:gravity="center_vertical"
+                            android:layout_width="fill_parent"
+                            android:layout_height="50dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:drawablePadding="10dp"
+                            android:text="帮助我的" />
+                        </LinearLayout>
+                        <View
+                            android:background="@color/black2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="1.0dip" />
+
+                        </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/LL_coin"
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="51dp"
+                        android:background="@drawable/setting_item_selector">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="20dp"
+                                android:src="@drawable/coin"/>
+
+                            <TextView
+                                style="@style/TxtTitle"
+                                android:textSize="16sp"
+                                android:gravity="center_vertical"
+                                android:layout_width="fill_parent"
+                                android:layout_height="50dp"
+                                android:paddingLeft="16dp"
+                                android:paddingRight="16dp"
+                                android:drawablePadding="10dp"
+                                android:text="积分" />
+                        </LinearLayout>
+                        <View
+                            android:background="@color/black2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="1.0dip" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LL_edit"
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="51dp"
+                        android:background="@drawable/setting_item_selector">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="20dp"
+                                android:src="@drawable/edit"/>
+
+                            <TextView
+                                style="@style/TxtTitle"
+                                android:textSize="16sp"
+                                android:gravity="center_vertical"
+                                android:layout_width="fill_parent"
+                                android:layout_height="50dp"
+                                android:paddingLeft="16dp"
+                                android:paddingRight="16dp"
+                                android:drawablePadding="10dp"
+                                android:text="信息编辑" />
+                        </LinearLayout>
+                        <View
+                            android:background="@color/black2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="1.0dip" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LL_setting"
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="51dp"
+                        android:background="@drawable/setting_item_selector">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="20dp"
+                                android:src="@drawable/setting"/>
+
+                            <TextView
+                                style="@style/TxtTitle"
+                                android:textSize="16sp"
+                                android:gravity="center_vertical"
+                                android:layout_width="fill_parent"
+                                android:layout_height="50dp"
+                                android:paddingLeft="16dp"
+                                android:paddingRight="16dp"
+                                android:drawablePadding="10dp"
+                                android:text="设置" />
+                        </LinearLayout>
 
 
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="信息编辑"
-                        android:id="@+id/btn_xxbj"
-                        android:paddingTop="0dp"
-                        android:background="#FFFFFFFF"
-                        android:layout_gravity="center_horizontal" />
+                    </LinearLayout>
 
 
-
-
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="设置"
-                        android:id="@+id/btn_setting"
-                        android:paddingTop="0dp"
-                        android:background="#FFFFFFFF"
-                        android:layout_gravity="center_horizontal" />
                 </LinearLayout>
-
-
-
 
 
 

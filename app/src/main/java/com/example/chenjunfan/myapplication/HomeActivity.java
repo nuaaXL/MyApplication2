@@ -9,8 +9,8 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
@@ -34,13 +34,14 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     private List<Map<String, Object>> dataList;
     private RelativeLayout homeLL;
     private RelativeLayout meRL;
-    private Button xxbjButton;
-    private Button wdjfButton;
-    private Button settingButton;
+    private LinearLayout editLL;
+    private LinearLayout coinLL;
+    private LinearLayout settingLL;
     private FloatingActionButton actionC;
     private TextView accoutTV;
     private TextView nameTV;
     private User user = new User();
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -61,9 +62,9 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         mainList = (ListView) findViewById(R.id.LVmain);
         homeLL = (RelativeLayout) findViewById(R.id.LLhome);
         meRL = (RelativeLayout) findViewById(R.id.RLme);
-        xxbjButton = (Button) findViewById(R.id.btn_xxbj);
-        wdjfButton = (Button) findViewById(R.id.btn_wdjf);
-        settingButton = (Button) findViewById(R.id.btn_setting);
+        editLL = (LinearLayout) findViewById(R.id.LL_edit);
+        coinLL = (LinearLayout) findViewById(R.id.LL_coin);
+        settingLL = (LinearLayout) findViewById(R.id.LL_setting);
 /*
     取user数据库:
  */
@@ -102,14 +103,14 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         accoutTV.setText(user.getUserId());
 
         dataList = new ArrayList<Map<String, Object>>();
-        mainListAdp = new SimpleAdapter(this, getData(), R.layout.item_main, new String[]{"pic", "text", "flag"}, new int[]{R.id.pic, R.id.text, R.id.flag});
+        mainListAdp = new SimpleAdapter(this, getData(), R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place});
         mainList.setAdapter(mainListAdp);
         mainList.setOnItemClickListener(this);
 
 
 
         actionC = new FloatingActionButton(getBaseContext());
-        actionC.setTitle("我要取快递");
+        actionC.setIcon(R.mipmap.receive);
         actionC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,7 +137,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         });
 
 
-        settingButton.setOnClickListener(new View.OnClickListener() {
+        settingLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, SettingActivity.class);
@@ -145,14 +146,14 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         });
 
 
-        wdjfButton.setOnClickListener(new View.OnClickListener() {
+        coinLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, Point_viewActivity.class);
                 startActivity(intent);
             }
         });
-        xxbjButton.setOnClickListener(new View.OnClickListener() {
+        editLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, Person_visionActivity.class);
@@ -189,18 +190,110 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     }
 
     private List<Map<String, Object>> getData() {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 12; i++) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put("pic", R.mipmap.ic_launcher);
 
-            if (i % 2 == 0) {
-                map.put("flag", 0);
-                map.put("text", "取快递demo");
-            } else {
-                map.put("flag", 1);
-                map.put("text", "寄快递demo");
+            switch (i) {
+                case 0:
+                    map.put("flag", 0);
+                    map.put("IV_flag",R.drawable.rflag);
+                    map.put("content","辣条");
+                    map.put("location","南区36栋");
+                    map.put("pic",R.mipmap.latiao);
+                    break;
 
+                case 1:
+                    map.put("flag", 0);
+                    map.put("IV_flag",R.drawable.rflag);
+                    map.put("content","飞机模型");
+                    map.put("location","一号楼");
+                    map.put("pic",R.mipmap.plane);
+                    break;
+
+                case 2:
+                    map.put("flag", 1);
+                    map.put("IV_flag",R.drawable.sflag);
+                    map.put("content","iPad");
+                    map.put("location","D3教学楼");
+                    map.put("pic",R.mipmap.ipad);
+                    break;
+
+                case 3:
+                    map.put("flag", 0);
+                    map.put("IV_flag",R.drawable.rflag);
+                    map.put("content","篮球");
+                    map.put("location","灯光球场");
+                    map.put("pic",R.mipmap.ball);
+                    break;
+
+                case 4:
+                    map.put("flag", 0);
+                    map.put("IV_flag",R.drawable.rflag);
+                    map.put("content","台灯");
+                    map.put("location","怡园22栋");
+                    map.put("pic",R.mipmap.light);
+                    break;
+
+                case 5:
+                    map.put("flag", 1);
+                    map.put("IV_flag",R.drawable.sflag);
+                    map.put("content","一只篮球");
+                    map.put("location","图书馆门口");
+                    map.put("pic",R.mipmap.ball2);
+                    break;
+
+                case 6:
+                    map.put("flag", 0);
+                    map.put("IV_flag",R.drawable.rflag);
+                    map.put("content","水杯");
+                    map.put("location","一号楼");
+                    map.put("pic",R.mipmap.bottle);
+                    break;
+
+                case 7:
+                    map.put("flag", 1);
+                    map.put("IV_flag",R.drawable.sflag);
+                    map.put("content","相机");
+                    map.put("location","怡园19栋");
+                    map.put("pic",R.mipmap.camera);
+                    break;
+
+                case 8:
+                    map.put("flag", 1);
+                    map.put("IV_flag",R.drawable.sflag);
+                    map.put("content","一箱零食");
+                    map.put("location","三号楼");
+                    map.put("pic",R.mipmap.food);
+                    break;
+
+                case 9:
+                    map.put("flag", 0);
+                    map.put("IV_flag",R.drawable.rflag);
+                    map.put("content","雨伞");
+                    map.put("location","慧一");
+                    map.put("pic",R.mipmap.umbre);
+                    break;
+
+                case 10:
+                    map.put("flag", 1);
+                    map.put("IV_flag",R.drawable.sflag);
+                    map.put("content","一双鞋子");
+                    map.put("location","博园15栋");
+                    map.put("pic",R.mipmap.shoe);
+                    break;
+
+                case 11:
+                    map.put("flag", 1);
+                    map.put("IV_flag",R.drawable.sflag);
+                    map.put("content","平板电脑保护套");
+                    map.put("location","四号楼");
+                    map.put("pic",R.mipmap.protect);
+                    break;
+
+                default:break;
             }
+
+
             dataList.add(map);
         }
         return dataList;

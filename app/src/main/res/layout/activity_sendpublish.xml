@@ -211,19 +211,37 @@
                 android:textColor="#AAAAAA"
                 android:textSize="16sp" />
 
-            <Spinner
+            <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner"
+                android:id="@+id/RG_pay"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:layout_toRightOf="@+id/tv_sign_temp6"/>
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_toRightOf="@+id/tv_sign_temp6">
 
 
+                <RadioButton
+                    android:id="@+id/pay_hdfk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="货到付款"/>
+                <RadioButton
+                    android:id="@+id/pay_jffk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="寄方付款"/>
 
-
+                </RadioGroup>
 
         </RelativeLayout>
+
+
+
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"

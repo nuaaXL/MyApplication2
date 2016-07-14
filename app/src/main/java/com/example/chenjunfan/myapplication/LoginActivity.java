@@ -78,7 +78,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                 passwd=passwordEditText.getText().toString();
                 try {
                     String Url;
-                    Url="http://192.168.191.1:8080/Ren_Test/login"+"?userId="+id+"&passwd="+passwd;
+                    Url="http://192.168.0.109:8080/Ren_Test/login"+"?userId="+id+"&passwd="+passwd;
                     Log.i("tag",Url);
                     SQLiteDatabase db = openOrCreateDatabase("user.db",MODE_ENABLE_WRITE_AHEAD_LOGGING,null);
                     db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +

@@ -1,29 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="123dp">
 
-    <ImageView
-        android:id="@+id/pic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"
-        android:layout_marginLeft="15dp"
-        />
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="demo"
-        />
 
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:id="@+id/flag"
-        android:text="0"
-        />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:paddingRight="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="116dp">
+
+
+
+
+        <ImageView
+            android:id="@+id/pic"
+            android:layout_width="116dp"
+            android:layout_height="116dp"
+            android:src="@mipmap/ic_launcher"
+            />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="13dp" >
+                <TextView
+                    android:id="@+id/item_content"
+                    android:textColor="#000000"
+                    android:focusable="false"
+                    android:textSize="18sp"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_height="40dp"
+                    android:paddingLeft="16dp"
+                    android:drawablePadding="10dp"
+                    android:text="快件" />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/IV_flag"
+                    />
+            </RelativeLayout>
+            <View
+                android:background="@color/black2"
+                android:layout_width="fill_parent"
+                android:layout_height="1.0dip"
+
+                android:layout_marginLeft="15dp"/>
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="12dp"
+                android:paddingRight="13dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#999999"
+                    android:textSize="16sp"
+                    android:paddingTop="6dp"
+                    android:paddingRight="16dp"
+                    android:paddingLeft="16dp"
+                    android:id="@+id/item_username"
+
+                    android:text="张俊东"/>
+
+                <ImageView
+                    android:id="@+id/IV_location"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_marginTop="3dp"
+                    android:src="@drawable/location"
+                    android:layout_toRightOf="@+id/item_username"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#999999"
+                    android:textSize="16sp"
+                    android:paddingTop="6dp"
+                    android:layout_toRightOf="@+id/IV_location"
+                    android:id="@+id/item_place"
+
+                    android:text="三号楼"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#AAAAAA"
+                    android:textSize="12sp"
+                    android:paddingLeft="16dp"
+
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/item_time"
+
+                    android:text="2016年7月14日16:06" />
+
+
+
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/flag"
+            android:text="0"
+            />
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@drawable/shadow" />
 
 </LinearLayout>
