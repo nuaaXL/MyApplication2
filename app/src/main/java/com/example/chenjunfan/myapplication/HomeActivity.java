@@ -29,6 +29,8 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     private ImageView meIV;
     private RelativeLayout homeRL;
     private RelativeLayout wodeRL;
+    private TextView homeTV;
+    private TextView meTV;
     private ListView mainList;
     private SimpleAdapter mainListAdp;
     private List<Map<String, Object>> dataList;
@@ -76,6 +78,8 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         coinLL = (LinearLayout) findViewById(R.id.LL_coin);
         settingLL = (LinearLayout) findViewById(R.id.LL_setting);
         genderTV= (TextView) findViewById(R.id.tv_gender);
+        homeTV = (TextView) findViewById(R.id.tv_home);
+        meTV = (TextView) findViewById(R.id.tv_me);
 /*
     取user数据库:
  */
@@ -193,6 +197,9 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 meIV.setImageDrawable(getResources().getDrawable(R.drawable.me_normal));
                 homeLL.setVisibility(View.VISIBLE);
                 meRL.setVisibility(View.INVISIBLE);
+                homeTV.setTextColor(getResources().getColor(R.color.button_g));
+                meTV.setTextColor(getResources().getColor(R.color.textgrey));
+
                 homeLL.hasFocus();
 
 
@@ -206,6 +213,9 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 meIV.setImageDrawable(getResources().getDrawable(R.drawable.me_pressed));
                 homeLL.setVisibility(View.INVISIBLE);
                 meRL.setVisibility(View.VISIBLE);
+                meTV.setTextColor(getResources().getColor(R.color.button_g));
+                homeTV.setTextColor(getResources().getColor(R.color.textgrey));
+
                 meRL.hasFocus();
 
             }
