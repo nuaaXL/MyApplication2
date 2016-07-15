@@ -241,7 +241,7 @@ public class Register2Activity extends Activity implements View.OnClickListener 
                     try {
                         String Url;
 
-                        Url = "http://192.168.4.100:8080/Ren_Test/modifyServlet" + "?userId=" + userId + "&name=" + URLEncoder.encode(name, "gbk") + "&gender=" + gender + "&passwd=" +
+                        Url = "http://"+getResources().getText(R.string.IP)+":8080/Ren_Test/modifyServlet" + "?userId=" + userId + "&name=" + URLEncoder.encode(name, "gbk") + "&gender=" + gender + "&passwd=" +
                                 passwd + "&phone=" + phone + "&school=" + URLEncoder.encode(school,"gbk") + "&actionCode=register";
                         Log.i("tag", Url);
                         SharedPreferences pre4 = getSharedPreferences("registerflag", MODE_PRIVATE);
