@@ -120,7 +120,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             case 1:
                 genderTV.setText("男");
                 break;
-            case 0:
+            case 2:
                 genderTV.setText("女");
                 break;
             default:
@@ -373,7 +373,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             case 1:
                 genderTV.setText("男");
                 break;
-            case 0:
+            case 2:
                 genderTV.setText("女");
                 break;
             default:
