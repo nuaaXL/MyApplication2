@@ -29,7 +29,6 @@
         <activity android:name=".Register3Activity" />
         <activity android:name=".ChangepasswdActivity" />
         <activity android:name=".splashScreen"
-            android:icon="@drawable/umbrella"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
