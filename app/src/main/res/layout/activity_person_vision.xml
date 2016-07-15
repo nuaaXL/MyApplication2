@@ -70,6 +70,34 @@
                 android:layout_toRightOf="@+id/tv_iname" />
 
         </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <TextView
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp"
+                android:text="密码:"
+                android:id="@+id/tv_modifypasswd"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:id="@+id/ipasswd"
+                android:ems="16"
+                android:textColor="#000000"
+                android:layout_alignBaseline="@+id/tv_modifypasswd"
+                android:layout_toRightOf="@+id/tv_modifypasswd" />
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -207,36 +235,6 @@
 
 
 
-
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp">
-
-            <TextView
-                android:layout_width="96dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:paddingLeft="8dp"
-                android:textColor="#AAAAAA"
-                android:textSize="16sp"
-                android:text="学号:"
-                android:id="@+id/textView15"
-                />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:id="@+id/editText11"
-                android:ems="16"
-                android:textColor="#000000"
-                android:layout_alignBaseline="@+id/textView15"
-                android:layout_toRightOf="@+id/textView15" />
 
         </RelativeLayout>
 
