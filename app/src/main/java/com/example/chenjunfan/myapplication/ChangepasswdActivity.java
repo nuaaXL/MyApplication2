@@ -27,7 +27,7 @@ public class ChangepasswdActivity extends Activity {
     private ImageView imageBack;
     private EditText rawpw;
     private EditText newpw;
-   // private EditText newpw2;
+    private EditText newpw2;
 
 
     Handler handler = new Handler(){
@@ -57,7 +57,7 @@ public class ChangepasswdActivity extends Activity {
 
         rawpw= (EditText) findViewById(R.id.raw_passwd);
         newpw= (EditText) findViewById(R.id.new_passwd);
-        //newpw2=(EditText) findViewById(R.id.);
+        newpw2=(EditText) findViewById(R.id.confirm_new_passwd);
     }
 
 
@@ -102,12 +102,12 @@ public class ChangepasswdActivity extends Activity {
                     msg.obj = "请输入新密码";
                     handler.sendMessage(msg);
                 }
-//                else if()
-//                {
-//                    Message msg = new Message();
-//                    msg.obj = "两次输入的密码不匹配，请重新输入";
-//                    handler.sendMessage(msg);
-//                }
+                else if(!(newpw.getText().toString().equals(newpw2.getText().toString())))
+                {
+                    Message msg = new Message();
+                    msg.obj = "两次输入的密码不匹配，请重新输入";
+                    handler.sendMessage(msg);
+                }
                 else
 
                 {

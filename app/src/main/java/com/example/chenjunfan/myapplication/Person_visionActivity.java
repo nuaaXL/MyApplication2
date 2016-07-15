@@ -284,7 +284,7 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
                     User user2;
                     user2 = (User) userList.get(0);
                     Log.i("user2", user2.getUserId());
-                    if (!(user2.getUserId().toString().equals("1"))) {
+                    if ((user2.getUserId().toString().equals("1"))) {
 
                         db.execSQL("delete from usertb");
                         db.execSQL("insert into usertb(userId,name,passwd,gender,phone,school,point) values('" + user.getUserId() + "','" + user.getName() + "','"
