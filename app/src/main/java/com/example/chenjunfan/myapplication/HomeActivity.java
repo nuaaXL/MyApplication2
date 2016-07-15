@@ -41,11 +41,21 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     private TextView accoutTV;
     private TextView nameTV;
     private User user = new User();
+    private TextView genderTV;
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        refresh();
+    }
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
+     *
      */
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +75,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         editLL = (LinearLayout) findViewById(R.id.LL_edit);
         coinLL = (LinearLayout) findViewById(R.id.LL_coin);
         settingLL = (LinearLayout) findViewById(R.id.LL_setting);
+        genderTV= (TextView) findViewById(R.id.tv_gender);
 /*
     取user数据库:
  */
@@ -95,12 +106,25 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
 
             }
         }
+        db.close();
+        c.close();
 
         /*
         显示到me里：
          */
         nameTV.setText(user.getName());
         accoutTV.setText(user.getUserId());
+        switch (user.getGender())
+        {
+            case 1:
+                genderTV.setText("男");
+                break;
+            case 2:
+                genderTV.setText("女");
+                break;
+            default:
+                genderTV.setText("未知");
+        }
 
         dataList = new ArrayList<Map<String, Object>>();
         mainListAdp = new SimpleAdapter(this, getData(), R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place});
@@ -312,6 +336,50 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             startActivity(intent);
         }
 
+    }
+
+    public void refresh()
+    {
+        SQLiteDatabase db = openOrCreateDatabase("user.db",MODE_ENABLE_WRITE_AHEAD_LOGGING,null);
+        db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
+                ",phone text,school text,point integer)");
+
+        Cursor c = db.rawQuery("select * from usertb",null);
+        if(c!=null)
+        {
+            while(c.moveToNext()){
+
+
+                user.setUserId(c.getString(c.getColumnIndex("userId")));
+                user.setName(c.getString(c.getColumnIndex("name")));
+                user.setPasswd(c.getString(c.getColumnIndex("passwd")));
+                user.setGender(c.getInt(c.getColumnIndex("gender")));
+                user.setPhone(c.getString(c.getColumnIndex("phone")));
+                user.setSchool(c.getString(c.getColumnIndex("school")));
+                user.setPoint(c.getInt(c.getColumnIndex("point")));
+
+
+            }
+        }
+
+        /*
+        显示到me里：
+         */
+        nameTV.setText(user.getName());
+        accoutTV.setText(user.getUserId());
+        switch (user.getGender())
+        {
+            case 1:
+                genderTV.setText("男");
+                break;
+            case 2:
+                genderTV.setText("女");
+                break;
+            default:
+                genderTV.setText("未知");
+        }
+        db.close();
+        c.close();
     }
 
 
