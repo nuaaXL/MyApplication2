@@ -2,38 +2,59 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.chenjunfan.myapplication">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar" >
+
+
         <activity android:name=".LoginActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".Register1Activity"></activity>
-        <activity android:name=".Register2Activity"></activity>
-        <activity android:name=".HomeActivity"></activity>
-        <activity android:name=".Person_visionActivity"></activity>
-        <activity android:name=".Point_viewActivity"></activity>
-        <activity android:name=".SettingActivity"></activity>
-        <activity android:name=".ReceivepublishActivity"></activity>
-        <activity android:name=".SendpublishActivity"></activity>
-        <activity android:name=".RdActivity"></activity>
-        <activity android:name=".SdActivity"></activity>
-        <!--
- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
 
-        <activity android:name=".Register3Activity"></activity>
-        <activity android:name=".ChangepasswdActivity"></activity>
+        <activity android:name=".Register1Activity">
+        </activity>
+
+        <activity android:name=".Register2Activity">
+        </activity>
+
+        <activity android:name=".HomeActivity">
+        </activity>
+
+        <activity android:name=".Person_visionActivity">
+        </activity>
+
+        <activity android:name=".Point_viewActivity">
+        </activity>
+
+        <activity android:name=".SettingActivity">
+        </activity>
+
+        <activity android:name=".ReceivepublishActivity">
+        </activity>
+
+        <activity android:name=".SendpublishActivity">
+        </activity>
+
+        <activity android:name=".RdActivity">
+        </activity>
+
+        <activity android:name=".SdActivity">
+        </activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+
+        <activity android:name=".Register3Activity">
+        </activity>
+
+
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
