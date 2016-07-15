@@ -78,12 +78,13 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                 passwd=passwordEditText.getText().toString();
                 try {
                     String Url;
-                    Url="http://192.168.4.100:8080/Ren_Test/login"+"?userId="+id+"&passwd="+passwd;
+                    Url="http://192.168.191.1:8080/Ren_Test/login"+"?userId="+id+"&passwd="+passwd;
                     Log.i("tag",Url);
                     SQLiteDatabase db = openOrCreateDatabase("user.db",MODE_ENABLE_WRITE_AHEAD_LOGGING,null);
                     db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
                             ",phone text,school text,point integer)");
                     db.execSQL("delete from usertb");
+                    db.close();
                     URL url = new URL(Url);
                     URLConnection conn = url.openConnection();
                     conn.setRequestProperty("Accept-Charset", "gbk");
@@ -98,12 +99,12 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                     }.getType());
                     user = (User) userList.get(0);
                     Log.i("user1", user.getUserId());
-                    db.execSQL("insert into usertb(userId,name,passwd,gender,phone,school,point) values('"+user.getUserId()+"','"+user.getName()+"','"
+                    /*db.execSQL("insert into usertb(userId,name,passwd,gender,phone,school,point) values('"+user.getUserId()+"','"+user.getName()+"','"
                             +user.getPasswd()+"',"+user.getGender()+",'"+user.getPhone()+"','"+user.getSchool()+"',"+user.getPoint()+")");
                     db.close();
                     SQLiteDatabase db2 = openOrCreateDatabase("user.db",MODE_ENABLE_WRITE_AHEAD_LOGGING,null);
                     db2.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
-                            ",phone text,school text,point integer)");
+                            ",phone text,school text,point integer)");*/
 
 
                     if(user.getUserId()!=null&&user.getUserId().equals("-1"))
