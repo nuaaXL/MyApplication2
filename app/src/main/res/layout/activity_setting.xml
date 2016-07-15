@@ -41,7 +41,7 @@
 
 
 
-        <Button
+        <TextView
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:paddingLeft="12dp"
@@ -52,11 +52,12 @@
         android:id="@+id/Version"
         android:gravity="center" />
 
-        <View  android:layout_height="1px"
-            android:layout_width="match_parent"
-            android:background="#444444" />
+        <View
+            android:background="@color/black2"
+            android:layout_width="fill_parent"
+            android:layout_height="1.0dip" />
 
-        <Button
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:paddingLeft="12dp"
@@ -67,24 +68,41 @@
             android:id="@+id/Update"
             android:gravity="center" />
 
-        <View  android:layout_height="1px"
-            android:layout_width="match_parent"
-            android:background="#444444" />
+        <View
+            android:background="@color/black2"
+            android:layout_width="fill_parent"
+            android:layout_height="1.0dip" />
 
-        <Button
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:background="#ffffff"
             android:text="推送设置"
-            android:textSize="20dp"
+            android:textSize="19sp"
             android:id="@+id/Pushsetting"
             android:gravity="center" />
 
-        <View  android:layout_height="1px"
+        <View
+            android:background="@color/black2"
+            android:layout_width="fill_parent"
+            android:layout_height="1.0dip" />
+
+        <TextView
             android:layout_width="match_parent"
-            android:background="#444444" />
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:background="#ffffff"
+            android:text="修改密码"
+            android:textSize="19sp"
+            android:id="@+id/Changepasswd"
+            android:gravity="center" />
+
+
+
+
 
 
 
