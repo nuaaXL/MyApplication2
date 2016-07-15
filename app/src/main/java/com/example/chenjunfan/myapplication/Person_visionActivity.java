@@ -284,7 +284,7 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
                     User user2;
                     user2 = (User) userList.get(0);
                     Log.i("user2", user2.getUserId());
-                    if (!(user2.getUserId().toString().equals(""))) {
+                    if (!(user2.getUserId().toString().equals("1"))) {
 
                         db.execSQL("delete from usertb");
                         db.execSQL("insert into usertb(userId,name,passwd,gender,phone,school,point) values('" + user.getUserId() + "','" + user.getName() + "','"
@@ -306,6 +306,9 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Message msg = new Message();
+                    msg.obj = "服务器连接超时，请检查网络设置";
+                    handler.sendMessage(msg);
                 }
             }
         });

@@ -154,6 +154,9 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
+                    Message msg = new Message();
+                    msg.obj = "服务器连接超时，请检查网络设置";
+                    handler.sendMessage(msg);
                 }
 
 
