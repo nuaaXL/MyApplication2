@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -15,7 +18,15 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +44,8 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     private TextView meTV;
     private ListView mainList;
     private SimpleAdapter mainListAdp;
-    private List<Map<String, Object>> dataList;
+    private List<Request> dataList=new ArrayList<Request>();
+    private List<Map<String,Object>>datamapList = new ArrayList<Map<String, Object>>();
     private RelativeLayout homeLL;
     private RelativeLayout meRL;
     private LinearLayout editLL;
@@ -44,6 +56,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     private TextView nameTV;
     private User user = new User();
     private TextView genderTV;
+    private int num=-1;
 
     @Override
     protected void onRestart() {
@@ -57,12 +70,95 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
      *
      */
 
+    Handler handler = new Handler() {
+
+
+        @Override
+        public void handleMessage(Message msg) {
+            Log.i("handl", "-----------"+num);
+            super.handleMessage(msg);
+
+             dataList = (List) msg.obj;
+            for (int i = 0; i < dataList.size(); i++) {
+
+                Request request = (Request) dataList.get(i);
+                SQLiteDatabase db = openOrCreateDatabase("request.db",MODE_ENABLE_WRITE_AHEAD_LOGGING,null);
+                db.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
+                        ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
+                        "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+                db.execSQL("insert into requesttb(num,time,flag,publisher,p_number,p_phone,helper,h_number,h_phone,user_loc,content,infor" +
+                        "r_nameORmessage,r_locORpackage_loc,r_phoneORphone,nullORpackage_Id)values("+request.getNum()+",'"+request.getTime()+"',"+
+                request.getFlag()+",'"+request.getPublisher()+"','"+request.getP_number()+"','"+request.getP_phone()+"','"+request.getHelper()
+                +"','"+request.getH_number()+"','"+request.getH_phone()+"','"+request.getUser_loc()+"','"+request.getContent()+"','"+
+                request.getInfor()+"','"+request.getR_nameORmessage()+"','"+request.getR_locORpackage_loc()+"','"+request.getR_phoneORphone()+
+                "','"+request.getNullORpackage_Id());
+                db.close();
+                num=request.getNum();
+            }
+            Log.i("handl2", "----------- "+num);
+
+
+        }
+    };
+
+    Handler handler2 = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+             Toast.makeText(HomeActivity.this,msg.obj.toString(),Toast.LENGTH_SHORT);
+        }
+    };
+
+
+
+
+    public List<Map<String, Object>> acking(List<Request> requests)
+    {
+        List<Map<String,Object>> req=new ArrayList<Map<String,Object>>();
+        Request mid=new Request();
+        Log.i("in", "----------- "+num);
+        for(int i=0;i<requests.size();i++)
+        {
+            Map<String,Object> map=new HashMap<String,Object>();
+            mid=requests.get(i);
+            map.put("num", mid.getNum());
+            map.put("time", mid.getTime());
+            map.put("flag", mid.getFlag());
+            map.put("publisher", mid.getPublisher());
+            map.put("p_number", mid.getP_number());
+            map.put("p_phone",mid.getP_phone());
+            map.put("helper", mid.getHelper());
+            map.put("h_number", mid.getH_number());
+            map.put("h_phone", mid.getH_phone());
+            map.put("user_loc", mid.getUser_loc());
+            map.put("content", mid.getContent());
+            map.put("info", mid.getInfor());
+            map.put("r_nameORmessage", mid.getR_nameORmessage());
+            map.put("r_locORpackage_loc", mid.getR_locORpackage_loc());
+            map.put("r_phoneORphone", mid.getR_phoneORphone());
+            map.put("nullORpackage", mid.getNullORpackage_Id());
+            req.add(map);
+        }
+        Log.i("in", "----------- "+num);
+        return req;
+    }
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        getDataFromNetwork();
+        SQLiteDatabase db5 = openOrCreateDatabase("request.db",MODE_ENABLE_WRITE_AHEAD_LOGGING,null);
+        db5.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
+                ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
+                "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+        db5.execSQL("delete from requesttb");
+        db5.close();
 
 
         accoutTV = (TextView) findViewById(R.id.tv_accout);
@@ -91,13 +187,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         if(c!=null)
         {
             while(c.moveToNext()){
-                       /* Log.i("info","id:"+c.getString(c.getColumnIndex("userId")));
-                        Log.i("info", "name:"+c.getString(c.getColumnIndex("name")));
-                        Log.i("info", "passwd:"+c.getString(c.getColumnIndex("passwd")));
-                        Log.i("info", "gender:"+c.getInt(c.getColumnIndex("gender")));
-                        Log.i("info", "phone:"+c.getString(c.getColumnIndex("phone")));
-                        Log.i("info", "school:"+c.getString(c.getColumnIndex("school")));
-                        Log.i("info", "point:"+c.getInt(c.getColumnIndex("point")));*/
+
 
                 user.setUserId(c.getString(c.getColumnIndex("userId")));
                 user.setName(c.getString(c.getColumnIndex("name")));
@@ -131,8 +221,8 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 genderTV.setText("未知");
         }
 
-        dataList = new ArrayList<Map<String, Object>>();
-        mainListAdp = new SimpleAdapter(this, getData(), R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place});
+
+        mainListAdp = new SimpleAdapter(this, acking(dataList), R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place});
         mainList.setAdapter(mainListAdp);
         mainList.setOnItemClickListener(this);
 
@@ -224,8 +314,8 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
 
     }
 
-    private List<Map<String, Object>> getData() {
-        for (int i = 0; i < 12; i++) {
+    private List<Request> getDataFromNetwork() {
+        /*for (int i = 0; i < 12; i++) {
             Map<String, Object> map = new HashMap<String, Object>();
 
             switch (i) {
@@ -330,7 +420,55 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
 
 
             dataList.add(map);
-        }
+        }*/
+
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String Url;
+                    Url="http://192.168.191.1:8080/Ren_Test/requestServlet"+"?type=all"+"&num="+num;
+                    Log.i("tag",Url);
+                    Log.i("num",num+"");
+                    URL url = new URL(Url);
+                    URLConnection conn = url.openConnection();
+                    conn.setRequestProperty("Accept-Charset", "gbk");
+                    conn.setRequestProperty("contentType", "gbk");
+                    conn.setReadTimeout(3000);
+                    InputStreamReader reader = new InputStreamReader(conn.getInputStream(), "gbk");
+                    BufferedReader br = new BufferedReader(reader);
+                    String str = br.readLine();
+                    Log.i("br", str);
+                    Gson gson = new Gson();
+                    List<Request> requestList = gson.fromJson(str, new TypeToken<List<Request>>() {
+                    }.getType());
+                   // Request req = (Request) requestList.get(0);
+
+                    /*for (Request reg2 : requestList) {
+                        System.out.println(user.getUserName());
+                    }*/
+
+
+                    Message msg = new Message();
+                    msg.obj = requestList;
+                    handler.sendMessage(msg);
+                } catch (Exception e) {
+
+                    Message msg = new Message();
+
+                    msg.obj = "服务器无响应";
+
+
+                    handler2.sendMessage(msg);
+                }
+
+
+            }
+        });
+
+        t.start();
+
         return dataList;
     }
 
