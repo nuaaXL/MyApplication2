@@ -104,11 +104,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:id="@+id/rb_m_nan"
                     android:text="男"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/rb_m_nv"
                     android:text="女"
                     />
 
@@ -184,17 +186,20 @@
                 android:layout_centerVertical="true"
                 android:orientation="horizontal"
                 android:weightSum="2"
+                android:id="@+id/RG_ischool"
                 android:layout_toEndOf="@+id/textView13"
                 >
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:id="@+id/rb_m_new"
                     android:text="将军路"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/rb_m_old"
                     android:text="明故宫"
                     />
 
@@ -298,6 +303,7 @@
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:text="修改"
+            android:onClick="modify"
             android:id="@+id/btn_modify"
             android:textColor="@android:color/white"
             android:textSize="25sp"

@@ -120,47 +120,6 @@ public class Register2Activity extends Activity implements View.OnClickListener 
             }
         });
 
-        /*submitButton.setOnClickListener(new View.OnClickListener() {
-            SharedPreferences pre3 = getSharedPreferences("register", MODE_PRIVATE);
-            SharedPreferences.Editor editor3 = pre3.edit();
-
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Register2Activity.this, Register3Activity.class);
-                if (nameEt.getText().toString().equals("")) {
-                    Toast.makeText(Register2Activity.this, "姓名不能为空", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    userId = pre3.getString("userId", "");
-                    name = nameEt.getText().toString();
-                    passwd = pre3.getString("passwd", "");
-                    phone = pre3.getString("phone", "");
-                    school = pre3.getString("school", "");
-                    gender = pre3.getInt("gender", 3);
-                    point = 0;
-                    regist();
-                   try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    pre3=getSharedPreferences("registerflag",MODE_PRIVATE);
-                    if(pre3.getString("flag","").toString().equals("1")) {
-
-                        startActivity(intent);
-                    }
-                    else if(pre3.getString("flag","").toString().equals("-1"))
-                    {
-                        Toast.makeText(Register2Activity.this, "账户已存在！", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        Toast.makeText(Register2Activity.this, "服务器存在问题，注册失败，请稍候再试", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-            }
-        });*/
 
 
         cal = Calendar.getInstance();
@@ -255,53 +214,7 @@ public class Register2Activity extends Activity implements View.OnClickListener 
         dialog.show();
     }
 
-   /* public void regist() {
 
-
-        Thread t = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                try {
-                    String Url;
-
-                    Url = "http://192.168.191.1:8080/Ren_Test/modifyServlet" + "?userId=" + userId +"&name="+ URLEncoder.encode(name,"gbk")+"&gender="+gender+"&passwd=" + passwd + "&phone=" + phone + "&school=" + school + "&actionCode=register";
-                    Log.i("tag", Url);
-                    SharedPreferences pre3 = getSharedPreferences("registerflag", MODE_PRIVATE);
-                    SharedPreferences.Editor editor3 = pre3.edit();
-                    editor3.remove("flag");
-                    editor3.commit();
-                    URL url = new URL(Url);
-
-                    URLConnection conn = url.openConnection();
-                    conn.setRequestProperty("Accept-Charset", "gbk");
-                    conn.setRequestProperty("contentType", "gbk");
-                    conn.setReadTimeout(3000);
-                    InputStreamReader reader = new InputStreamReader(conn.getInputStream(), "gbk");
-                    BufferedReader br = new BufferedReader(reader);
-                    String str = br.readLine();
-                    System.out.println(str);
-
-                    Gson gson = new Gson();
-                    List<User> userList = gson.fromJson(str, new TypeToken<List<User>>() {
-                    }.getType());
-                    User user1 = (User) userList.get(0);
-                    Log.i("user", user1.getUserId());
-                    editor3.putString("flag",user1.getUserId());
-                    editor3.commit();
-
-
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-
-            }
-        });
-
-       t.start();}*/
 
     public void makesubmit(View view) {
 
@@ -328,7 +241,8 @@ public class Register2Activity extends Activity implements View.OnClickListener 
                     try {
                         String Url;
 
-                        Url = "http://192.168.4.100:8080/Ren_Test/modifyServlet" + "?userId=" + userId + "&name=" + URLEncoder.encode(name, "gbk") + "&gender=" + gender + "&passwd=" + passwd + "&phone=" + phone + "&school=" + school + "&actionCode=register";
+                        Url = "http://192.168.4.100:8080/Ren_Test/modifyServlet" + "?userId=" + userId + "&name=" + URLEncoder.encode(name, "gbk") + "&gender=" + gender + "&passwd=" +
+                                passwd + "&phone=" + phone + "&school=" + URLEncoder.encode(school,"gbk") + "&actionCode=register";
                         Log.i("tag", Url);
                         SharedPreferences pre4 = getSharedPreferences("registerflag", MODE_PRIVATE);
                         SharedPreferences.Editor editor4 = pre4.edit();
