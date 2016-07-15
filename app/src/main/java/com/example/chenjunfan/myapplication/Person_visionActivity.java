@@ -116,7 +116,7 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
                             gender=1;
                             break;
                         case R.id.rb_m_nv:
-                            gender=0;
+                            gender=2;
                             break;
 
                     }

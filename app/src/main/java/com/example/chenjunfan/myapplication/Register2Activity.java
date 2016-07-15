@@ -111,7 +111,7 @@ public class Register2Activity extends Activity implements View.OnClickListener 
                         editor2.commit();
                         break;
                     case R.id.rb_r_nv:
-                        editor2.putInt("gender", 0);
+                        editor2.putInt("gender", 2);
                         editor2.commit();
                         break;
 

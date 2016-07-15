@@ -135,7 +135,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                         }
                         else
                         {
-                            editor2.remove(passwd);
+                            editor2.remove("passwd");
                             editor2.commit();
                         }
                         startActivity(intent);
