@@ -104,6 +104,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 user.setPoint(c.getInt(c.getColumnIndex("point")));
 
 
+
             }
         }
         db.close();
@@ -119,7 +120,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             case 1:
                 genderTV.setText("男");
                 break;
-            case 2:
+            case 0:
                 genderTV.setText("女");
                 break;
             default:
@@ -372,7 +373,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             case 1:
                 genderTV.setText("男");
                 break;
-            case 2:
+            case 0:
                 genderTV.setText("女");
                 break;
             default:
