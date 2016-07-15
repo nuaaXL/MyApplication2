@@ -113,6 +113,7 @@
             android:layout_height="45dp"
             android:text="修改"
             android:id="@+id/btn_modify"
+            android:onClick="modify"
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:background="@color/button_g"
