@@ -99,12 +99,13 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                     }.getType());
                     user = (User) userList.get(0);
                     Log.i("user1", user.getUserId());
-                    /*db.execSQL("insert into usertb(userId,name,passwd,gender,phone,school,point) values('"+user.getUserId()+"','"+user.getName()+"','"
-                            +user.getPasswd()+"',"+user.getGender()+",'"+user.getPhone()+"','"+user.getSchool()+"',"+user.getPoint()+")");
-                    db.close();
+
                     SQLiteDatabase db2 = openOrCreateDatabase("user.db",MODE_ENABLE_WRITE_AHEAD_LOGGING,null);
                     db2.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
-                            ",phone text,school text,point integer)");*/
+                            ",phone text,school text,point integer)");
+                    db2.execSQL("insert into usertb(userId,name,passwd,gender,phone,school,point) values('"+user.getUserId()+"','"+user.getName()+"','"
+                            +user.getPasswd()+"',"+user.getGender()+",'"+user.getPhone()+"','"+user.getSchool()+"',"+user.getPoint()+")");
+                    db2.close();
 
 
                     if(user.getUserId()!=null&&user.getUserId().equals("-1"))

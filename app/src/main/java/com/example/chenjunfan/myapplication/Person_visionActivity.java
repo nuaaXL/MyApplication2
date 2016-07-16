@@ -263,7 +263,7 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
 
                 try {
                     String Url;
-                    Url = "http://192.168.4.100:8080/Ren_Test/modifyServlet" + "?name=" + URLEncoder.encode(user.getName(), "gbk") + "&gender=" + user.getGender() + "&passwd=" + user.getPasswd() + "&phone="
+                    Url = "http://"+getResources().getText(R.string.IP)+":8080/Ren_Test/modifyServlet" + "?name=" + URLEncoder.encode(user.getName(), "gbk") + "&gender=" + user.getGender() + "&passwd=" + user.getPasswd() + "&phone="
                             + user.getPhone() + "&school=" + URLEncoder.encode(user.getSchool(), "gbk") + "&actionCode=modifyConfirm" + "&userId=" + user.getUserId();
                     Log.i("url", Url);
                     db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
