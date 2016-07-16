@@ -119,7 +119,8 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         }
     };
 
-    Handler handler3 = new Handler() {
+    Handler handler3 = new Handler() //更新user
+    {
 
         @Override
         public void handleMessage(Message msg) {
@@ -141,6 +142,21 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             Toast.makeText(HomeActivity.this,msg.obj.toString(),Toast.LENGTH_SHORT).show();
         }
     };
+
+    Handler handler4 = new Handler()//更新适配器
+    {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+            mainListAdp.notifyDataSetChanged();
+
+
+        }
+    };
+
+
 
 
 
@@ -202,7 +218,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         setContentView(R.layout.activity_home);
 
         Log.i("主线程", "getdatafromnetwork后 ");
-        SQLiteDatabase db5 = openOrCreateDatabase("request.db",MODE_ENABLE_WRITE_AHEAD_LOGGING,null);
+        SQLiteDatabase db5 = openOrCreateDatabase("request.db",MODE_PRIVATE,null);
         db5.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
                 ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
                 "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
@@ -377,7 +393,166 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     }
 
     private void getDataFromNetwork() {
-        /*for (int i = 0; i < 12; i++) {
+
+
+        Thread t2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String Url;
+                    Url="http://"+getResources().getText(R.string.IP)+":8080/Ren_Test/requestServlet"+"?type=all"+"&num="+num;
+                    Log.i("tag",Url);
+                    Log.i("num",num+"");
+                    URL url = new URL(Url);
+                    URLConnection conn = url.openConnection();
+
+                    Message msg = new Message();
+
+
+
+                    conn.setRequestProperty("Accept-Charset", "gbk");
+                    conn.setRequestProperty("contentType", "gbk");
+
+                    msg.obj = "数据接收";
+                    handler2.sendMessage(msg);
+
+
+
+
+                    conn.setReadTimeout(6000);
+
+                    InputStream stream = conn.getInputStream();
+
+                        InputStreamReader reader = new InputStreamReader(stream, "gbk");
+
+                        BufferedReader br = new BufferedReader(reader);
+                        String str="";
+                        String line="";
+
+                        while((line=br.readLine())!=null)
+                        {
+                            str+=line;
+                        }
+
+                        System.out.println("ddddddddddddd" + str);
+
+
+                        Gson gson = new Gson();
+                        List<Request> requestList = gson.fromJson(str, new TypeToken<List<Request>>() {
+                        }.getType());
+                        // Request req = (Request) requestList.get(0);
+
+                    /*for (Request reg2 : requestList) {
+                        System.out.println(user.getUserName());
+                    }*/
+
+
+                   /* Message msg = new Message();
+                    msg.obj = requestList;
+                    handler.sendMessage(msg);*/
+
+                        dataList = requestList;
+                        for (int i = 0; i < dataList.size(); i++) {
+
+                            Request request = (Request) dataList.get(i);
+                            SQLiteDatabase db = openOrCreateDatabase("request.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
+                            db.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
+                                    ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
+                                    "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+                            db.execSQL("insert into requesttb(num,time,flag,publisher,p_number,p_phone,helper,h_number,h_phone,user_loc,content,infor,"+
+                                    "r_nameORmessage,r_locORpackage_loc,r_phoneORphone,nullORpackage_Id)values(" + request.getNum() + ",'" + request.getTime() + "'," +
+                                    request.getFlag() + ",'" + request.getPublisher() + "','" + request.getP_number() + "','" + request.getP_phone() + "','" + request.getHelper()
+                                    + "','" + request.getH_number() + "','" + request.getH_phone() + "','" + request.getUser_loc() + "','" + request.getContent() + "','" +
+                                    request.getInfor() + "','" + request.getR_nameORmessage() + "','" + request.getR_locORpackage_loc() + "','" + request.getR_phoneORphone() +
+                                    "','" + request.getNullORpackage_Id()+"')");
+                            db.close();
+                            num = request.getNum();
+
+
+                        }
+
+                    acking(dataList);
+                    handler4.sendMessage(new Message());
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Message msg = new Message();
+                    msg.obj = "服务器无响应";
+                    handler2.sendMessage(msg);
+                }
+
+
+            }
+        });
+
+
+        t2.start();
+
+
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        mainList.getCheckedItemIds();
+
+        if ((dataList.get(i) + "").split("=")[3].equals("0}") == true) {
+            Intent intent = new Intent(HomeActivity.this, RdActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(HomeActivity.this, SdActivity.class);
+            startActivity(intent);
+        }
+
+    }
+
+    public void refresh() {
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = openOrCreateDatabase("user.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
+                db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
+                        ",phone text,school text,point integer)");
+
+                Cursor c = db.rawQuery("select * from usertb", null);
+                if (c != null) {
+                    while (c.moveToNext()) {
+
+
+                        user.setUserId(c.getString(c.getColumnIndex("userId")));
+                        user.setName(c.getString(c.getColumnIndex("name")));
+                        user.setPasswd(c.getString(c.getColumnIndex("passwd")));
+                        user.setGender(c.getInt(c.getColumnIndex("gender")));
+                        user.setPhone(c.getString(c.getColumnIndex("phone")));
+                        user.setSchool(c.getString(c.getColumnIndex("school")));
+                        user.setPoint(c.getInt(c.getColumnIndex("point")));
+
+
+                    }
+                }
+
+        /*
+        显示到me里：
+         */
+                Message msg=new Message();
+                msg.obj="更新资料";
+                handler3.sendMessage(msg);
+
+                db.close();
+                c.close();
+            }
+        }
+        );t.start();
+    }
+
+
+
+}
+
+
+ /*for (int i = 0; i < 12; i++) {
             Map<String, Object> map = new HashMap<String, Object>();
 
             switch (i) {
@@ -484,154 +659,3 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             dataList.add(map);
         }*/
 
-
-        Thread t2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String Url;
-                    Url="http://"+getResources().getText(R.string.IP)+":8080/Ren_Test/requestServlet"+"?type=all"+"&num="+num;
-                    Log.i("tag",Url);
-                    Log.i("num",num+"");
-                    URL url = new URL(Url);
-                    URLConnection conn = url.openConnection();
-
-                    Message msg = new Message();
-
-
-
-                    conn.setRequestProperty("Accept-Charset", "gbk");
-                    conn.setRequestProperty("contentType", "gbk");
-
-                    msg.obj = "数据接收";
-                    handler2.sendMessage(msg);
-
-
-
-
-                    conn.setReadTimeout(6000);
-
-                    InputStream stream = conn.getInputStream();
-                    msg.obj = "test1";
-                    handler2.sendMessage(msg);
-
-                        InputStreamReader reader = new InputStreamReader(stream, "gbk");
-
-                        BufferedReader br = new BufferedReader(reader);
-
-                        msg.obj = "test2";
-                        handler2.sendMessage(msg);
-                        String str = br.readLine();
-
-                        System.out.println("ddddddddddddd" + str);
-
-
-                        Gson gson = new Gson();
-                        List<Request> requestList = gson.fromJson(str, new TypeToken<List<Request>>() {
-                        }.getType());
-                        // Request req = (Request) requestList.get(0);
-
-                    /*for (Request reg2 : requestList) {
-                        System.out.println(user.getUserName());
-                    }*/
-
-
-                   /* Message msg = new Message();
-                    msg.obj = requestList;
-                    handler.sendMessage(msg);*/
-
-                        dataList = requestList;
-                        for (int i = 0; i < dataList.size(); i++) {
-
-                            Request request = (Request) dataList.get(i);
-                            SQLiteDatabase db = openOrCreateDatabase("request.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
-                            db.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
-                                    ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-                                    "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
-                            db.execSQL("insert into requesttb(num,time,flag,publisher,p_number,p_phone,helper,h_number,h_phone,user_loc,content,infor" +
-                                    "r_nameORmessage,r_locORpackage_loc,r_phoneORphone,nullORpackage_Id)values(" + request.getNum() + ",'" + request.getTime() + "'," +
-                                    request.getFlag() + ",'" + request.getPublisher() + "','" + request.getP_number() + "','" + request.getP_phone() + "','" + request.getHelper()
-                                    + "','" + request.getH_number() + "','" + request.getH_phone() + "','" + request.getUser_loc() + "','" + request.getContent() + "','" +
-                                    request.getInfor() + "','" + request.getR_nameORmessage() + "','" + request.getR_locORpackage_loc() + "','" + request.getR_phoneORphone() +
-                                    "','" + request.getNullORpackage_Id());
-                            db.close();
-                            num = request.getNum();
-                            acking(dataList);
-                            mainListAdp.notifyDataSetChanged();
-                        }
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Message msg = new Message();
-                    msg.obj = "服务器无响应";
-                    handler2.sendMessage(msg);
-                }
-
-
-            }
-        });
-
-        t2.start();
-
-
-    }
-
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        mainList.getCheckedItemIds();
-
-        if ((dataList.get(i) + "").split("=")[3].equals("0}") == true) {
-            Intent intent = new Intent(HomeActivity.this, RdActivity.class);
-            startActivity(intent);
-        } else {
-            Intent intent = new Intent(HomeActivity.this, SdActivity.class);
-            startActivity(intent);
-        }
-
-    }
-
-    public void refresh() {
-
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                SQLiteDatabase db = openOrCreateDatabase("user.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
-                db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
-                        ",phone text,school text,point integer)");
-
-                Cursor c = db.rawQuery("select * from usertb", null);
-                if (c != null) {
-                    while (c.moveToNext()) {
-
-
-                        user.setUserId(c.getString(c.getColumnIndex("userId")));
-                        user.setName(c.getString(c.getColumnIndex("name")));
-                        user.setPasswd(c.getString(c.getColumnIndex("passwd")));
-                        user.setGender(c.getInt(c.getColumnIndex("gender")));
-                        user.setPhone(c.getString(c.getColumnIndex("phone")));
-                        user.setSchool(c.getString(c.getColumnIndex("school")));
-                        user.setPoint(c.getInt(c.getColumnIndex("point")));
-
-
-                    }
-                }
-
-        /*
-        显示到me里：
-         */
-                Message msg=new Message();
-                msg.obj="更新资料";
-                handler3.sendMessage(msg);
-
-                db.close();
-                c.close();
-            }
-        }
-        );t.start();
-    }
-
-
-
-}

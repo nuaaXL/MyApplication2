@@ -79,37 +79,68 @@ public class Request {
 		this.user_loc = user_loc;
 	}
 	public String getContent() {
-		return content;
+		if(content==null)
+		{
+			return "空";
+		}
+		else return content;
 	}
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getInfor() {
-		return infor;
+	public String getInfor()
+	{
+		if(infor==null)
+		{
+			return "空";
+		}
+		else return infor;
 	}
 	public void setInfor(String infor) {
 		this.infor = infor;
 	}
 	public String getR_nameORmessage() {
-		return r_nameORmessage;
+
+		if(r_nameORmessage==null)
+		{
+			return "空";
+		}
+		else return r_nameORmessage;
 	}
 	public void setR_nameORmessage(String r_nameORmessage) {
 		this.r_nameORmessage = r_nameORmessage;
 	}
 	public String getR_locORpackage_loc() {
-		return r_locORpackage_loc;
+
+		if(r_locORpackage_loc==null)
+		{
+			return "空";
+		}
+		else return r_locORpackage_loc;
+
 	}
 	public void setR_locORpackage_loc(String r_locORpackage_loc) {
 		this.r_locORpackage_loc = r_locORpackage_loc;
 	}
 	public String getR_phoneORphone() {
-		return r_phoneORphone;
+
+		if(r_phoneORphone==null)
+		{
+			return "空";
+		}
+		else return r_phoneORphone;
+
 	}
 	public void setR_phoneORphone(String r_phoneORphone) {
 		this.r_phoneORphone = r_phoneORphone;
 	}
 	public String getNullORpackage_Id() {
-		return nullORpackage_Id;
+		if(nullORpackage_Id==null)
+		{
+			return "空";
+		}
+		else return nullORpackage_Id;
+
 	}
 	public void setNullORpackage_Id(String nullORpackage_Id) {
 		this.nullORpackage_Id = nullORpackage_Id;
