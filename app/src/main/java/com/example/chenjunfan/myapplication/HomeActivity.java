@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,7 +37,7 @@ import java.util.Map;
 /**
  * Created by chenjunfan on 16/7/10.
  */
-public class HomeActivity extends Activity implements AdapterView.OnItemClickListener {
+public class HomeActivity extends Activity implements AdapterView.OnItemClickListener,AbsListView.OnScrollListener {
     private ImageView homeIV;
     private ImageView meIV;
     private RelativeLayout homeRL;
@@ -181,6 +182,117 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         getDataFromNetwork();
 
 
+        for (int i = 0; i < 12; i++) {
+            Map<String, Object> map = new HashMap<String, Object>();
+
+            switch (i) {
+                case 0:
+                    map.put("flag", 0);
+                    map.put("IV_flag", R.drawable.rflag);
+                    map.put("content", "辣条");
+                    map.put("location", "南区36栋");
+                    map.put("pic", R.mipmap.latiao);
+                    break;
+
+                case 1:
+                    map.put("flag", 0);
+                    map.put("IV_flag", R.drawable.rflag);
+                    map.put("content", "飞机模型");
+                    map.put("location", "一号楼");
+                    map.put("pic", R.mipmap.plane);
+                    break;
+
+                case 2:
+                    map.put("flag", 1);
+                    map.put("IV_flag", R.drawable.sflag);
+                    map.put("content", "iPad");
+                    map.put("location", "D3教学楼");
+                    map.put("pic", R.mipmap.ipad);
+                    break;
+
+                case 3:
+                    map.put("flag", 0);
+                    map.put("IV_flag", R.drawable.rflag);
+                    map.put("content", "篮球");
+                    map.put("location", "灯光球场");
+                    map.put("pic", R.mipmap.ball);
+                    break;
+
+                case 4:
+                    map.put("flag", 0);
+                    map.put("IV_flag", R.drawable.rflag);
+                    map.put("content", "台灯");
+                    map.put("location", "怡园22栋");
+                    map.put("pic", R.mipmap.light);
+                    break;
+
+                case 5:
+                    map.put("flag", 1);
+                    map.put("IV_flag", R.drawable.sflag);
+                    map.put("content", "一只篮球");
+                    map.put("location", "图书馆门口");
+                    map.put("pic", R.mipmap.ball2);
+                    break;
+
+                case 6:
+                    map.put("flag", 0);
+                    map.put("IV_flag", R.drawable.rflag);
+                    map.put("content", "水杯");
+                    map.put("location", "一号楼");
+                    map.put("pic", R.mipmap.bottle);
+                    break;
+
+                case 7:
+                    map.put("flag", 1);
+                    map.put("IV_flag", R.drawable.sflag);
+                    map.put("content", "相机");
+                    map.put("location", "怡园19栋");
+                    map.put("pic", R.mipmap.camera);
+                    break;
+
+                case 8:
+                    map.put("flag", 1);
+                    map.put("IV_flag", R.drawable.sflag);
+                    map.put("content", "一箱零食");
+                    map.put("location", "三号楼");
+                    map.put("pic", R.mipmap.food);
+                    break;
+
+                case 9:
+                    map.put("flag", 0);
+                    map.put("IV_flag", R.drawable.rflag);
+                    map.put("content", "雨伞");
+                    map.put("location", "慧一");
+                    map.put("pic", R.mipmap.umbre);
+                    break;
+
+                case 10:
+                    map.put("flag", 1);
+                    map.put("IV_flag", R.drawable.sflag);
+                    map.put("content", "一双鞋子");
+                    map.put("location", "博园15栋");
+                    map.put("pic", R.mipmap.shoe);
+                    break;
+
+                case 11:
+                    map.put("flag", 1);
+                    map.put("IV_flag", R.drawable.sflag);
+                    map.put("content", "平板电脑保护套");
+                    map.put("location", "四号楼");
+                    map.put("pic", R.mipmap.protect);
+                    break;
+
+                default:
+                    break;
+            }
+
+
+            datamapList.add(map);
+        }
+
+
+
+
         accoutTV = (TextView) findViewById(R.id.tv_accout);
         nameTV = (TextView) findViewById(R.id.tv_name);
         homeIV = (ImageView) findViewById(R.id.IV_home);
@@ -196,67 +308,15 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         genderTV= (TextView) findViewById(R.id.tv_gender);
         homeTV = (TextView) findViewById(R.id.tv_home);
         meTV = (TextView) findViewById(R.id.tv_me);
-/*
-    取user数据库:
- */
-      /*  SQLiteDatabase db = openOrCreateDatabase("user.db",MODE_ENABLE_WRITE_AHEAD_LOGGING,null);
-        db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
-                ",phone text,school text,point integer)");
 
-        Cursor c = db.rawQuery("select * from usertb",null);
-
-        if(c!=null)
-        {
-            Log.i("c", ""+(c==null));
-            Log.i("c.movetonext", ""+c.moveToNext());
-            while(c.moveToNext()){
-
-
-                user.setUserId(c.getString(c.getColumnIndex("userId")));
-                user.setName(c.getString(c.getColumnIndex("name")));
-                user.setPasswd(c.getString(c.getColumnIndex("passwd")));
-                user.setGender(c.getInt(c.getColumnIndex("gender")));
-                user.setPhone(c.getString(c.getColumnIndex("phone")));
-                user.setSchool(c.getString(c.getColumnIndex("school")));
-                user.setPoint(c.getInt(c.getColumnIndex("point")));
-
-                Log.i("usermain",c.getString(c.getColumnIndex("userId")));
-                Log.i("usermain", c.getString(c.getColumnIndex("name")));
-                Log.i("usermain", c.getString(c.getColumnIndex("passwd")));
-                Log.i("usermain", c.getInt(c.getColumnIndex("gender"))+"");
-                Log.i("usermain",c.getString(c.getColumnIndex("phone")) );
-                Log.i("usermain", c.getString(c.getColumnIndex("school")));
-                Log.i("usermain", c.getInt(c.getColumnIndex("point"))+"");
-
-
-
-            }
-        }
-        db.close();
-        c.close();
-
-        /*
-        显示到me里：
-         */
-        /*nameTV.setText(user.getName());
-        accoutTV.setText(user.getUserId());
-        switch (user.getGender())
-        {
-            case 1:
-                genderTV.setText("男");
-                break;
-            case 2:
-                genderTV.setText("女");
-                break;
-            default:
-                genderTV.setText("未知");
-        }*/
         refresh();
 
 
         mainListAdp = new SimpleAdapter(this, datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location","num"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place,R.id.tv_num});
         mainList.setAdapter(mainListAdp);
         mainList.setOnItemClickListener(this);
+        mainList.setOnScrollListener(this);
+
 
 
 
@@ -551,9 +611,140 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     };
 
 
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView listView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        int lastItem = firstVisibleItem + visibleItemCount;
+        try
+
+        {
+            if (lastItem == totalItemCount) {
+
+                View lastItemView = (View) listView.getChildAt(listView.getChildCount() - 1);
+                if ((listView.getBottom()) == lastItemView.getBottom()) {
+                    //getDataFromNetwork();
+                    for (int i = 0; i < 12; i++) {
+                        Map<String, Object> map = new HashMap<String, Object>();
+
+                        switch (i) {
+                            case 0:
+                                map.put("flag", 0);
+                                map.put("IV_flag", R.drawable.rflag);
+                                map.put("content", "辣条");
+                                map.put("location", "南区36栋");
+                                map.put("pic", R.mipmap.latiao);
+                                break;
+
+                            case 1:
+                                map.put("flag", 0);
+                                map.put("IV_flag", R.drawable.rflag);
+                                map.put("content", "飞机模型");
+                                map.put("location", "一号楼");
+                                map.put("pic", R.mipmap.plane);
+                                break;
+
+                            case 2:
+                                map.put("flag", 1);
+                                map.put("IV_flag", R.drawable.sflag);
+                                map.put("content", "iPad");
+                                map.put("location", "D3教学楼");
+                                map.put("pic", R.mipmap.ipad);
+                                break;
+
+                            case 3:
+                                map.put("flag", 0);
+                                map.put("IV_flag", R.drawable.rflag);
+                                map.put("content", "篮球");
+                                map.put("location", "灯光球场");
+                                map.put("pic", R.mipmap.ball);
+                                break;
+
+                            case 4:
+                                map.put("flag", 0);
+                                map.put("IV_flag", R.drawable.rflag);
+                                map.put("content", "台灯");
+                                map.put("location", "怡园22栋");
+                                map.put("pic", R.mipmap.light);
+                                break;
+
+                            case 5:
+                                map.put("flag", 1);
+                                map.put("IV_flag", R.drawable.sflag);
+                                map.put("content", "一只篮球");
+                                map.put("location", "图书馆门口");
+                                map.put("pic", R.mipmap.ball2);
+                                break;
+
+                            case 6:
+                                map.put("flag", 0);
+                                map.put("IV_flag", R.drawable.rflag);
+                                map.put("content", "水杯");
+                                map.put("location", "一号楼");
+                                map.put("pic", R.mipmap.bottle);
+                                break;
+
+                            case 7:
+                                map.put("flag", 1);
+                                map.put("IV_flag", R.drawable.sflag);
+                                map.put("content", "相机");
+                                map.put("location", "怡园19栋");
+                                map.put("pic", R.mipmap.camera);
+                                break;
+
+                            case 8:
+                                map.put("flag", 1);
+                                map.put("IV_flag", R.drawable.sflag);
+                                map.put("content", "一箱零食");
+                                map.put("location", "三号楼");
+                                map.put("pic", R.mipmap.food);
+                                break;
+
+                            case 9:
+                                map.put("flag", 0);
+                                map.put("IV_flag", R.drawable.rflag);
+                                map.put("content", "雨伞");
+                                map.put("location", "慧一");
+                                map.put("pic", R.mipmap.umbre);
+                                break;
+
+                            case 10:
+                                map.put("flag", 1);
+                                map.put("IV_flag", R.drawable.sflag);
+                                map.put("content", "一双鞋子");
+                                map.put("location", "博园15栋");
+                                map.put("pic", R.mipmap.shoe);
+                                break;
+
+                            case 11:
+                                map.put("flag", 1);
+                                map.put("IV_flag", R.drawable.sflag);
+                                map.put("content", "平板电脑保护套");
+                                map.put("location", "四号楼");
+                                map.put("pic", R.mipmap.protect);
+                                break;
+
+                            default:
+                                break;
+                        }
 
 
+                        datamapList.add(map);
+                        mainListAdp.notifyDataSetChanged();
+                    }
 
+                }
+            }
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
 
 
