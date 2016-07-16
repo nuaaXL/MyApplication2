@@ -108,53 +108,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
 
         }
     };*/
-    Handler handler2 = new Handler() {
 
-        @Override
-        public void handleMessage(Message msg) {
-
-            super.handleMessage(msg);
-
-            Toast.makeText(HomeActivity.this,msg.obj.toString(),Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    Handler handler3 = new Handler() //更新user
-    {
-
-        @Override
-        public void handleMessage(Message msg) {
-
-            super.handleMessage(msg);
-
-            nameTV.setText(user.getName());
-            accoutTV.setText(user.getUserId());
-            switch (user.getGender()) {
-                case 1:
-                    genderTV.setText("男");
-                    break;
-                case 2:
-                    genderTV.setText("女");
-                    break;
-                default:
-                    genderTV.setText("未知");
-            }
-            Toast.makeText(HomeActivity.this,msg.obj.toString(),Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    Handler handler4 = new Handler()//更新适配器
-    {
-
-        @Override
-        public void handleMessage(Message msg) {
-
-            super.handleMessage(msg);
-            mainListAdp.notifyDataSetChanged();
-
-
-        }
-    };
 
 
 
@@ -546,6 +500,57 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         }
         );t.start();
     }
+
+    Handler handler2 = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            Toast.makeText(HomeActivity.this,msg.obj.toString(),Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    Handler handler3 = new Handler() //更新user
+    {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            nameTV.setText(user.getName());
+            accoutTV.setText(user.getUserId());
+            switch (user.getGender()) {
+                case 1:
+                    genderTV.setText("男");
+                    break;
+                case 2:
+                    genderTV.setText("女");
+                    break;
+                default:
+                    genderTV.setText("未知");
+            }
+            Toast.makeText(HomeActivity.this,msg.obj.toString(),Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    Handler handler4 = new Handler()//更新适配器
+    {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            mainListAdp.notifyDataSetChanged();
+
+
+        }
+    };
+
+
 
 
 
