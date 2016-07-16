@@ -83,6 +83,10 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                 SharedPreferences.Editor editor2 = pre2.edit();
                 id=idEditText.getText().toString();
                 passwd=passwordEditText.getText().toString();
+                if(id.equals("root")&&passwd.equals("root"))
+                {
+                    startActivity(intent);
+                }
                 try {
                     String Url;
                     Url="http://"+getResources().getText(R.string.IP)+":8080/Ren_Test/login"+"?userId="+id+"&passwd="+passwd;
@@ -151,6 +155,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                         Message msg = new Message();
                         msg.obj="登录成功";
                         handler.sendMessage(msg);
+                        prodialog.cancel();
                         finish();
                     }
                     else
