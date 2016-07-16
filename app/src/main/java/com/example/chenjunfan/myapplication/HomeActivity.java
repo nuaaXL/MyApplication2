@@ -171,8 +171,6 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        Log.i("主线程", "getdatafromnetwork后 ");
         SQLiteDatabase db5 = openOrCreateDatabase("request.db",MODE_PRIVATE,null);
         db5.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
                 ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
@@ -427,10 +425,6 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                     conn.setRequestProperty("Accept-Charset", "gbk");
                     conn.setRequestProperty("contentType", "gbk");
 
-                    msg.obj = "数据接收";
-                    handler2.sendMessage(msg);
-
-
 
 
                     conn.setReadTimeout(6000);
@@ -454,16 +448,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                         Gson gson = new Gson();
                         List<Request> requestList = gson.fromJson(str, new TypeToken<List<Request>>() {
                         }.getType());
-                        // Request req = (Request) requestList.get(0);
 
-                    /*for (Request reg2 : requestList) {
-                        System.out.println(user.getUserName());
-                    }*/
-
-
-                   /* Message msg = new Message();
-                    msg.obj = requestList;
-                    handler.sendMessage(msg);*/
 
                         dataList = requestList;
                         for (int i = 0; i < dataList.size(); i++) {
@@ -550,9 +535,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         /*
         显示到me里：
          */
-                Message msg=new Message();
-                msg.obj="更新资料";
-                handler3.sendMessage(msg);
+
 
                 db.close();
                 c.close();
