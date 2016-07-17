@@ -544,14 +544,25 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        mainList.getCheckedItemIds();
 
-        if ((dataList.get(i) + "").split("=")[3].equals("0}") == true) {
-            Intent intent = new Intent(HomeActivity.this, RdActivity.class);
-            startActivity(intent);
-        } else {
-            Intent intent = new Intent(HomeActivity.this, SdActivity.class);
-            startActivity(intent);
+        try {
+            this.refresh();
+
+
+            Object obj=datamapList.get(i).get("flag");
+            int temp = (int)obj;
+
+            if (temp==2) {
+                Intent intent = new Intent(HomeActivity.this, RdActivity.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(HomeActivity.this, SdActivity.class);
+                startActivity(intent);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
 
     }
@@ -665,113 +676,6 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 if ((listView.getBottom()) == lastItemView.getBottom()) {
 
                     getDataFromNetwork();
-                    /*for (int i = 0; i < 12; i++) {
-                        Map<String, Object> map = new HashMap<String, Object>();
-
-                        switch (i) {
-                            case 0:
-                                map.put("flag", 0);
-                                map.put("IV_flag", R.drawable.rflag);
-                                map.put("content", "辣条");
-                                map.put("location", "南区36栋");
-                                map.put("pic", R.mipmap.latiao);
-                                break;
-
-                            case 1:
-                                map.put("flag", 0);
-                                map.put("IV_flag", R.drawable.rflag);
-                                map.put("content", "飞机模型");
-                                map.put("location", "一号楼");
-                                map.put("pic", R.mipmap.plane);
-                                break;
-
-                            case 2:
-                                map.put("flag", 1);
-                                map.put("IV_flag", R.drawable.sflag);
-                                map.put("content", "iPad");
-                                map.put("location", "D3教学楼");
-                                map.put("pic", R.mipmap.ipad);
-                                break;
-
-                            case 3:
-                                map.put("flag", 0);
-                                map.put("IV_flag", R.drawable.rflag);
-                                map.put("content", "篮球");
-                                map.put("location", "灯光球场");
-                                map.put("pic", R.mipmap.ball);
-                                break;
-
-                            case 4:
-                                map.put("flag", 0);
-                                map.put("IV_flag", R.drawable.rflag);
-                                map.put("content", "台灯");
-                                map.put("location", "怡园22栋");
-                                map.put("pic", R.mipmap.light);
-                                break;
-
-                            case 5:
-                                map.put("flag", 1);
-                                map.put("IV_flag", R.drawable.sflag);
-                                map.put("content", "一只篮球");
-                                map.put("location", "图书馆门口");
-                                map.put("pic", R.mipmap.ball2);
-                                break;
-
-                            case 6:
-                                map.put("flag", 0);
-                                map.put("IV_flag", R.drawable.rflag);
-                                map.put("content", "水杯");
-                                map.put("location", "一号楼");
-                                map.put("pic", R.mipmap.bottle);
-                                break;
-
-                            case 7:
-                                map.put("flag", 1);
-                                map.put("IV_flag", R.drawable.sflag);
-                                map.put("content", "相机");
-                                map.put("location", "怡园19栋");
-                                map.put("pic", R.mipmap.camera);
-                                break;
-
-                            case 8:
-                                map.put("flag", 1);
-                                map.put("IV_flag", R.drawable.sflag);
-                                map.put("content", "一箱零食");
-                                map.put("location", "三号楼");
-                                map.put("pic", R.mipmap.food);
-                                break;
-
-                            case 9:
-                                map.put("flag", 0);
-                                map.put("IV_flag", R.drawable.rflag);
-                                map.put("content", "雨伞");
-                                map.put("location", "慧一");
-                                map.put("pic", R.mipmap.umbre);
-                                break;
-
-                            case 10:
-                                map.put("flag", 1);
-                                map.put("IV_flag", R.drawable.sflag);
-                                map.put("content", "一双鞋子");
-                                map.put("location", "博园15栋");
-                                map.put("pic", R.mipmap.shoe);
-                                break;
-
-                            case 11:
-                                map.put("flag", 1);
-                                map.put("IV_flag", R.drawable.sflag);
-                                map.put("content", "平板电脑保护套");
-                                map.put("location", "四号楼");
-                                map.put("pic", R.mipmap.protect);
-                                break;
-
-                            default:
-                                break;
-                        }*/
-
-
-
-
                     }
 
                 }
@@ -785,111 +689,4 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     }
 }
 
-
- /*for (int i = 0; i < 12; i++) {
-            Map<String, Object> map = new HashMap<String, Object>();
-
-            switch (i) {
-                case 0:
-                    map.put("flag", 0);
-                    map.put("IV_flag",R.drawable.rflag);
-                    map.put("content","辣条");
-                    map.put("location","南区36栋");
-                    map.put("pic",R.mipmap.latiao);
-                    break;
-
-                case 1:
-                    map.put("flag", 0);
-                    map.put("IV_flag",R.drawable.rflag);
-                    map.put("content","飞机模型");
-                    map.put("location","一号楼");
-                    map.put("pic",R.mipmap.plane);
-                    break;
-
-                case 2:
-                    map.put("flag", 1);
-                    map.put("IV_flag",R.drawable.sflag);
-                    map.put("content","iPad");
-                    map.put("location","D3教学楼");
-                    map.put("pic",R.mipmap.ipad);
-                    break;
-
-                case 3:
-                    map.put("flag", 0);
-                    map.put("IV_flag",R.drawable.rflag);
-                    map.put("content","篮球");
-                    map.put("location","灯光球场");
-                    map.put("pic",R.mipmap.ball);
-                    break;
-
-                case 4:
-                    map.put("flag", 0);
-                    map.put("IV_flag",R.drawable.rflag);
-                    map.put("content","台灯");
-                    map.put("location","怡园22栋");
-                    map.put("pic",R.mipmap.light);
-                    break;
-
-                case 5:
-                    map.put("flag", 1);
-                    map.put("IV_flag",R.drawable.sflag);
-                    map.put("content","一只篮球");
-                    map.put("location","图书馆门口");
-                    map.put("pic",R.mipmap.ball2);
-                    break;
-
-                case 6:
-                    map.put("flag", 0);
-                    map.put("IV_flag",R.drawable.rflag);
-                    map.put("content","水杯");
-                    map.put("location","一号楼");
-                    map.put("pic",R.mipmap.bottle);
-                    break;
-
-                case 7:
-                    map.put("flag", 1);
-                    map.put("IV_flag",R.drawable.sflag);
-                    map.put("content","相机");
-                    map.put("location","怡园19栋");
-                    map.put("pic",R.mipmap.camera);
-                    break;
-
-                case 8:
-                    map.put("flag", 1);
-                    map.put("IV_flag",R.drawable.sflag);
-                    map.put("content","一箱零食");
-                    map.put("location","三号楼");
-                    map.put("pic",R.mipmap.food);
-                    break;
-
-                case 9:
-                    map.put("flag", 0);
-                    map.put("IV_flag",R.drawable.rflag);
-                    map.put("content","雨伞");
-                    map.put("location","慧一");
-                    map.put("pic",R.mipmap.umbre);
-                    break;
-
-                case 10:
-                    map.put("flag", 1);
-                    map.put("IV_flag",R.drawable.sflag);
-                    map.put("content","一双鞋子");
-                    map.put("location","博园15栋");
-                    map.put("pic",R.mipmap.shoe);
-                    break;
-
-                case 11:
-                    map.put("flag", 1);
-                    map.put("IV_flag",R.drawable.sflag);
-                    map.put("content","平板电脑保护套");
-                    map.put("location","四号楼");
-                    map.put("pic",R.mipmap.protect);
-                    break;
-
-                default:break;
-            }
-
-
-            dataList.add(map);
-        }*/
 
