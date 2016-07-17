@@ -1,6 +1,7 @@
 package com.example.chenjunfan.myapplication;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -160,8 +161,14 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                         if (user.getUserId().toString().equals("1"))
                         {
 
-                            msg.obj="成功";
+                            msg.obj="发布成功";
                             handler.sendMessage(msg);
+
+                            SharedPreferences pre = getSharedPreferences("publishflag",MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pre.edit();
+                            editor.putString("flag","1");
+                            editor.commit();
+
                             finish();
 
                         }

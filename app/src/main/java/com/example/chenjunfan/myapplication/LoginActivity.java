@@ -140,11 +140,13 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                             if (user.getUserId() != null && user.getUserId().equals("-1")) {
                                 Message msg = new Message();
                                 msg.obj = "账户不存在！";
+                                prodialog.cancel();
                                 handler.sendMessage(msg);
                                 //Toast.makeText(LoginActivity.this,"账户不存在！",Toast.LENGTH_SHORT).show();
                             } else if (user.getUserId() != null && user.getUserId().equals("-2")) {
                                 Message msg = new Message();
                                 msg.obj = "密码错误！";
+                                prodialog.cancel();
                                 handler.sendMessage(msg);
                                 // Toast.makeText(LoginActivity.this,"密码错误！",Toast.LENGTH_SHORT).show();
                             } else if (user.getUserId() != null && user.getUserId().equals(idEditText.getText().toString())) {
@@ -171,6 +173,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                             } else {
                                 Message msg = new Message();
                                 msg.obj = "登录失败，请稍候再试";
+                                prodialog.cancel();
                                 handler.sendMessage(msg);
 
                             }
