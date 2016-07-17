@@ -25,12 +25,11 @@ public class splashScreen extends Activity {
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                /* Create an Intent that will start the Main WordPress Activity. */
                 Intent mainIntent = new Intent(splashScreen.this, LoginActivity.class);
                 splashScreen.this.startActivity(mainIntent);
                 splashScreen.this.finish();
             }
-        }, 2900); //2900 for release
+        }, 1000); //1000 for release
 
     }
 }

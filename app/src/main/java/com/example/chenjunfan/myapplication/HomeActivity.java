@@ -50,6 +50,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     private List<Map<String,Object>>datamapList = new ArrayList<Map<String, Object>>();
     private RelativeLayout homeLL;
     private RelativeLayout meRL;
+    private LinearLayout helpLL;
     private LinearLayout editLL;
     private LinearLayout coinLL;
     private LinearLayout settingLL;
@@ -300,6 +301,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         mainList = (ListView) findViewById(R.id.LVmain);
         homeLL = (RelativeLayout) findViewById(R.id.LLhome);
         meRL = (RelativeLayout) findViewById(R.id.RLme);
+        helpLL = (LinearLayout) findViewById(R.id.LL_help);
         editLL = (LinearLayout) findViewById(R.id.LL_edit);
         coinLL = (LinearLayout) findViewById(R.id.LL_coin);
         settingLL = (LinearLayout) findViewById(R.id.LL_setting);
@@ -341,6 +343,14 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, SendpublishActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        helpLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeActivity.this, Help_odersActivity.class);
                 startActivity(intent);
             }
         });
