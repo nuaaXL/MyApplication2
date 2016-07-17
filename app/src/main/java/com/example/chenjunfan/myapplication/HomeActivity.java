@@ -2,6 +2,7 @@ package com.example.chenjunfan.myapplication;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ShapeDrawable;
@@ -66,6 +67,23 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     protected void onRestart() {
         super.onRestart();
         refresh();
+
+        SharedPreferences pre = getSharedPreferences("publishflag",MODE_PRIVATE);
+        SharedPreferences.Editor editor = pre.edit();
+        if(pre.getString("flag","0").toString().equals("1"))
+        {
+            num=-1;
+            datamapList= new ArrayList<Map<String, Object>>();
+            SQLiteDatabase db5 = openOrCreateDatabase("request.db",MODE_PRIVATE,null);
+            db5.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
+                    ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
+                    "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+            db5.execSQL("delete from requesttb");
+            db5.close();
+
+            getDataFromNetwork();
+            editor.remove("flag");
+        }
     }
 
     @Override
