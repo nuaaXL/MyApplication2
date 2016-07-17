@@ -55,12 +55,12 @@
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/tv_sign1"
+                android:id="@+id/et_sp_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tv_sign_temp1"
-                android:hint="一箱零食"
+                android:hint="请描述你的包裹"
                 android:singleLine="true"
                 android:textColorHint="#AAAAAA"
                 android:textColor="#000000"
@@ -86,12 +86,12 @@
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/tv_sign2"
+                android:id="@+id/et_sp_loc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tv_sign_temp2"
-                android:hint="二号楼"
+                android:hint="请输入您的位置"
                 android:singleLine="true"
                 android:textColorHint="#AAAAAA"
                 android:textColor="#000000"
@@ -118,7 +118,7 @@
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/tv_sign3"
+                android:id="@+id/et_sp_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -150,7 +150,7 @@
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/tv_sign4"
+                android:id="@+id/et_sp_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -181,7 +181,7 @@
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/tv_sign5"
+                android:id="@+id/et_sp_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -223,17 +223,20 @@
 
 
                 <RadioButton
-                    android:id="@+id/pay_hdfk"
+                    android:id="@+id/rb_sp_hdfk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="货到付款"/>
                 <RadioButton
-                    android:id="@+id/pay_jffk"
+                    android:id="@+id/rb_sp_jffk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="寄方付款"/>
+                    android:text="寄方付款"
+                    android:checked="true"
+                    />
+
 
                 </RadioGroup>
 
@@ -263,7 +266,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
-                android:id="@+id/editText"
+                android:id="@+id/et_sp_note"
                 android:layout_toRightOf="@+id/tv_sign_temp7"
                 android:hint="需要使用的快递等"
                 android:textColorHint="#AAAAAA"
@@ -295,6 +298,7 @@
             android:layout_height="45dp"
             android:id="@+id/btn_fabu"
             android:text="发布"
+            android:onClick="fabu"
             android:textSize="25sp"
             android:gravity="center"
             android:textColor="#ffffff"
