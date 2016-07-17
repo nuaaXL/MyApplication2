@@ -90,7 +90,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         else {
             prodialog.show();
 
-            if (idEditText.getText().toString().equals("root") && passwordEditText.getText().toString().equals("root")) {
+            if (idEditText.getText().toString().equals("1111") && passwordEditText.getText().toString().equals("1111")) {
                 startActivity(intent);
 
             } else {
