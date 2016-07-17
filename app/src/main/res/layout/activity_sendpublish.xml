@@ -296,9 +296,9 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:id="@+id/btn_fabu"
+            android:id="@+id/btn_sp_fabu"
             android:text="发布"
-            android:onClick="fabu"
+            android:onClick="submit"
             android:textSize="25sp"
             android:gravity="center"
             android:textColor="#ffffff"
