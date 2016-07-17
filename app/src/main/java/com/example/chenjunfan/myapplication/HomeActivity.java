@@ -2,7 +2,6 @@ package com.example.chenjunfan.myapplication;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ShapeDrawable;
@@ -62,36 +61,39 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     private TextView genderTV;
     private int num=-1;
     private int FLAG=0;
+    static Activity ActivityA;
 
     @Override
     protected void onRestart() {
         super.onRestart();
         refresh();
 
-        SharedPreferences pre = getSharedPreferences("publishflag",MODE_PRIVATE);
-        SharedPreferences.Editor editor = pre.edit();
-        if(pre.getString("flag","0").toString().equals("1"))
-        {
-            num=-1;
-            datamapList= new ArrayList<Map<String, Object>>();
-            SQLiteDatabase db5 = openOrCreateDatabase("request.db",MODE_PRIVATE,null);
-            db5.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
-                    ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-                    "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
-            db5.execSQL("delete from requesttb");
-            db5.close();
-
-            getDataFromNetwork();
-            editor.remove("flag");
+//        SharedPreferences pre = getSharedPreferences("publishflag",MODE_PRIVATE);
+//        SharedPreferences.Editor editor = pre.edit();
+//        Toast.makeText(HomeActivity.this,pre.getString("flag","0"),Toast.LENGTH_SHORT).show();
+//        if(pre.getString("flag","0").toString().equals("1"))
+//        {
+//            num=-1;
+//           // Thread t = new Thread(new Runnable() {
+//             //   @Override
+//               // public void run() {
+//                    datamapList= new ArrayList<Map<String, Object>>();
+////                    SQLiteDatabase db5 = openOrCreateDatabase("request.db",MODE_PRIVATE,null);
+////                    db5.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
+////                            ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
+////                            "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+////                    db5.execSQL("delete from requesttb");
+////                    db5.close();
+//                    getDataFromNetwork();
+//                }
+//           // });
+//           // t.start();
+//
+//            editor.remove("flag");
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
 
-    }
+
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -196,6 +198,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ActivityA=this;
         SQLiteDatabase db5 = openOrCreateDatabase("request.db",MODE_PRIVATE,null);
         db5.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
                 ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
@@ -482,7 +485,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                         Gson gson = new Gson();
                         List<Request> requestList = gson.fromJson(str, new TypeToken<List<Request>>() {
                         }.getType());
-                        int flag=0;
+
 
                         dataList = requestList;
                         for (int i = 0; i < dataList.size(); i++) {
