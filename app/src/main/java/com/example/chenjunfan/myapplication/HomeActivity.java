@@ -60,6 +60,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     private User user = new User();
     private TextView genderTV;
     private int num=-1;
+    private int FLAG=0;
 
     @Override
     protected void onRestart() {
@@ -144,23 +145,28 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             map.put("r_locORpackage_loc", mid.getR_locORpackage_loc());
             map.put("r_phoneORphone", mid.getR_phoneORphone());
             map.put("nullORpackage", mid.getNullORpackage_Id());*/
-            if(mid.getFlag()==2)//寄
+
+            if(mid.getNum()!=0&&mid.getFlag()==2)//寄
             {
                 map.put("IV_flag",R.drawable.rflag);
                 map.put("content",mid.getContent());
                 map.put("flag",mid.getFlag());
                 map.put("location",mid.getUser_loc());
                 map.put("num",mid.getNum());
+                map.put("name",mid.publisher);
+                datamapList.add(map);
             }
-            else//取
+            else if(mid.getNum()!=0&&mid.getFlag()==1)
             {
                 map.put("IV_flag",R.drawable.sflag);
                 map.put("content",mid.getContent());
                 map.put("flag",mid.getFlag());
                 map.put("location",mid.getR_locORpackage_loc());
                 map.put("num",mid.getNum());
+                map.put("name",mid.publisher);
+                datamapList.add(map);
             }
-            datamapList.add(map);
+
         }
         Log.i("in", "----------- "+num);
         return datamapList;
@@ -181,7 +187,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         getDataFromNetwork();
 
 
-        for (int i = 0; i < 12; i++) {
+       /* for (int i = 0; i < 12; i++) {
             Map<String, Object> map = new HashMap<String, Object>();
 
             switch (i) {
@@ -287,7 +293,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
 
 
             datamapList.add(map);
-        }
+        }*/
 
 
 
@@ -312,7 +318,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         refresh();
 
 
-        mainListAdp = new SimpleAdapter(this, datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location","num"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place,R.id.tv_num});
+        mainListAdp = new SimpleAdapter(this, datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location","num","name"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place,R.id.tv_num,R.id.item_username});
         mainList.setAdapter(mainListAdp);
         mainList.setOnItemClickListener(this);
         mainList.setOnScrollListener(this);
@@ -458,30 +464,45 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                         Gson gson = new Gson();
                         List<Request> requestList = gson.fromJson(str, new TypeToken<List<Request>>() {
                         }.getType());
-
+                        int flag=0;
 
                         dataList = requestList;
                         for (int i = 0; i < dataList.size(); i++) {
 
                             Request request = (Request) dataList.get(i);
-                            SQLiteDatabase db = openOrCreateDatabase("request.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
-                            db.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
-                                    ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-                                    "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
-                            db.execSQL("insert into requesttb(num,time,flag,publisher,p_number,p_phone,helper,h_number,h_phone,user_loc,content,infor,"+
-                                    "r_nameORmessage,r_locORpackage_loc,r_phoneORphone,nullORpackage_Id)values(" + request.getNum() + ",'" + request.getTime() + "'," +
-                                    request.getFlag() + ",'" + request.getPublisher() + "','" + request.getP_number() + "','" + request.getP_phone() + "','" + request.getHelper()
-                                    + "','" + request.getH_number() + "','" + request.getH_phone() + "','" + request.getUser_loc() + "','" + request.getContent() + "','" +
-                                    request.getInfor() + "','" + request.getR_nameORmessage() + "','" + request.getR_locORpackage_loc() + "','" + request.getR_phoneORphone() +
-                                    "','" + request.getNullORpackage_Id()+"')");
-                            db.close();
-                            num = request.getNum();
+                            if(request.getNum()!=0) {
+                                SQLiteDatabase db = openOrCreateDatabase("request.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
+                                db.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
+                                        ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
+                                        "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+                                db.execSQL("insert into requesttb(num,time,flag,publisher,p_number,p_phone,helper,h_number,h_phone,user_loc,content,infor," +
+                                        "r_nameORmessage,r_locORpackage_loc,r_phoneORphone,nullORpackage_Id)values(" + request.getNum() + ",'" + request.getTime() + "'," +
+                                        request.getFlag() + ",'" + request.getPublisher() + "','" + request.getP_number() + "','" + request.getP_phone() + "','" + request.getHelper()
+                                        + "','" + request.getH_number() + "','" + request.getH_phone() + "','" + request.getUser_loc() + "','" + request.getContent() + "','" +
+                                        request.getInfor() + "','" + request.getR_nameORmessage() + "','" + request.getR_locORpackage_loc() + "','" + request.getR_phoneORphone() +
+                                        "','" + request.getNullORpackage_Id() + "')");
+                                db.close();
+                                num = request.getNum();
+
+                            }
+                            else
+                            {
+                                if(FLAG==0) {
+                                    msg.obj = "已经显示全部条目";
+                                    handler2.sendMessage(msg);
+                                    FLAG=1;
+                                }
+                                num=0;
+                                break;
+
+                            }
 
 
                         }
-
-                    acking(dataList);
-                    handler4.sendMessage(new Message());
+                    if(num!=0)
+                        num--;
+                        acking(dataList);
+                        handler4.sendMessage(new Message());
 
 
                 } catch (Exception e) {
@@ -494,8 +515,6 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
 
             }
         });
-
-
         t2.start();
 
 
@@ -544,14 +563,18 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
 
         /*
         显示到me里：
-         */
+         */     Message msg = new Message();
+
+                handler3.sendMessage(msg);
 
 
                 db.close();
                 c.close();
             }
         }
-        );t.start();
+        );
+
+        t.start();
     }
 
     Handler handler2 = new Handler() {
@@ -585,7 +608,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 default:
                     genderTV.setText("未知");
             }
-            Toast.makeText(HomeActivity.this,msg.obj.toString(),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(HomeActivity.this,msg.obj.toString(),Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -619,8 +642,9 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
 
                 View lastItemView = (View) listView.getChildAt(listView.getChildCount() - 1);
                 if ((listView.getBottom()) == lastItemView.getBottom()) {
-                    //getDataFromNetwork();
-                    for (int i = 0; i < 12; i++) {
+
+                    getDataFromNetwork();
+                    /*for (int i = 0; i < 12; i++) {
                         Map<String, Object> map = new HashMap<String, Object>();
 
                         switch (i) {
@@ -722,15 +746,15 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
 
                             default:
                                 break;
-                        }
+                        }*/
 
 
-                        datamapList.add(map);
-                        mainListAdp.notifyDataSetChanged();
+
+
                     }
 
                 }
-            }
+
 
         }
         catch (Exception e)
