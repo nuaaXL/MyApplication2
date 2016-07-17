@@ -21,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -55,7 +56,7 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
 
         setContentView(R.layout.activity_sendpublish);
 
-        fabuButton = (Button) findViewById(R.id.btn_fabu);
+        fabuButton = (Button) findViewById(R.id.btn_sp_fabu);
         imageBack = (ImageView) findViewById(R.id.img_back);
         contentET = (EditText) findViewById(R.id.et_sp_content);
         locET = (EditText) findViewById(R.id.et_sp_loc);
@@ -64,25 +65,21 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
         addressET= (EditText) findViewById(R.id.et_sp_address);
         payRG= (RadioGroup) findViewById(R.id.RG_pay);
         noteET= (EditText) findViewById(R.id.et_sp_note);
-
-        imageBack.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
-        fabuButton.setOnClickListener(this);
+        imageBack.setOnClickListener(this) ;
     }
 
 
     @Override
     public void onClick(View view) {
+        Message msg=new Message();
+        msg.obj="in onClick";
+        handler.sendMessage(msg);
+        finish();
 
     }
 
 
-    public void fabu(View view)
+    public void submit(View view)
     {
 
 
@@ -140,10 +137,10 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                     }
                     try{
                         String Url;
-                        Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/requestServlet" + "?type=add" + "&time=" + System.currentTimeMillis()+"flag=1&" +
-                                "pulisher="+user.getName()+"&p_number="+user.getUserId()+"&p_phone="+user.getPhone()+"&user_loc="+locET.getText().toString()+"&content="+contentET.getText().toString()+
-                                "&infor="+noteET.getText().toString()+"&r_nameORmessage="+nameET.getText().toString()+"&r_locORpackage_loc="+addressET.getText().toString()+"&r_phoneORphone="+phoneET.getText().toString()+
-                                "&nullORpackage_Id=空";
+                        Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/requestServlet" + "?type=add" + "&time=" + System.currentTimeMillis()+"&flag=1&" +
+                                "publisher="+URLEncoder.encode(user.getName(),"gbk")+"&p_number="+user.getUserId()+"&p_phone="+user.getPhone()+"&user_loc="+ URLEncoder.encode(locET.getText().toString(),"gbk")+"&content="+URLEncoder.encode(contentET.getText().toString(),"gbk")+
+                                "&infor="+URLEncoder.encode(noteET.getText().toString(),"gbk")+"&r_nameORmessage="+URLEncoder.encode(nameET.getText().toString(),"gbk")+"&r_locORpackage_loc="+URLEncoder.encode(addressET.getText().toString(),"gbk")+"&r_phoneORphone="+phoneET.getText().toString()+
+                                "&nullORpackage_Id="+URLEncoder.encode("xx","gbk");
                         locET.getText().toString();
                         Log.i("tag", Url);
                         URL url = new URL(Url);
@@ -165,6 +162,7 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
 
                             msg.obj="成功";
                             handler.sendMessage(msg);
+                            finish();
 
                         }
                         else if(user.getUserId().toString().equals("-1"))
@@ -180,6 +178,8 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                     }
                     catch (Exception e)
                     {
+                        msg.obj="服务器出现问题，请稍候再试";
+                        handler.sendMessage(msg);
                         e.printStackTrace();
                     }
 
@@ -190,6 +190,7 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
 
             }
         });
+        t.start();
     }
 
 }
