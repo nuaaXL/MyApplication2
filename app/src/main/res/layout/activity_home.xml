@@ -28,13 +28,24 @@
             android:id="@+id/LLhome"
             android:visibility="visible"
             >
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/LVmain"
                 >
-
             </ListView>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/shadow2" />
+            </FrameLayout>
 
             <com.example.chenjunfan.myapplication.FloatingActionsMenu
                 android:id="@+id/multiple_actions"
@@ -82,6 +93,12 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:weightSum="1">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/shadow2" />
 
                 <LinearLayout
                     android:orientation="horizontal"
