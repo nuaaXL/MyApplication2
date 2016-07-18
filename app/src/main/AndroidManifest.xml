@@ -3,6 +3,14 @@
     package="com.example.chenjunfan.myapplication">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- bmob pay  sdk permission begin -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- bmob pay  sdk permission end -->
+
 
     <application
         android:allowBackup="true"
@@ -39,5 +47,7 @@
         </activity>
         <activity android:name=".Help_odersActivity" />
     </application>
+
+
 
 </manifest>

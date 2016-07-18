@@ -55,7 +55,7 @@
                 android:layout_height="match_parent">
 
 
-            <ListView
+            <com.example.chenjunfan.myapplication.LoadListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:divider="@color/purewhite"
@@ -63,7 +63,7 @@
                 android:clipToPadding="false"
                 android:id="@+id/LVmain"
                 >
-            </ListView>
+            </com.example.chenjunfan.myapplication.LoadListView>
 
                 <View
                     android:layout_width="match_parent"
