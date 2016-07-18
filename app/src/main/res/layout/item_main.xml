@@ -5,6 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="123dp">
 
+    <View
+        android:background="@drawable/shadow3"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="116dp"
+        android:layout_gravity="center">
+
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -39,20 +48,14 @@
                     android:textColor="#000000"
                     android:focusable="false"
                     android:textSize="18sp"
-                    android:gravity="center_vertical"
+                    android:gravity="center|bottom"
                     android:layout_width="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_height="40dp"
                     android:paddingLeft="16dp"
                     android:drawablePadding="10dp"
                     android:text="快件" />
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:id="@+id/IV_flag"
-                    />
+
             </RelativeLayout>
             <View
                 android:background="@color/black2"
@@ -84,11 +87,11 @@
 
                 <ImageView
                     android:id="@+id/IV_location"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:layout_marginTop="3dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:src="@drawable/location"
-                    android:layout_toRightOf="@+id/item_username"/>
+                    android:layout_alignBottom="@+id/item_place"
+                    android:layout_toEndOf="@+id/item_username" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -134,10 +137,25 @@
     </LinearLayout>
 
 
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:id="@+id/IV_flag"
+            />
+
+    </RelativeLayout>
+
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="6dp"
+        android:layout_height="3dp"
         android:background="@drawable/shadow" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/purewhite" />
 
     <TextView
         android:layout_width="0dp"
