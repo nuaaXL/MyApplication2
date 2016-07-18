@@ -63,34 +63,14 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     private int num=-1;
     private int FLAG=0;
     static Activity ActivityA;
+    private  TextView timeTV;
 
     @Override
     protected void onRestart() {
         super.onRestart();
         refresh();
 
-//        SharedPreferences pre = getSharedPreferences("publishflag",MODE_PRIVATE);
-//        SharedPreferences.Editor editor = pre.edit();
-//        Toast.makeText(HomeActivity.this,pre.getString("flag","0"),Toast.LENGTH_SHORT).show();
-//        if(pre.getString("flag","0").toString().equals("1"))
-//        {
-//            num=-1;
-//           // Thread t = new Thread(new Runnable() {
-//             //   @Override
-//               // public void run() {
-//                    datamapList= new ArrayList<Map<String, Object>>();
-////                    SQLiteDatabase db5 = openOrCreateDatabase("request.db",MODE_PRIVATE,null);
-////                    db5.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
-////                            ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-////                            "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
-////                    db5.execSQL("delete from requesttb");
-////                    db5.close();
-//                    getDataFromNetwork();
-//                }
-//           // });
-//           // t.start();
-//
-//            editor.remove("flag");
+
         }
 
 
@@ -101,43 +81,6 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      *
      */
-
-   /* Handler handler = new Handler() {
-
-
-        @Override
-        public void handleMessage(Message msg) {
-            Log.i("handl", "-----------"+num);
-            super.handleMessage(msg);
-
-//             dataList = (List) msg.obj;
-//            for (int i = 0; i < dataList.size(); i++) {
-//
-//                Request request = (Request) dataList.get(i);
-//                SQLiteDatabase db = openOrCreateDatabase("request.db",MODE_ENABLE_WRITE_AHEAD_LOGGING,null);
-//                db.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
-//                        ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-//                        "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
-//                db.execSQL("insert into requesttb(num,time,flag,publisher,p_number,p_phone,helper,h_number,h_phone,user_loc,content,infor" +
-//                        "r_nameORmessage,r_locORpackage_loc,r_phoneORphone,nullORpackage_Id)values("+request.getNum()+",'"+request.getTime()+"',"+
-//                request.getFlag()+",'"+request.getPublisher()+"','"+request.getP_number()+"','"+request.getP_phone()+"','"+request.getHelper()
-//                +"','"+request.getH_number()+"','"+request.getH_phone()+"','"+request.getUser_loc()+"','"+request.getContent()+"','"+
-//                request.getInfor()+"','"+request.getR_nameORmessage()+"','"+request.getR_locORpackage_loc()+"','"+request.getR_phoneORphone()+
-//                "','"+request.getNullORpackage_Id());
-//                db.close();
-//                num=request.getNum();
-//            }
-            Log.i("handl2", "----------- "+num);
-
-
-        }
-    };*/
-
-
-
-
-
-
 
 
 
@@ -175,6 +118,10 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 map.put("location",mid.getUser_loc());
                 map.put("num",mid.getNum());
                 map.put("name",mid.publisher);
+                String str = mid.getTime();
+               String []time =str.split("-");
+                str=time[0]+"年"+time[1]+"月"+time[2]+"日"+time[3]+"点"+time[4]+"分";
+                map.put("time",str);
                 datamapList.add(map);
             }
             else if(mid.getNum()!=0&&mid.getFlag()==1)
@@ -185,6 +132,10 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 map.put("location",mid.getR_locORpackage_loc());
                 map.put("num",mid.getNum());
                 map.put("name",mid.publisher);
+                String str = mid.getTime();
+                String [] time=str.split("-");
+                str=time[0]+"年"+time[1]+"月"+time[2]+"日"+time[3]+"点"+time[4]+"分";
+                map.put("time",str);
                 datamapList.add(map);
             }
 
@@ -336,11 +287,12 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         genderTV= (TextView) findViewById(R.id.tv_gender);
         homeTV = (TextView) findViewById(R.id.tv_home);
         meTV = (TextView) findViewById(R.id.tv_me);
+        timeTV = (TextView) findViewById(R.id.item_time);
 
         refresh();
 
 
-        mainListAdp = new SimpleAdapter(this, datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location","num","name"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place,R.id.tv_num,R.id.item_username});
+        mainListAdp = new SimpleAdapter(this, datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location","num","name","time"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place,R.id.tv_num,R.id.item_username,R.id.item_time});
         mainList.setAdapter(mainListAdp);
         mainList.setOnItemClickListener(this);
         mainList.setOnScrollListener(this);

@@ -165,10 +165,12 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                     }
                     try{
                         String Url;
-                        Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/requestServlet" + "?type=add" + "&time=" + System.currentTimeMillis()+"&flag=1&" +
+                        Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/requestServlet" + "?type=add" +"&flag=1&" +
                                 "publisher="+URLEncoder.encode(user.getName(),"gbk")+"&p_number="+user.getUserId()+"&p_phone="+user.getPhone()+"&user_loc="+ URLEncoder.encode(locET.getText().toString(),"gbk")+"&content="+URLEncoder.encode(contentET.getText().toString(),"gbk")+
                                 "&infor="+URLEncoder.encode(noteET.getText().toString(),"gbk")+"&r_nameORmessage="+URLEncoder.encode(nameET.getText().toString(),"gbk")+"&r_locORpackage_loc="+URLEncoder.encode(addressET.getText().toString(),"gbk")+"&r_phoneORphone="+phoneET.getText().toString()+
                                 "&nullORpackage_Id="+URLEncoder.encode("xx","gbk");
+
+//                        "&time=" + System.currentTimeMillis()+
                         locET.getText().toString();
                         Log.i("tag", Url);
                         URL url = new URL(Url);
