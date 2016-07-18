@@ -60,7 +60,7 @@
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:id="@+id/tv_name"
+                    android:id="@+id/tv_rd_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="张俊东"
@@ -73,7 +73,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_accout"
+                android:id="@+id/tv_rd_accout"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="5dp"
                 android:layout_below="@+id/ll_name"
@@ -106,7 +106,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_sign1"
+                android:id="@+id/tv_rd_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -136,7 +136,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_sign2"
+                android:id="@+id/tv_rd_loc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -168,7 +168,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_sign7"
+                android:id="@+id/tv_rd_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
