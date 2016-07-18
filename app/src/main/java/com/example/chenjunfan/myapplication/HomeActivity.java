@@ -2,6 +2,7 @@ package com.example.chenjunfan.myapplication;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ShapeDrawable;
@@ -546,16 +547,21 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
         try {
-            this.refresh();
+
 
 
             Object obj=datamapList.get(i).get("flag");
+            Object obj2=datamapList.get(i).get("num");
+            int n=(int)obj2;
             int temp = (int)obj;
-
-            if (temp==2) {
+            SharedPreferences pre=getSharedPreferences("clickitemnum",MODE_PRIVATE);
+            SharedPreferences.Editor editor =pre.edit();
+            editor.putInt("num",n);
+            editor.commit();
+            if (temp==2) {//取
                 Intent intent = new Intent(HomeActivity.this, RdActivity.class);
                 startActivity(intent);
-            } else {
+            } else {//寄
                 Intent intent = new Intent(HomeActivity.this, SdActivity.class);
                 startActivity(intent);
             }
@@ -575,7 +581,6 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 SQLiteDatabase db = openOrCreateDatabase("user.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
                 db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
                         ",phone text,school text,point integer)");
-
                 Cursor c = db.rawQuery("select * from usertb", null);
                 if (c != null) {
                     while (c.moveToNext()) {
