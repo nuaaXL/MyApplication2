@@ -147,11 +147,7 @@
                 android:textSize="16sp" />
 
             <TextView
-<<<<<<< HEAD
-                android:id="@+id/tv_sd_place"
-=======
                 android:id="@+id/tv_sd_loc"
->>>>>>> 0e9718bd95b3572b63680edb9ae89da6896ac66d
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -213,7 +209,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_sd_name"
+                android:id="@+id/tv_sd_rname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -312,19 +308,12 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_sd_kuaidi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
-<<<<<<< HEAD
-                android:layout_toRightOf="@+id/tv_kuaidi"
-=======
                 android:id="@+id/tv_sd_kuaidi"
-                android:layout_toRightOf="@+id/tv_sign_temp7"
+                android:layout_toRightOf="@+id/tv_kuaidi"
                 android:hint="顺丰快递"
-                android:textColor="#000000"
-                android:textSize="16sp"
->>>>>>> 0e9718bd95b3572b63680edb9ae89da6896ac66d
                 android:layout_centerVertical="true"
                 android:text="顺丰快递"
                 android:singleLine="true"

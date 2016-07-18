@@ -21,11 +21,12 @@ public class SdActivity extends Activity {
     private TextView locTV;
     private TextView payTV;
     private TextView kuaidiTV;
+    private TextView userName;
     private TextView nameTV;
     private TextView accoutTV;
     private ImageView imageIV;
 
-    String content,loc,pay,kuaidi,name,accout;
+    String username,content,loc,pay,kuaidi,name,accout;
 
 
     private ImageView imageBack;
@@ -44,7 +45,7 @@ public class SdActivity extends Activity {
         locTV = (TextView) findViewById(R.id.tv_sd_loc);
         payTV = (TextView) findViewById(R.id.tv_sd_pay);
         kuaidiTV = (TextView) findViewById(R.id.tv_sd_kuaidi);
-        nameTV = (TextView) findViewById(R.id.tv_sd_name);
+        userName = (TextView) findViewById(R.id.tv_sd_name);
         accoutTV = (TextView) findViewById(R.id.tv_sd_accout);
         imageIV = (ImageView) findViewById(R.id.iv_sd_image);
         refresh();
@@ -80,7 +81,7 @@ public class SdActivity extends Activity {
                         } else {
                             pay = "寄方付款";
                         }
-                        name=c.getString(c.getColumnIndex("publisher"));
+                        username=c.getString(c.getColumnIndex("publisher"));
                         accout=c.getString(c.getColumnIndex("p_number"));
                         switch (tflag/1000)
                         {
@@ -141,7 +142,7 @@ public class SdActivity extends Activity {
             locTV.setText(loc);
             payTV.setText(pay);
             kuaidiTV.setText(kuaidi);
-            nameTV.setText(name);
+            userName.setText(username);
             accoutTV.setText(accout);
 
         }
