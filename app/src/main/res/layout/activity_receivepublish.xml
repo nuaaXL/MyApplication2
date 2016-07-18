@@ -155,6 +155,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:inputType="number"
                 android:layout_toRightOf="@+id/tv_sign_temp4"
                 android:hint="只有接单成功者可见"
                 android:singleLine="true"

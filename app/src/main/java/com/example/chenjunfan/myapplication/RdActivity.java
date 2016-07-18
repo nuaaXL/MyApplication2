@@ -17,18 +17,20 @@ import android.widget.TextView;
 public class RdActivity extends Activity{
 
     private ImageView imageBack;
+    private TextView userName;
     private TextView nameTV;
     private TextView accoutTV;
     private TextView contentTV;
     private TextView locTV;
     private TextView noteTV;
 
-    private String name,loc,content,accout,note;
+    private String username,name,loc,content,accout,note;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receivedetails);
-        nameTV = (TextView) findViewById(R.id.tv_rd_name);
+        userName = (TextView) findViewById(R.id.tv_rd_name);
+        nameTV = (TextView) findViewById(R.id.tv_rd_rname);
         accoutTV = (TextView) findViewById(R.id.tv_rd_accout);
         locTV = (TextView) findViewById(R.id.tv_rd_loc);
         noteTV = (TextView) findViewById(R.id.tv_rd_note);
@@ -68,6 +70,7 @@ public class RdActivity extends Activity{
                     while (c.moveToNext()) {
                         content = c.getString(c.getColumnIndex("content"));
                         loc = c.getString(c.getColumnIndex("user_loc"));
+                        username=c.getString(c.getColumnIndex("publisher"));
                         name=c.getString(c.getColumnIndex("r_nameORmessage"));
                         accout=c.getString(c.getColumnIndex("p_number"));
                         note=c.getString(c.getColumnIndex("infor"));
@@ -93,6 +96,7 @@ public class RdActivity extends Activity{
 
             contentTV.setText(content);
             locTV.setText(loc);
+            userName.setText(username);
             nameTV.setText(name);
             accoutTV.setText(accout);
             noteTV.setText(note);
