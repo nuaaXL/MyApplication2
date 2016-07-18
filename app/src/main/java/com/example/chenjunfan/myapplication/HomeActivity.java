@@ -63,34 +63,14 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     private int num=-1;
     private int FLAG=0;
     static Activity ActivityA;
+    private  TextView timeTV;
 
     @Override
     protected void onRestart() {
         super.onRestart();
         refresh();
 
-//        SharedPreferences pre = getSharedPreferences("publishflag",MODE_PRIVATE);
-//        SharedPreferences.Editor editor = pre.edit();
-//        Toast.makeText(HomeActivity.this,pre.getString("flag","0"),Toast.LENGTH_SHORT).show();
-//        if(pre.getString("flag","0").toString().equals("1"))
-//        {
-//            num=-1;
-//           // Thread t = new Thread(new Runnable() {
-//             //   @Override
-//               // public void run() {
-//                    datamapList= new ArrayList<Map<String, Object>>();
-////                    SQLiteDatabase db5 = openOrCreateDatabase("request.db",MODE_PRIVATE,null);
-////                    db5.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
-////                            ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-////                            "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
-////                    db5.execSQL("delete from requesttb");
-////                    db5.close();
-//                    getDataFromNetwork();
-//                }
-//           // });
-//           // t.start();
-//
-//            editor.remove("flag");
+
         }
 
 
@@ -101,43 +81,6 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      *
      */
-
-   /* Handler handler = new Handler() {
-
-
-        @Override
-        public void handleMessage(Message msg) {
-            Log.i("handl", "-----------"+num);
-            super.handleMessage(msg);
-
-//             dataList = (List) msg.obj;
-//            for (int i = 0; i < dataList.size(); i++) {
-//
-//                Request request = (Request) dataList.get(i);
-//                SQLiteDatabase db = openOrCreateDatabase("request.db",MODE_ENABLE_WRITE_AHEAD_LOGGING,null);
-//                db.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
-//                        ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-//                        "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
-//                db.execSQL("insert into requesttb(num,time,flag,publisher,p_number,p_phone,helper,h_number,h_phone,user_loc,content,infor" +
-//                        "r_nameORmessage,r_locORpackage_loc,r_phoneORphone,nullORpackage_Id)values("+request.getNum()+",'"+request.getTime()+"',"+
-//                request.getFlag()+",'"+request.getPublisher()+"','"+request.getP_number()+"','"+request.getP_phone()+"','"+request.getHelper()
-//                +"','"+request.getH_number()+"','"+request.getH_phone()+"','"+request.getUser_loc()+"','"+request.getContent()+"','"+
-//                request.getInfor()+"','"+request.getR_nameORmessage()+"','"+request.getR_locORpackage_loc()+"','"+request.getR_phoneORphone()+
-//                "','"+request.getNullORpackage_Id());
-//                db.close();
-//                num=request.getNum();
-//            }
-            Log.i("handl2", "----------- "+num);
-
-
-        }
-    };*/
-
-
-
-
-
-
 
 
 
@@ -166,8 +109,10 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             map.put("r_locORpackage_loc", mid.getR_locORpackage_loc());
             map.put("r_phoneORphone", mid.getR_phoneORphone());
             map.put("nullORpackage", mid.getNullORpackage_Id());*/
+            int flag=mid.getFlag();
+            flag=flag-(flag/10*10);
 
-            if(mid.getNum()!=0&&mid.getFlag()==2)//寄
+            if(mid.getNum()!=0&&flag==2)//寄
             {
                 map.put("IV_flag",R.drawable.rflag);
                 map.put("content",mid.getContent());
@@ -175,9 +120,13 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 map.put("location",mid.getUser_loc());
                 map.put("num",mid.getNum());
                 map.put("name",mid.publisher);
+                String str = mid.getTime();
+               String []time =str.split("-");
+                str=time[0]+"年"+time[1]+"月"+time[2]+"日"+time[3]+"点"+time[4]+"分";
+                map.put("time",str);
                 datamapList.add(map);
             }
-            else if(mid.getNum()!=0&&mid.getFlag()==1)
+            else if(mid.getNum()!=0&&flag==1)
             {
                 map.put("IV_flag",R.drawable.sflag);
                 map.put("content",mid.getContent());
@@ -185,8 +134,13 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 map.put("location",mid.getR_locORpackage_loc());
                 map.put("num",mid.getNum());
                 map.put("name",mid.publisher);
+                String str = mid.getTime();
+                String [] time=str.split("-");
+                str=time[0]+"年"+time[1]+"月"+time[2]+"日"+time[3]+"点"+time[4]+"分";
+                map.put("time",str);
                 datamapList.add(map);
             }
+
 
         }
         Log.i("in", "----------- "+num);
@@ -207,119 +161,6 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         db5.execSQL("delete from requesttb");
         db5.close();
         getDataFromNetwork();
-
-
-       /* for (int i = 0; i < 12; i++) {
-            Map<String, Object> map = new HashMap<String, Object>();
-
-            switch (i) {
-                case 0:
-                    map.put("flag", 0);
-                    map.put("IV_flag", R.drawable.rflag);
-                    map.put("content", "辣条");
-                    map.put("location", "南区36栋");
-                    map.put("pic", R.mipmap.latiao);
-                    break;
-
-                case 1:
-                    map.put("flag", 0);
-                    map.put("IV_flag", R.drawable.rflag);
-                    map.put("content", "飞机模型");
-                    map.put("location", "一号楼");
-                    map.put("pic", R.mipmap.plane);
-                    break;
-
-                case 2:
-                    map.put("flag", 1);
-                    map.put("IV_flag", R.drawable.sflag);
-                    map.put("content", "iPad");
-                    map.put("location", "D3教学楼");
-                    map.put("pic", R.mipmap.ipad);
-                    break;
-
-                case 3:
-                    map.put("flag", 0);
-                    map.put("IV_flag", R.drawable.rflag);
-                    map.put("content", "篮球");
-                    map.put("location", "灯光球场");
-                    map.put("pic", R.mipmap.ball);
-                    break;
-
-                case 4:
-                    map.put("flag", 0);
-                    map.put("IV_flag", R.drawable.rflag);
-                    map.put("content", "台灯");
-                    map.put("location", "怡园22栋");
-                    map.put("pic", R.mipmap.light);
-                    break;
-
-                case 5:
-                    map.put("flag", 1);
-                    map.put("IV_flag", R.drawable.sflag);
-                    map.put("content", "一只篮球");
-                    map.put("location", "图书馆门口");
-                    map.put("pic", R.mipmap.ball2);
-                    break;
-
-                case 6:
-                    map.put("flag", 0);
-                    map.put("IV_flag", R.drawable.rflag);
-                    map.put("content", "水杯");
-                    map.put("location", "一号楼");
-                    map.put("pic", R.mipmap.bottle);
-                    break;
-
-                case 7:
-                    map.put("flag", 1);
-                    map.put("IV_flag", R.drawable.sflag);
-                    map.put("content", "相机");
-                    map.put("location", "怡园19栋");
-                    map.put("pic", R.mipmap.camera);
-                    break;
-
-                case 8:
-                    map.put("flag", 1);
-                    map.put("IV_flag", R.drawable.sflag);
-                    map.put("content", "一箱零食");
-                    map.put("location", "三号楼");
-                    map.put("pic", R.mipmap.food);
-                    break;
-
-                case 9:
-                    map.put("flag", 0);
-                    map.put("IV_flag", R.drawable.rflag);
-                    map.put("content", "雨伞");
-                    map.put("location", "慧一");
-                    map.put("pic", R.mipmap.umbre);
-                    break;
-
-                case 10:
-                    map.put("flag", 1);
-                    map.put("IV_flag", R.drawable.sflag);
-                    map.put("content", "一双鞋子");
-                    map.put("location", "博园15栋");
-                    map.put("pic", R.mipmap.shoe);
-                    break;
-
-                case 11:
-                    map.put("flag", 1);
-                    map.put("IV_flag", R.drawable.sflag);
-                    map.put("content", "平板电脑保护套");
-                    map.put("location", "四号楼");
-                    map.put("pic", R.mipmap.protect);
-                    break;
-
-                default:
-                    break;
-            }
-
-
-            datamapList.add(map);
-        }*/
-
-
-
-
         accoutTV = (TextView) findViewById(R.id.tv_accout);
         nameTV = (TextView) findViewById(R.id.tv_name);
         homeIV = (ImageView) findViewById(R.id.IV_home);
@@ -336,14 +177,15 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         genderTV= (TextView) findViewById(R.id.tv_gender);
         homeTV = (TextView) findViewById(R.id.tv_home);
         meTV = (TextView) findViewById(R.id.tv_me);
+        timeTV = (TextView) findViewById(R.id.item_time);
 
         refresh();
 
 
-        mainListAdp = new SimpleAdapter(this, datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location","num","name"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place,R.id.tv_num,R.id.item_username});
+        mainListAdp = new SimpleAdapter(this, datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location","num","name","time"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place,R.id.tv_num,R.id.item_username,R.id.item_time});
         mainList.setAdapter(mainListAdp);
         mainList.setOnItemClickListener(this);
-        mainList.setOnScrollListener(this);
+        //mainList.setOnScrollListener(this);
 
 
 
