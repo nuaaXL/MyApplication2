@@ -42,6 +42,7 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
     private EditText noteET;
     private ImageView imageBack;
     private Spinner spinner;
+    private int flag=1;
 
 
     Handler handler = new Handler() {
@@ -73,6 +74,24 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
         imageBack.setOnClickListener(this) ;
         spinner = (Spinner) findViewById(R.id.sp_kuaidi);
 
+        payRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i)
+                {
+                    case R.id.rb_sp_hdfk:
+                        flag=flag%200;
+                        flag+=100;
+                        break;
+                    case R.id.rb_sp_jffk:
+                        flag=flag%100;
+                        flag+=200;
+
+                        break;
+                }
+            }
+        });
+
 
 
 // 建立spinner数据源
@@ -88,6 +107,33 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                                        int pos, long id) {
 
                 String[] languages = getResources().getStringArray(R.array.languages);
+                if (languages[pos].equals("顺丰快递")) {
+                    flag+=1000;
+                }
+                else  if(languages[pos].equals("圆通快递")) {
+                    flag+=2000;
+                }
+                else if(languages[pos].equals("申通快递"))
+                {
+                    flag+=3000;
+                }
+                else if(languages[pos].equals("中通快递"))
+                {
+                    flag+=4000;
+                }
+                else if(languages[pos].equals("天天快递"))
+                {
+                    flag+=5000;
+                }
+                else if(languages[pos].equals("韵达快递"))
+                {
+                    flag+=6000;
+                }
+                else if(languages[pos].equals("百世汇通"))
+                {
+                    flag+=7000;
+                }
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -135,11 +181,6 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                     msg.obj="请输入您的手机号码";
                     handler.sendMessage(msg);
                 }
-                else if(nameET.getText().toString().equals(""))
-                {
-                    msg.obj="请在备注中填上您需要的快递公司";
-                    handler.sendMessage(msg);
-                }
                 else {
                     Request request = new Request();
                     User user = new User();
@@ -164,9 +205,12 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                         }
                     }
                     try{
+                        Message msg2 = new Message();
+                        msg2.obj=flag+"";
+                        handler.sendMessage(msg2);
                         String Url;
-                        Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/requestServlet" + "?type=add" +"&flag=1&" +
-                                "publisher="+URLEncoder.encode(user.getName(),"gbk")+"&p_number="+user.getUserId()+"&p_phone="+user.getPhone()+"&user_loc="+ URLEncoder.encode(locET.getText().toString(),"gbk")+"&content="+URLEncoder.encode(contentET.getText().toString(),"gbk")+
+                        Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/requestServlet" + "?type=add" +"&flag=" +flag+
+                                "&publisher="+URLEncoder.encode(user.getName(),"gbk")+"&p_number="+user.getUserId()+"&p_phone="+user.getPhone()+"&user_loc="+ URLEncoder.encode(locET.getText().toString(),"gbk")+"&content="+URLEncoder.encode(contentET.getText().toString(),"gbk")+
                                 "&infor="+URLEncoder.encode(noteET.getText().toString(),"gbk")+"&r_nameORmessage="+URLEncoder.encode(nameET.getText().toString(),"gbk")+"&r_locORpackage_loc="+URLEncoder.encode(addressET.getText().toString(),"gbk")+"&r_phoneORphone="+phoneET.getText().toString()+
                                 "&nullORpackage_Id="+URLEncoder.encode("xx","gbk");
 
