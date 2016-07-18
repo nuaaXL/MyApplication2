@@ -99,9 +99,7 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-        Message msg=new Message();
-        msg.obj="in onClick";
-        handler.sendMessage(msg);
+
         finish();
 
     }

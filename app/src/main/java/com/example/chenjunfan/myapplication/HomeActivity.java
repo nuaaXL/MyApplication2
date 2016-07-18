@@ -138,6 +138,9 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 map.put("time",str);
                 datamapList.add(map);
             }
+            Message msg =new Message();
+            msg.obj="acking";
+            handler2.sendMessage(msg);
 
         }
         Log.i("in", "----------- "+num);
