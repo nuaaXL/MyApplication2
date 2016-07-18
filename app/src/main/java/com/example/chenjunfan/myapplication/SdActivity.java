@@ -88,22 +88,22 @@ public class SdActivity extends Activity {
                                 kuaidi="顺丰快递";
                                 break;
                             case  2:
-                                kuaidi="顺丰快递";
+                                kuaidi="圆通快递";
                                 break;
                             case  3:
-                                kuaidi="顺丰快递";
+                                kuaidi="申通快递";
                                 break;
                             case 4:
-                                kuaidi="顺丰快递";
+                                kuaidi="中通快递";
                                 break;
                             case 5:
-                                kuaidi="顺丰快递";
+                                kuaidi="天天快递";
                                 break;
                             case 6:
-                                kuaidi="顺丰快递";
+                                kuaidi="韵达快递";
                                 break;
                             case 7:
-                                kuaidi="顺丰快递";
+                                kuaidi="百世汇通";
                                 break;
                             default:
                                 kuaidi="未知";
