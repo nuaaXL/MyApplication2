@@ -75,14 +75,14 @@ public class SdActivity extends Activity {
                         loc = c.getString(c.getColumnIndex("user_loc"));
                         int tflag = c.getInt(c.getColumnIndex("flag"));
 
-                        if ((tflag-((tflag/1000)*1000))/100==1) {
+                        if (tflag / 1000 == 1) {
                             pay = "货到付款";
                         } else {
                             pay = "寄方付款";
                         }
                         name=c.getString(c.getColumnIndex("publisher"));
                         accout=c.getString(c.getColumnIndex("p_number"));
-                        switch (tflag/1000)
+                        switch ((tflag-((tflag/1000)*1000))/100)
                         {
                             case 1:
                                 kuaidi="顺丰快递";

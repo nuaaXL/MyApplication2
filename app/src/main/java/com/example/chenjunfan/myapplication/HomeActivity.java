@@ -295,7 +295,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         mainListAdp = new SimpleAdapter(this, datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location","num","name","time"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place,R.id.tv_num,R.id.item_username,R.id.item_time});
         mainList.setAdapter(mainListAdp);
         mainList.setOnItemClickListener(this);
-        //mainList.setOnScrollListener(this);
+        mainList.setOnScrollListener(this);
 
 
 
