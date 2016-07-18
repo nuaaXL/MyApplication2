@@ -60,7 +60,7 @@
             android:layout_marginTop="10dp" >
 
             <ImageView
-                android:id="@+id/iv_avatar"
+                android:id="@+id/iv_sd_image"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_marginLeft="15dp"
@@ -75,27 +75,28 @@
                 android:layout_toRightOf="@id/iv_avatar"
                 android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="张俊东"
-                    android:textColor="#353535"
-                    android:textSize="18sp" />
-
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_accout"
+                android:id="@+id/tv_sd_accout"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="5dp"
-                android:layout_below="@+id/ll_name"
-                android:layout_toRightOf="@id/iv_avatar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="学号：161430319"
                 android:textColor="#AAAAAA"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:layout_alignParentBottom="true"
+                android:layout_toEndOf="@+id/iv_sd_image" />
+
+            <TextView
+                android:id="@+id/tv_sd_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="张俊东"
+                android:textColor="#353535"
+                android:textSize="18sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/tv_sd_accout" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -146,7 +147,11 @@
                 android:textSize="16sp" />
 
             <TextView
+<<<<<<< HEAD
                 android:id="@+id/tv_sd_place"
+=======
+                android:id="@+id/tv_sd_loc"
+>>>>>>> 0e9718bd95b3572b63680edb9ae89da6896ac66d
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -311,7 +316,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
+<<<<<<< HEAD
                 android:layout_toRightOf="@+id/tv_kuaidi"
+=======
+                android:id="@+id/tv_sd_kuaidi"
+                android:layout_toRightOf="@+id/tv_sign_temp7"
+                android:hint="顺丰快递"
+                android:textColor="#000000"
+                android:textSize="16sp"
+>>>>>>> 0e9718bd95b3572b63680edb9ae89da6896ac66d
                 android:layout_centerVertical="true"
                 android:text="顺丰快递"
                 android:singleLine="true"
