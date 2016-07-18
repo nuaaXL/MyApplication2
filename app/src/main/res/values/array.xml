@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="languages">
+        <item>顺丰快递</item>
+        <item>圆通快递</item>
+        <item>申通快递</item>
+        <item>中通快递</item>
+        <item>天天快递</item>
+        <item>韵达快递</item>
+        <item>百世汇通</item>
+
+    </string-array>
+</resources>

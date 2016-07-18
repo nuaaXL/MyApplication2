@@ -243,6 +243,40 @@
         </RelativeLayout>
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp" >
+
+            <TextView
+                android:id="@+id/tv_kuaidi"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="快递"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:id="@+id/sp_kuaidi"
+                android:layout_toRightOf="@+id/tv_kuaidi"
+                android:hint="需要使用的快递等"
+                android:textColorHint="#AAAAAA"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+
+        </RelativeLayout>
+
+
 
 
         <RelativeLayout
@@ -268,7 +302,6 @@
                 android:inputType="textMultiLine"
                 android:id="@+id/et_sp_note"
                 android:layout_toRightOf="@+id/tv_sign_temp7"
-                android:hint="需要使用的快递等"
                 android:textColorHint="#AAAAAA"
                 android:textColor="#000000"
                 android:textSize="16sp"
