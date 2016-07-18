@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
 
     android:background="#ffffff"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:orientation="vertical">
 
 
     <FrameLayout
@@ -30,6 +29,15 @@
         </RelativeLayout>
 
     </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -106,12 +114,12 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_sign1"
+                android:id="@+id/tv_rd_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tv_sign_temp1"
-                android:hint="一个硬盘"
+                android:text="一个硬盘"
                 android:singleLine="true"
                 android:textColor="#000000"
                 android:textSize="16sp" />
@@ -136,16 +144,114 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_sign2"
+                android:id="@+id/tv_rd_place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tv_sign_temp2"
-                android:hint="三食堂"
+                android:text="三食堂"
                 android:singleLine="true"
                 android:textColor="#000000"
                 android:textSize="16sp" />
 
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RD_name"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_sign_temp3"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="收件人姓名"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_rd_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_sign_temp3"
+                android:text="张俊东"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RD_phone"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_sign_temp4"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="收件人手机号"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_rd_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_sign_temp4"
+                android:text="15600000000"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RD_number"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_sign_temp5"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="快递单号"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_rd_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_sign_temp5"
+                android:text="1234..."
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
@@ -168,12 +274,13 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_sign7"
+                android:id="@+id/tv_rd_beizhu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tv_sign_temp7"
-                android:hint="北门中午12点到12点30"
+                android:text="北门中午12点到12点30"
                 android:singleLine="true"
                 android:textColor="#000000"
                 android:textSize="16sp" />
@@ -184,6 +291,20 @@
 
     </LinearLayout>
 
+    </ScrollView>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/shadow2" />
+
+
+
+
+    </FrameLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -192,9 +313,9 @@
 
         android:layout_alignParentStart="true">
         <Button
+            android:id="@+id/btn_helpqu"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:id="@+id/btn_helpqu"
             android:text="我要帮忙"
             android:textSize="25sp"
             android:gravity="center"
