@@ -1,7 +1,7 @@
 package com.example.chenjunfan.myapplication;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -9,10 +9,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -38,6 +41,7 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
     private RadioGroup payRG;
     private EditText noteET;
     private ImageView imageBack;
+    private Spinner spinner;
 
 
     Handler handler = new Handler() {
@@ -67,6 +71,29 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
         payRG= (RadioGroup) findViewById(R.id.RG_pay);
         noteET= (EditText) findViewById(R.id.et_sp_note);
         imageBack.setOnClickListener(this) ;
+        spinner = (Spinner) findViewById(R.id.sp_kuaidi);
+
+
+
+// 建立spinner数据源
+        String[] mItems = getResources().getStringArray(R.array.languages);
+// 建立Adapter并且绑定数据源
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, mItems);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//绑定 Adapter到控件
+        spinner .setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long id) {
+
+                String[] languages = getResources().getStringArray(R.array.languages);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
+            }
+        });
     }
 
 
@@ -160,14 +187,15 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                         Log.i("user1", user.getUserId());
                         if (user.getUserId().toString().equals("1"))
                         {
-
+                            HomeActivity.ActivityA.finish();
+                            Intent intent = new Intent(SendpublishActivity.this,HomeActivity.class);
                             msg.obj="发布成功";
                             handler.sendMessage(msg);
-
-                            SharedPreferences pre = getSharedPreferences("publishflag",MODE_PRIVATE);
-                            SharedPreferences.Editor editor = pre.edit();
-                            editor.putString("flag","1");
-                            editor.commit();
+//                            SharedPreferences pre = getSharedPreferences("publishflag",MODE_PRIVATE);
+//                            SharedPreferences.Editor editor = pre.edit();
+//                            editor.putString("flag","1");
+//                            editor.commit();
+                            startActivity(intent);
 
                             finish();
 

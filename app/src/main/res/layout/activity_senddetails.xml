@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
 
     android:background="#ffffff"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:orientation="vertical">
 
 
     <FrameLayout
@@ -30,6 +29,22 @@
         </RelativeLayout>
 
     </FrameLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="45dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -101,14 +116,14 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_sign1"
+                android:id="@+id/tv_sd_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tv_sign_temp1"
-                android:hint="一箱零食"
+                android:text="一箱零食"
                 android:singleLine="true"
-                android:textColor="#000000"
+                android:textColor="#353535"
                 android:textSize="16sp" />
 
         </RelativeLayout>
@@ -131,14 +146,14 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_sign2"
+                android:id="@+id/tv_sd_place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tv_sign_temp2"
-                android:hint="二号楼"
+                android:text="二号楼"
                 android:singleLine="true"
-                android:textColor="#000000"
+                android:textColor="#353535"
                 android:textSize="16sp" />
 
 
@@ -162,21 +177,150 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_sign6"
+                android:id="@+id/tv_sd_pay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tv_sign_temp6"
-                android:hint="寄方付款"
+                android:text="寄方付款"
                 android:singleLine="true"
-                android:textColor="#000000"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/SD_name"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_sign_temp3"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="收件人姓名"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_sd_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_sign_temp3"
+                android:text="李继鹏"
+                android:singleLine="true"
+                android:textColor="#353535"
                 android:textSize="16sp" />
 
 
+        </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/SD_phone"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_sign_temp4"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="收件人手机号"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_sd_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:inputType="number"
+                android:layout_toRightOf="@+id/tv_sign_temp4"
+                android:text="15600000000"
+                android:singleLine="true"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/SD_address"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_sign_temp5"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="收件人地址"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_sd_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_sign_temp5"
+                android:text="南航"
+                android:singleLine="true"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp" >
+
+            <TextView
+                android:id="@+id/tv_kuaidi"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="快递"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_sd_kuaidi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:layout_toRightOf="@+id/tv_kuaidi"
+                android:layout_centerVertical="true"
+                android:text="顺丰快递"
+                android:singleLine="true"
+                android:textColor="#353535"
+                android:textSize="16sp" />
 
 
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -195,13 +339,13 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tv_sd_beizhu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
-                android:id="@+id/editText"
                 android:layout_toRightOf="@+id/tv_sign_temp7"
-                android:hint="顺丰快递"
-                android:textColor="#000000"
+                android:text="菜鸟驿站"
+                android:textColor="#353535"
                 android:textSize="16sp"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
@@ -209,25 +353,22 @@
 
         </RelativeLayout>
 
-
-
-
-
-
-
-
     </LinearLayout>
 
+    </ScrollView>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/shadow2" />
+
+        </FrameLayout>
+
         <Button
+            android:id="@+id/btn_helpji"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:id="@+id/btn_helpji"
             android:text="我要帮忙"
             android:textSize="25sp"
             android:gravity="center"
@@ -235,7 +376,11 @@
             android:background="@color/button_g"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"/>
-    </RelativeLayout>
 
+
+
+
+
+    </RelativeLayout>
 
 </LinearLayout>

@@ -11,9 +11,5 @@
         android:text="我要寄快递"
         android:layout_centerInParent="true"  />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="6dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/shadow2" />
+
 </RelativeLayout>
