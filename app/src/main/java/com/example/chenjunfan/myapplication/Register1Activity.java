@@ -3,27 +3,13 @@ package com.example.chenjunfan.myapplication;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.ContentObserver;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
-import org.json.JSONObject;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import cn.smssdk.SMSSDK;
-import cn.smssdk.utils.SMSLog;
 
 
 /**
@@ -37,53 +23,13 @@ public class Register1Activity extends Activity{
     private EditText passwd2Et;
     private EditText phoneEt;
     private RadioGroup schoolRg;
-
-    private Handler handler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            super.handleMessage(msg);
-            int event = msg.arg1;
-            int result = msg.arg2;
-            Object data = msg.obj;
-            if (result == SMSSDK.RESULT_COMPLETE) {
-                if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-                    Toast.makeText(getApplicationContext(), "提交验证码成功",
-                            Toast.LENGTH_SHORT).show();
-                } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-                    // 已经验证
-                    Toast.makeText(getApplicationContext(), "验证码已经发送",
-                            Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                int status = 0;
-                try {
-                    ((Throwable) data).printStackTrace();
-                    Throwable throwable = (Throwable) data;
-
-                    JSONObject object = new JSONObject(throwable.getMessage());
-                    String des = object.optString("detail");
-                    status = object.optInt("status");
-                    if (!TextUtils.isEmpty(des)) {
-                        Toast.makeText(Register1Activity.this, des,
-                                Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                } catch (Exception e) {
-                    SMSLog.getInstance().w(e);
-                }
-            }
-        }
-
-    };
+    private EditText messageET;
+    private Button messageBT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register1);
-        cn.smssdk.SMSSDK.initSDK(this,"1513e51962d93","226a31d374bfc36ed5d3219f6adb228e");
-
 
 
 
@@ -91,6 +37,7 @@ public class Register1Activity extends Activity{
         SharedPreferences.Editor editor = pre.edit();
         editor.putString("school","nuaa_new");
         editor.commit();
+
         imageBack = (ImageView) findViewById(R.id.img_back);
         userIdEt = (EditText) findViewById(R.id.et_r_userId);
         passwdEt = (EditText) findViewById(R.id.et_r_passwd);
@@ -170,56 +117,9 @@ public class Register1Activity extends Activity{
 
 
     }
-
-
-    private class SmsObserver extends ContentObserver {
-
-        public SmsObserver(Handler handler) {
-            super(handler);
-            // TODO Auto-generated constructor stub
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            // TODO Auto-generated method stub
-            StringBuilder sb = new StringBuilder();
-            Cursor cursor = getContentResolver().query(
-                    Uri.parse("content://sms/inbox"), null, null, null, null);
-            cursor.moveToNext();
-            sb.append("body=" + cursor.getString(cursor.getColumnIndex("body")));
-
-            System.out.println(sb.toString());
-            Pattern pattern = Pattern.compile("[^0-9]");
-            Matcher matcher = pattern.matcher(sb.toString());
-            CodeText = matcher.replaceAll("");
-            CodeEd.setText(CodeText);
-            cursor.close();
-            super.onChange(selfChange);
-        }
-    }
-
     public void getm(View view)
     {
 
-        switch (v.getId()) {
-            case R.id.getCode: // 获取验证码的过程.
-                if (!TextUtils.isEmpty(PhoneEd.getText().toString())) {
-                    getContentResolver().registerContentObserver(
-                            Uri.parse("content://sms"), true,
-                            new SmsObserver(new Handler()));
-                    SMSSDK.getVerificationCode("86", PhoneEd.getText().toString());
-                    phone = PhoneEd.getText().toString();
-
-                } else {
-                    Toast.makeText(MainActivity.this, "电话号码不能为空", Toast.LENGTH_LONG)
-                            .show();
-                }
-                break;
-            case R.id.Indentity:
-                SMSSDK.submitVerificationCode("86", phone, CodeEd.getText()
-                        .toString());
-                break;
-        }
     }
 
 }
