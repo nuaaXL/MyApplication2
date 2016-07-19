@@ -402,7 +402,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             SharedPreferences.Editor editor =pre.edit();
             editor.putInt("num",n);
             editor.commit();
-            if (temp==2) {//取
+            if (temp%10==2) {//取
                 Intent intent = new Intent(HomeActivity.this, RdActivity.class);
                 startActivity(intent);
             } else {//寄
