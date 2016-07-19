@@ -18,6 +18,16 @@ android {
         }
     }
 }
+repositories{
+    flatDir{
+        dirs 'lib' //就是你放aar的目录地址
+    }
+}
+
+
+    //.......
+    //其他依赖包
+
 
 
 
@@ -27,9 +37,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
-
+    compile files('lib/MobCommons-2016.0714.1402.jar')
+    compile files('lib/MobTools-2016.0714.1402.jar')
     compile files('libs/gson-2.3.1.jar')
     compile files('libs/BmobPay_v3.0.3_160621.jar')
+    compile name:'SMSSDK-2.1.1',ext:'aar'
+    compile name:'SMSSDKGUI-2.1.1',ext:'aar'
 
 
 
