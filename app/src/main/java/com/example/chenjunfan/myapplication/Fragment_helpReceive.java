@@ -37,9 +37,13 @@ public class Fragment_helpReceive extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
+<<<<<<< HEAD
         View view=inflater.inflate(R.layout.help_receive, container, false);
         mainList= (ListView) container.getChildAt(R.id.LVhelp_receive);
         
+=======
+        View view=inflater.inflate(R.layout.help, container, false);
+>>>>>>> master
         return view;
     }
 
