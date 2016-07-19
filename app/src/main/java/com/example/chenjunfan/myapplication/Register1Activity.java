@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+
 /**
  * Created by chenjunfan on 16/7/10.
  */
@@ -22,11 +23,15 @@ public class Register1Activity extends Activity{
     private EditText passwd2Et;
     private EditText phoneEt;
     private RadioGroup schoolRg;
+    private EditText messageET;
+    private Button messageBT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register1);
+
+
 
         SharedPreferences pre = getSharedPreferences("register",MODE_PRIVATE);
         SharedPreferences.Editor editor = pre.edit();
@@ -39,6 +44,8 @@ public class Register1Activity extends Activity{
         passwd2Et = (EditText) findViewById(R.id.et_r_passwd2);
         phoneEt = (EditText) findViewById(R.id.et_r_phone);
         schoolRg = (RadioGroup) findViewById(R.id.gp_r_group);
+        messageBT= (Button) findViewById(R.id.btn_getmessage);
+        messageET= (EditText) findViewById(R.id.et_message);
 
 
         imageBack.setOnClickListener(new View.OnClickListener() {
@@ -110,4 +117,9 @@ public class Register1Activity extends Activity{
 
 
     }
+    public void getm(View view)
+    {
+
+    }
+
 }
