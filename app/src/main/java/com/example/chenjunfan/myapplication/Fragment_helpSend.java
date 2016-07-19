@@ -15,7 +15,7 @@ public class Fragment_helpSend extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
-        View view= inflater.inflate(R.layout.help_send, container, false);
+        View view= inflater.inflate(R.layout.helped, container, false);
 
         //对View中控件的操作方法
         /*Button btn = (Button)view.findViewById(R.id.fragment1_btn);

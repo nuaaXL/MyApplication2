@@ -307,6 +307,11 @@
     </FrameLayout>
 
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -325,5 +330,28 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"/>
     </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true">
+            <Button
+                android:id="@+id/btn_call"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="拨打电话"
+                android:visibility="gone"
+                android:textSize="25sp"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:background="@color/button_g"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"/>
+        </RelativeLayout>
+
+
+    </FrameLayout>
 
 </LinearLayout>

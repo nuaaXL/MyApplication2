@@ -31,7 +31,7 @@ public class Help_odersActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_help_oders);
+        setContentView(R.layout.activity_oders);
         imageBack = (ImageView) findViewById(R.id.img_back);
         imageBack.setOnClickListener(new View.OnClickListener() {
 
