@@ -1,6 +1,7 @@
 package com.example.chenjunfan.myapplication;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -29,6 +30,9 @@ import java.util.List;
  * Created by chenjunfan on 16/7/11.
  */
 public class RdActivity extends Activity{
+
+    private ProgressDialog prodialog;
+
 
     private ImageView imageBack;
     private TextView userName;
@@ -149,6 +153,11 @@ public class RdActivity extends Activity{
 
     public void makehelp(View view)
     {
+        prodialog=new ProgressDialog(RdActivity.this);
+        prodialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        prodialog.setIndeterminate(true);
+        prodialog.setMessage("正在抢单中");
+        handlershow.sendMessage(new Message());
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -200,22 +209,32 @@ public class RdActivity extends Activity{
                         msg.obj = "抢单成功！";
                         handler.sendMessage(msg);
                         handler2.sendMessage(msg);
+                        handlerunshow.sendMessage(new Message());
+
                         //Toast.makeText(LoginActivity.this,"账户不存在！",Toast.LENGTH_SHORT).show();
                     } else if(user.getUserId() != null && user.getUserId().equals("-1")){
                         Message msg = new Message();
                         msg.obj = "抢单失败，下次再快一点哦~！";
                         handler.sendMessage(msg);
+                        handlerunshow.sendMessage(new Message());
+
+
                     }
                     else if(user.getUserId() != null && user.getUserId().equals("-2"))
                     {
                         Message msg = new Message();
                         msg.obj = "亲你调皮了~别接自己发的单哦~";
                         handler.sendMessage(msg);
+                        handlerunshow.sendMessage(new Message());
+
+
                     }
 
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    handlerunshow.sendMessage(new Message());
+
                 }
             }
         });
@@ -243,6 +262,26 @@ public class RdActivity extends Activity{
             phoneRL.setVisibility(View.VISIBLE);
             packidRL.setVisibility(View.VISIBLE);
 
+        }
+    };
+    Handler handlershow = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            prodialog.show();
+        }
+    };
+    Handler handlerunshow = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            prodialog.cancel();
         }
     };
 
