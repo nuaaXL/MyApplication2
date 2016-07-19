@@ -55,7 +55,7 @@
                 android:layout_height="match_parent">
 
 
-            <ListView
+            <com.example.chenjunfan.myapplication.LoadListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:divider="@color/purewhite"
@@ -63,7 +63,7 @@
                 android:clipToPadding="false"
                 android:id="@+id/LVmain"
                 >
-            </ListView>
+            </com.example.chenjunfan.myapplication.LoadListView>
 
                 <View
                     android:layout_width="match_parent"
@@ -199,7 +199,7 @@
                     android:layout_gravity="center_horizontal">
 
                     <LinearLayout
-                        android:id="@+id/LL_help"
+                        android:id="@+id/LL_orders"
                         android:orientation="vertical"
                         android:layout_width="fill_parent"
                         android:background="@drawable/setting_item_selector"
@@ -226,7 +226,7 @@
                                 android:paddingLeft="16dp"
                                 android:paddingRight="16dp"
                                 android:drawablePadding="10dp"
-                                android:text="我帮助的" />
+                                android:text="我的订单" />
                         </LinearLayout>
                         <View
                             android:background="@color/black2"
@@ -234,42 +234,7 @@
                             android:layout_height="1.0dip" />
 
                     </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/LL_helped"
-                        android:orientation="vertical"
-                        android:layout_width="fill_parent"
-                        android:layout_height="51dp">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/setting_item_selector">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="20dp"
-                                android:src="@drawable/order"/>
-
-                        <TextView
-                            style="@style/TxtTitle"
-                            android:textSize="16sp"
-                            android:gravity="center_vertical"
-                            android:layout_width="fill_parent"
-                            android:layout_height="50dp"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:drawablePadding="10dp"
-                            android:text="帮助我的" />
-                        </LinearLayout>
-                        <View
-                            android:background="@color/black2"
-                            android:layout_width="fill_parent"
-                            android:layout_height="1.0dip" />
-
-                        </LinearLayout>
                     <LinearLayout
                         android:id="@+id/LL_coin"
                         android:orientation="vertical"

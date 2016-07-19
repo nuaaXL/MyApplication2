@@ -12,11 +12,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -38,20 +36,20 @@ import java.util.Map;
 /**
  * Created by chenjunfan on 16/7/10.
  */
-public class HomeActivity extends Activity implements AdapterView.OnItemClickListener,AbsListView.OnScrollListener {
+public class HomeActivity extends Activity implements AdapterView.OnItemClickListener,LoadListView.ILoadListener {
     private ImageView homeIV;
     private ImageView meIV;
     private RelativeLayout homeRL;
     private RelativeLayout wodeRL;
     private TextView homeTV;
     private TextView meTV;
-    private ListView mainList;
+    private LoadListView mainList;
     private SimpleAdapter mainListAdp;
     private List<Request> dataList=new ArrayList<Request>();
     private List<Map<String,Object>>datamapList = new ArrayList<Map<String, Object>>();
     private RelativeLayout homeLL;
     private RelativeLayout meRL;
-    private LinearLayout helpLL;
+    private LinearLayout odersLL;
     private LinearLayout editLL;
     private LinearLayout coinLL;
     private LinearLayout settingLL;
@@ -61,9 +59,10 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     private User user = new User();
     private TextView genderTV;
     private int num=-1;
-    private int FLAG=0;
     static Activity ActivityA;
     private  TextView timeTV;
+    private boolean isLoading;
+    int lastvisibleitem,totalitemcount;
 
     @Override
     protected void onRestart() {
@@ -167,10 +166,12 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         meIV = (ImageView) findViewById(R.id.IV_me);
         homeRL = (RelativeLayout) findViewById(R.id.RL_home);
         wodeRL = (RelativeLayout) findViewById(R.id.RL_me);
-        mainList = (ListView) findViewById(R.id.LVmain);
+        mainList = (LoadListView) findViewById(R.id.LVmain);
+        mainList.setInterface(this);
+
         homeLL = (RelativeLayout) findViewById(R.id.LLhome);
         meRL = (RelativeLayout) findViewById(R.id.RLme);
-        helpLL = (LinearLayout) findViewById(R.id.LL_help);
+        odersLL = (LinearLayout) findViewById(R.id.LL_orders);
         editLL = (LinearLayout) findViewById(R.id.LL_edit);
         coinLL = (LinearLayout) findViewById(R.id.LL_coin);
         settingLL = (LinearLayout) findViewById(R.id.LL_setting);
@@ -185,7 +186,6 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         mainListAdp = new SimpleAdapter(this, datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location","num","name","time"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place,R.id.tv_num,R.id.item_username,R.id.item_time});
         mainList.setAdapter(mainListAdp);
         mainList.setOnItemClickListener(this);
-        //mainList.setOnScrollListener(this);
 
 
 
@@ -217,7 +217,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             }
         });
 
-        helpLL.setOnClickListener(new View.OnClickListener() {
+        odersLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, Help_odersActivity.class);
@@ -287,6 +287,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     private void getDataFromNetwork() {
 
 
+
         Thread t2 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -351,11 +352,10 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                             }
                             else
                             {
-                                if(FLAG==0) {
                                     msg.obj = "已经显示全部条目";
                                     handler2.sendMessage(msg);
-                                    FLAG=1;
-                                }
+
+
                                 num=0;
                                 break;
 
@@ -369,11 +369,13 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                         handler4.sendMessage(new Message());
 
 
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     Message msg = new Message();
                     msg.obj = "服务器无响应";
                     handler2.sendMessage(msg);
+                  //  HomeActivity.this.findViewById(R.id.load_layout).setVisibility(View.GONE);
                 }
 
 
@@ -498,41 +500,29 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         public void handleMessage(Message msg) {
 
             super.handleMessage(msg);
+            isLoading=false;
 
             mainListAdp.notifyDataSetChanged();
+           // HomeActivity.this.findViewById(R.id.load_layout).setVisibility(View.GONE);
 
 
         }
     };
 
 
-    @Override
-    public void onScrollStateChanged(AbsListView absListView, int i) {
 
-    }
 
     @Override
-    public void onScroll(AbsListView listView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        int lastItem = firstVisibleItem + visibleItemCount;
-        try
+    public void onLoad() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getDataFromNetwork();
+                mainList.loadComplete();
+            }
+        },1700);
 
-        {
-            if (lastItem == totalItemCount) {
-
-                View lastItemView = (View) listView.getChildAt(listView.getChildCount() - 1);
-                if ((listView.getBottom()) == lastItemView.getBottom()) {
-
-                    getDataFromNetwork();
-                    }
-
-                }
-
-
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
     }
 }
 
