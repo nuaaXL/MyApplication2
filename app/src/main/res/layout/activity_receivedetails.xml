@@ -319,12 +319,13 @@
 
         android:layout_alignParentStart="true">
         <Button
-            android:id="@+id/btn_helpqu"
+            android:id="@+id/btn_rd_helpqu"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:text="我要帮忙"
             android:textSize="25sp"
             android:gravity="center"
+            android:onClick="makehelp"
             android:textColor="#ffffff"
             android:background="@color/button_g"
             android:layout_alignParentBottom="true"
@@ -336,13 +337,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:visibility="gone"
+            >
             <Button
-                android:id="@+id/btn_call"
+                android:id="@+id/btn_rd_call"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:text="拨打电话"
-                android:visibility="gone"
+                android:onClick="makecall"
                 android:textSize="25sp"
                 android:gravity="center"
                 android:textColor="#ffffff"
