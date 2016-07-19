@@ -12,6 +12,9 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="@color/purewhite"
+            android:paddingTop="10dp"
+            android:clipToPadding="false"
             android:id="@+id/LVhelp_receive">
 
         </ListView>

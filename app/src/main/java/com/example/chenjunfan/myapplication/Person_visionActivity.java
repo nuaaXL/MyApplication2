@@ -1,15 +1,10 @@
 package com.example.chenjunfan.myapplication;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.ContentResolver;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,8 +23,15 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -50,9 +52,12 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
     private int year;
     private int month;
     private int day;
+    private static String requestURL = "http://192.168.191.1:8080/NanhangServer/uploadServlet";
+    private TextView resultText;
+    private String picturePath;
     private Button selectImage;
+    private Button btnUpload;
     private ImageView imageView;
-    private String picPath = null;
     private EditText nameET;
     private RadioGroup genderGP;
     private RadioGroup schoolGP;
@@ -71,6 +76,15 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
         }
     };
 
+    Handler handlerImage = new Handler(){
+        public void handleMessage(android.os.Message msg) {
+
+            if(msg.arg1==1){
+
+                imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            }
+        }
+    };
 
 
 
@@ -87,6 +101,9 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
             nameET = (EditText) findViewById(R.id.et_iname);
             genderGP = (RadioGroup) findViewById(R.id.RG_igender);
             schoolGP = (RadioGroup) findViewById(R.id.RG_ischool);
+            resultText = (TextView) findViewById(R.id.imagePath);
+            btnUpload = (Button) findViewById(R.id.upLoad);
+
 
 
             cal = Calendar.getInstance();
@@ -104,6 +121,7 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
 
             modifydateButton.setOnClickListener(this);
             selectImage.setOnClickListener(this);
+            btnUpload.setOnClickListener(this);
 
 
             genderGP.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -153,13 +171,56 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
         switch (view.getId()) {
 
             case R.id.selectImage_modify:
-                /***
-                 * 这个是调用android内置的intent，来过滤图片文件 ，同时也可以过滤其他的
-                 */
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, 1);
+                Intent i = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                this.startActivityForResult(i, 1);// startActivityForResult(i, "1");
+                break;
+            case R.id.upLoad:
+                RequestParams params = new RequestParams();
+                params.addQueryStringParameter("method", "upload");
+                params.addQueryStringParameter("path", picturePath);
+                params.addBodyParameter("file", new File(picturePath));
+
+                HttpUtils http = new HttpUtils();
+                http.send(HttpRequest.HttpMethod.POST,
+                        "http://192.168.191.1:8080/NanhangServer/uploadServlet", params,
+                        new RequestCallBack<String>() {
+
+
+                            @Override
+                            public void onStart() {
+                                resultText.setText("conn...");
+                                System.out.println("hello....onStart");
+                            }
+
+
+
+                            @Override
+                            public void onLoading(long total, long current,
+                                                  boolean isUploading) {
+
+                                super.onLoading(total, current, isUploading);
+
+                                resultText.setText(current + "/" + total);
+                            }
+
+
+
+                            @Override
+                            public void onFailure(HttpException error, String msg) {
+                                System.out.println("hello....fail");
+                                error.printStackTrace();
+                            }
+
+                            @Override
+                            public void onSuccess(ResponseInfo<String> arg0) {
+                                System.out.println("hello....onSuccess");
+                                resultText.setText("onSuccess");
+                            }
+                        });
+
                 break;
 
             case R.id.btn_modifyDate:
@@ -169,6 +230,10 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
                         datetoModify.setText(i + "年" + (i1 + 1) + "月" + i2 + "日");
                     }
                 }, year, cal.get(Calendar.MONTH), day).show();
+
+
+
+
 
 
 
@@ -182,55 +247,37 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            /**
-             * 当选择的图片不为空的话，在获取到图片的途径
-             */
-            Uri uri = data.getData();
-//            Log.e(TAG, "uri = " + uri);
-            try {
-                String[] pojo = { MediaStore.Images.Media.DATA };
-
-                Cursor cursor = managedQuery(uri, pojo, null, null, null);
-                if (cursor != null) {
-                    ContentResolver cr = this.getContentResolver();
-                    int colunm_index = cursor
-                            .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                    cursor.moveToFirst();
-                    String path = cursor.getString(colunm_index);
-                    /***
-                     * 这里加这样一个判断主要是为了第三方的软件选择，比如：使用第三方的文件管理器的话，你选择的文件就不一定是图片了，
-                     * 这样的话，我们判断文件的后缀名 如果是图片格式的话，那么才可以
-                     */
-                    if (path.endsWith("jpg") || path.endsWith("png")) {
-                        picPath = path;
-                        Bitmap bitmap = BitmapFactory.decodeStream(cr
-                                .openInputStream(uri));
-                        imageView.setImageBitmap(bitmap);
-                    } else {
-                        alert();
-                    }
-                } else {
-                    alert();
-                }
-
-            } catch (Exception e) {
-            }
-        }
-
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            picturePath = cursor.getString(columnIndex);
+
+            //tv.setText(picturePath);
+
+            System.out.println("=============picturePath======"+picturePath);
+
+            Message msg = handlerImage.obtainMessage();
+            msg.arg1=1;
+            handlerImage.sendMessage(msg);
+
+            cursor.close();
+
+
+
+
+        }
     }
 
-    private void alert() {
-        Dialog dialog = new AlertDialog.Builder(this).setTitle("提示")
-                .setMessage("您选择的不是有效的图片")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        picPath = null;
-                    }
-                }).create();
-        dialog.show();
-    }
+
+
 
     public void modify(View view)
     {
