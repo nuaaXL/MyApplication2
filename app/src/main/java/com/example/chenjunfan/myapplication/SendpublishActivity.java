@@ -42,7 +42,10 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
     private EditText noteET;
     private ImageView imageBack;
     private Spinner spinner;
+    private EditText pointET;
     private int flag=1;
+    private int point=0;
+    private int restpoint=0;
 
 
     Handler handler = new Handler() {
@@ -61,7 +64,7 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_sendpublish);
-
+        pointET = (EditText) findViewById(R.id.et_sp_jifen) ;
         fabuButton = (Button) findViewById(R.id.btn_sp_fabu);
         imageBack = (ImageView) findViewById(R.id.img_back);
         contentET = (EditText) findViewById(R.id.et_sp_content);
@@ -158,6 +161,28 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
+
+                User user = new User();
+
+                SQLiteDatabase db = openOrCreateDatabase("user.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
+                db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
+                        ",phone text,school text,point integer)");
+                Cursor c = db.rawQuery("select * from usertb", null);
+                if (c != null) {
+                    while (c.moveToNext()) {
+
+
+                        user.setUserId(c.getString(c.getColumnIndex("userId")));
+                        user.setName(c.getString(c.getColumnIndex("name")));
+                        user.setPasswd(c.getString(c.getColumnIndex("passwd")));
+                        user.setGender(c.getInt(c.getColumnIndex("gender")));
+                        user.setPhone(c.getString(c.getColumnIndex("phone")));
+                        user.setSchool(c.getString(c.getColumnIndex("school")));
+                        user.setPoint(c.getInt(c.getColumnIndex("point")));
+                    }
+                    point=Integer.parseInt(pointET.getText().toString());
+                }
+
                 Message msg=new Message();
                 if(contentET.getText().toString().equals(""))
                 {
@@ -179,28 +204,18 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                     msg.obj="请输入您的手机号码";
                     handler.sendMessage(msg);
                 }
+                else if((user.getPoint()-point)<0) {
+
+
+                    msg.obj="您的积分剩余为:"+user.getPoint()+",不足以悬赏，请重新输入悬赏积分！";
+                    handler.sendMessage(msg);
+                }
                 else {
                     Request request = new Request();
-                    User user = new User();
-
-                    SQLiteDatabase db = openOrCreateDatabase("user.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
-                    db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
-                            ",phone text,school text,point integer)");
-                    Cursor c = db.rawQuery("select * from usertb", null);
-                    if (c != null) {
-                        while (c.moveToNext()) {
 
 
-                            user.setUserId(c.getString(c.getColumnIndex("userId")));
-                            user.setName(c.getString(c.getColumnIndex("name")));
-                            user.setPasswd(c.getString(c.getColumnIndex("passwd")));
-                            user.setGender(c.getInt(c.getColumnIndex("gender")));
-                            user.setPhone(c.getString(c.getColumnIndex("phone")));
-                            user.setSchool(c.getString(c.getColumnIndex("school")));
-                            user.setPoint(c.getInt(c.getColumnIndex("point")));
 
 
-                        }
                     }
                     try{
                         Message msg2 = new Message();
@@ -210,9 +225,9 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                         Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/requestServlet" + "?type=add" +"&flag=" +flag+
                                 "&publisher="+URLEncoder.encode(user.getName(),"gbk")+"&p_number="+user.getUserId()+"&p_phone="+user.getPhone()+"&user_loc="+ URLEncoder.encode(locET.getText().toString(),"gbk")+"&content="+URLEncoder.encode(contentET.getText().toString(),"gbk")+
                                 "&infor="+URLEncoder.encode(noteET.getText().toString(),"gbk")+"&r_nameORmessage="+URLEncoder.encode(nameET.getText().toString(),"gbk")+"&r_locORpackage_loc="+URLEncoder.encode(addressET.getText().toString(),"gbk")+"&r_phoneORphone="+phoneET.getText().toString()+
-                                "&nullORpackage_Id="+URLEncoder.encode("xx","gbk");
+                                "&nullORpackage_Id="+URLEncoder.encode("xx","gbk")+"&point="+point;
 
-//                        "&time=" + System.currentTimeMillis()+
+//
                         locET.getText().toString();
                         Log.i("tag", Url);
                         URL url = new URL(Url);
@@ -234,6 +249,8 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                             HomeActivity.ActivityA.finish();
                             Intent intent = new Intent(SendpublishActivity.this,HomeActivity.class);
                             msg.obj="发布成功";
+                            db.execSQL("update usertb set point ="+user.getPoint());
+
                             handler.sendMessage(msg);
 //                            SharedPreferences pre = getSharedPreferences("publishflag",MODE_PRIVATE);
 //                            SharedPreferences.Editor editor = pre.edit();
@@ -261,14 +278,16 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                         handler.sendMessage(msg);
                         e.printStackTrace();
                     }
-
+                    db.close();
+                    c.close();
 
 
                 }
 
 
-            }
+
         });
+
         t.start();
     }
 

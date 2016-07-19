@@ -86,8 +86,8 @@ public class Help_odersActivity extends FragmentActivity {
     public void InitViewPager(){
         mPager = (ViewPager)findViewById(R.id.vp_help);
         fragmentList = new ArrayList<Fragment>();
-        fragmentList.add(new Fragment_helpReceive());
-        fragmentList.add(new Fragment_helpSend());
+        fragmentList.add(new help());
+        fragmentList.add(new helped());
 
         //给ViewPager设置适配器
         mPager.setAdapter(new FragAdapter(getSupportFragmentManager(), fragmentList));

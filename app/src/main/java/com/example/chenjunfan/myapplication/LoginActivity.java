@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -36,8 +35,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     private User user=new User();
     private CheckBox remeberpw;
     private ProgressDialog prodialog;
-    private ListView listView;
-    private
+
 
 
     String id,passwd;
@@ -58,20 +56,28 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+
         SharedPreferences pre = getSharedPreferences("remeberUser",MODE_PRIVATE);
         idEditText = (EditText) findViewById(R.id.et_id);
         passwordEditText = (EditText) findViewById(R.id.et_pw);
         remeberpw = (CheckBox) findViewById(R.id.remeberPasswd);
 
+
         idEditText.setText(pre.getString("userId",""));
         passwordEditText.setText(pre.getString("passwd",""));
     }
+
+
 
     @Override
     public void onClick(View view) {
         Intent intent = new Intent(LoginActivity.this, Register1Activity.class);
         startActivity(intent);
     }
+
+
 
     public void LOGIN(View view)
     {

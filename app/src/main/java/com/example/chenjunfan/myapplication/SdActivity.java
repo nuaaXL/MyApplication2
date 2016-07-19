@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ public class SdActivity extends Activity {
     private TextView nameTV;
     private TextView accoutTV;
     private ImageView imageIV;
+    private Button helpBT;
 
     String username,content,loc,pay,kuaidi,name,accout;
 
@@ -48,6 +50,7 @@ public class SdActivity extends Activity {
         userName = (TextView) findViewById(R.id.tv_sd_name);
         accoutTV = (TextView) findViewById(R.id.tv_sd_accout);
         imageIV = (ImageView) findViewById(R.id.iv_sd_image);
+        helpBT = (Button) findViewById(R.id.btn_helpji);
         refresh();
     }
 
@@ -147,5 +150,15 @@ public class SdActivity extends Activity {
 
         }
     };
+
+    public void helpji()
+    {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
+    }
 
 }
