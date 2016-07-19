@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -178,7 +179,7 @@ public class RdActivity extends Activity{
                 try {
                     String Url;
                     Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/helpServlet?type=tohelp"+"&h_number="+user.getUserId()+"&h_phone="+user.getPhone()+"&num=" +
-                            num+"&helper="+user.getName();
+                            num+"&helper="+ URLEncoder.encode(user.getName(),"gbk");
                     Log.i("tag", Url);
                     URL url = new URL(Url);
                     URLConnection conn = url.openConnection();
@@ -205,7 +206,7 @@ public class RdActivity extends Activity{
                         msg.obj = "抢单失败，下次再快一点哦~！";
                         handler.sendMessage(msg);
                     }
-                    else if(user.getUserId() != null && user.getUserId().equals("-1"))
+                    else if(user.getUserId() != null && user.getUserId().equals("-2"))
                     {
                         Message msg = new Message();
                         msg.obj = "亲你调皮了~别接自己发的单哦~";
