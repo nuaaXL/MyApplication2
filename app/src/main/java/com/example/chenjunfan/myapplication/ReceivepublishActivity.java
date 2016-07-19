@@ -1,6 +1,7 @@
 package com.example.chenjunfan.myapplication;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -27,7 +28,7 @@ import java.util.List;
  * Created by chenjunfan on 16/7/10.
  */
 public class ReceivepublishActivity extends Activity {
-
+    private ProgressDialog prodialog;
     private ImageView imageBack;
     private EditText contentET;
     private EditText locET;
@@ -67,6 +68,11 @@ public class ReceivepublishActivity extends Activity {
 
     public void rsubmit(View view)
     {
+        prodialog=new ProgressDialog(ReceivepublishActivity.this);
+        prodialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        prodialog.setIndeterminate(true);
+        prodialog.setMessage("正在发布");
+
 
 
         Thread t = new Thread(new Runnable() {
@@ -125,6 +131,7 @@ public class ReceivepublishActivity extends Activity {
                     handler.sendMessage(msg);
                 }
                 else {
+                    handlershow.sendMessage(new Message());
                     Request request = new Request();
 
                     try{
@@ -157,6 +164,8 @@ public class ReceivepublishActivity extends Activity {
                             db.execSQL("update usertb set point ="+user.getPoint());
 
                             handler.sendMessage(msg);
+                            handlerunshow.sendMessage(new Message());
+
 //                            SharedPreferences pre = getSharedPreferences("publishflag",MODE_PRIVATE);
 //                            SharedPreferences.Editor editor = pre.edit();
 //                            editor.putString("flag","1");
@@ -170,11 +179,17 @@ public class ReceivepublishActivity extends Activity {
                         {
                             msg.obj="失败";
                             handler.sendMessage(msg);
+                            handlerunshow.sendMessage(new Message());
+
+
                         }
                         else
                         {
                             msg.obj="服务器问题";
                             handler.sendMessage(msg);
+                            handlerunshow.sendMessage(new Message());
+
+
                         }
                         db.close();
                         c.close();
@@ -183,6 +198,7 @@ public class ReceivepublishActivity extends Activity {
                     {
                         msg.obj="服务器出现问题，请稍候再试";
                         handler.sendMessage(msg);
+                        handlerunshow.sendMessage(new Message());
                         e.printStackTrace();
                     }
 
@@ -208,6 +224,29 @@ public class ReceivepublishActivity extends Activity {
             Toast.makeText(ReceivepublishActivity.this,msg.obj.toString(),Toast.LENGTH_SHORT).show();
         }
     };
+
+    Handler handlershow = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            prodialog.show();
+        }
+    };
+
+    Handler handlerunshow = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            prodialog.cancel();
+        }
+    };
+
 
 
 
