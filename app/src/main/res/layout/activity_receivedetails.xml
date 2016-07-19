@@ -311,13 +311,59 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/ld_rd_call"
+            android:visibility="gone"
+            >
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                >
+
+                <Button
+                    android:id="@+id/btn_call"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:text="拨打电话"
+                    android:onClick="makecall"
+                    android:textSize="25sp"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:background="@color/button_g"/>
+
+                <Button
+                    android:id="@+id/btn_message"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:text="发送短信"
+                    android:textSize="25sp"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:background="@color/button_g2"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/ld_rd_help"
+        >
         <Button
             android:id="@+id/btn_rd_helpqu"
             android:layout_width="match_parent"
@@ -333,55 +379,7 @@
     </RelativeLayout>
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-<<<<<<< HEAD
-            android:layout_alignParentStart="true"
-            android:visibility="gone"
-            >
-            <Button
-                android:id="@+id/btn_rd_call"
-                android:layout_width="match_parent"
-=======
-            android:layout_alignParentStart="true">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-            <Button
-                android:id="@+id/btn_call"
-                android:layout_width="0dp"
->>>>>>> master
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:text="拨打电话"
-                android:onClick="makecall"
-                android:textSize="25sp"
-                android:gravity="center"
-                android:textColor="#ffffff"
-                android:background="@color/button_g"/>
-
-                <Button
-                    android:id="@+id/btn_message"
-                    android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:layout_weight="1"
-                    android:text="发送短信"
-                    android:visibility="gone"
-                    android:textSize="25sp"
-                    android:gravity="center"
-                    android:textColor="#ffffff"
-                    android:background="@color/button_g2"/>
-
-            </LinearLayout>
-        </RelativeLayout>
 
 
     </FrameLayout>

@@ -40,7 +40,7 @@ public class RdActivity extends Activity{
     private Button callBT;
     private int num;
     private String username,name,loc,content,accout,note;
-    private RelativeLayout nameRL,phoneRL,packidRL;
+    private RelativeLayout nameRL,phoneRL,packidRL,helpRL,callRL;
     private Request request;
     private String packid,r_phone,r_name;
     private TextView rnameTV,rphoneTV,packidTV;
@@ -57,7 +57,9 @@ public class RdActivity extends Activity{
         contentTV = (TextView) findViewById(R.id.tv_rd_content);
         imageBack = (ImageView) findViewById(R.id.img_back);
         helpBT = (Button) findViewById(R.id.btn_rd_helpqu);
-        callBT = (Button) findViewById(R.id.btn_rd_call);
+        helpRL= (RelativeLayout) findViewById(R.id.ld_rd_help);
+        callRL= (RelativeLayout) findViewById(R.id.ld_rd_call);
+
         nameRL = (RelativeLayout) findViewById(R.id.RD_name);
         phoneRL= (RelativeLayout) findViewById(R.id.RD_phone);
         packidRL = (RelativeLayout) findViewById(R.id.RD_number);
@@ -133,8 +135,8 @@ public class RdActivity extends Activity{
             packidTV.setText(packid);
             if((flag%100-flag%10)/10==1)
             {
-                helpBT.setVisibility(View.GONE);
-                callBT.setVisibility(View.VISIBLE);
+               helpRL.setVisibility(View.GONE);
+                callRL.setVisibility(View.VISIBLE);
                 nameRL.setVisibility(View.VISIBLE);
                 phoneRL.setVisibility(View.VISIBLE);
                 packidRL.setVisibility(View.VISIBLE);
@@ -195,14 +197,18 @@ public class RdActivity extends Activity{
                     if (user.getUserId() != null && user.getUserId().equals("1")) {
                         Message msg = new Message();
                         msg.obj = "抢单成功！";
-                        helpBT.setVisibility(View.GONE);
-                        callBT.setVisibility(View.VISIBLE);
                         handler.sendMessage(msg);
                         handler2.sendMessage(msg);
                         //Toast.makeText(LoginActivity.this,"账户不存在！",Toast.LENGTH_SHORT).show();
-                    } else {
+                    } else if(user.getUserId() != null && user.getUserId().equals("-1")){
                         Message msg = new Message();
                         msg.obj = "抢单失败，下次再快一点哦~！";
+                        handler.sendMessage(msg);
+                    }
+                    else if(user.getUserId() != null && user.getUserId().equals("-1"))
+                    {
+                        Message msg = new Message();
+                        msg.obj = "亲你调皮了~别接自己发的单哦~";
                         handler.sendMessage(msg);
                     }
 
@@ -212,6 +218,7 @@ public class RdActivity extends Activity{
                 }
             }
         });
+        t.start();
     }
 
     Handler handler = new Handler() {
@@ -229,6 +236,8 @@ public class RdActivity extends Activity{
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            helpRL.setVisibility(View.GONE);
+            callRL.setVisibility(View.VISIBLE);
             nameRL.setVisibility(View.VISIBLE);
             phoneRL.setVisibility(View.VISIBLE);
             packidRL.setVisibility(View.VISIBLE);
