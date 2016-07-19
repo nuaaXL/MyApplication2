@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Deliver</string>
-    <string name="IP">121.40.220.73</string>
+    <string name="IP">192.168.191.1</string>
 </resources>

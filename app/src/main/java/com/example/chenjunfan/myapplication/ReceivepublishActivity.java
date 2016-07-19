@@ -35,6 +35,8 @@ public class ReceivepublishActivity extends Activity {
     private EditText rphoneET;
     private EditText pgidET;
     private EditText noteET;
+    private int point = 0;
+    private EditText pointET;
 
 
 
@@ -43,7 +45,7 @@ public class ReceivepublishActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_receivepublish);
-
+        pointET = (EditText) findViewById(R.id.et_rp_jifen);
         imageBack = (ImageView) findViewById(R.id.img_back);
         contentET= (EditText) findViewById(R.id.et_rp_content);
         locET = (EditText) findViewById(R.id.et_rp_loc);
@@ -70,6 +72,31 @@ public class ReceivepublishActivity extends Activity {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
+
+                User user = new User();
+
+                SQLiteDatabase db = openOrCreateDatabase("user.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
+                db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
+                        ",phone text,school text,point integer)");
+                Cursor c = db.rawQuery("select * from usertb", null);
+                if (c != null) {
+                    while (c.moveToNext()) {
+
+
+                        user.setUserId(c.getString(c.getColumnIndex("userId")));
+                        user.setName(c.getString(c.getColumnIndex("name")));
+                        user.setPasswd(c.getString(c.getColumnIndex("passwd")));
+                        user.setGender(c.getInt(c.getColumnIndex("gender")));
+                        user.setPhone(c.getString(c.getColumnIndex("phone")));
+                        user.setSchool(c.getString(c.getColumnIndex("school")));
+                        user.setPoint(c.getInt(c.getColumnIndex("point")));
+
+
+                    }
+                    point=Integer.parseInt(pointET.getText().toString());
+                }
+
+
                 Message msg=new Message();
                 if(contentET.getText().toString().equals(""))
                 {
@@ -91,35 +118,21 @@ public class ReceivepublishActivity extends Activity {
                     msg.obj="请输入收件人手机号码";
                     handler.sendMessage(msg);
                 }
+                else if((user.getPoint()-point)<0) {
+
+
+                    msg.obj="您的积分剩余为:"+user.getPoint()+",不足以悬赏，请重新输入悬赏积分！";
+                    handler.sendMessage(msg);
+                }
                 else {
                     Request request = new Request();
-                    User user = new User();
 
-                    SQLiteDatabase db = openOrCreateDatabase("user.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
-                    db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
-                            ",phone text,school text,point integer)");
-                    Cursor c = db.rawQuery("select * from usertb", null);
-                    if (c != null) {
-                        while (c.moveToNext()) {
-
-
-                            user.setUserId(c.getString(c.getColumnIndex("userId")));
-                            user.setName(c.getString(c.getColumnIndex("name")));
-                            user.setPasswd(c.getString(c.getColumnIndex("passwd")));
-                            user.setGender(c.getInt(c.getColumnIndex("gender")));
-                            user.setPhone(c.getString(c.getColumnIndex("phone")));
-                            user.setSchool(c.getString(c.getColumnIndex("school")));
-                            user.setPoint(c.getInt(c.getColumnIndex("point")));
-
-
-                        }
-                    }
                     try{
                         String Url;
                         Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/requestServlet" + "?type=add" +"&flag=2" +
                                 "&publisher="+ URLEncoder.encode(user.getName(),"gbk")+"&p_number="+user.getUserId()+"&p_phone="+user.getPhone()+"&user_loc="+ URLEncoder.encode(locET.getText().toString(),"gbk")+"&content="+URLEncoder.encode(contentET.getText().toString(),"gbk")+
                                 "&infor="+URLEncoder.encode(noteET.getText().toString(),"gbk")+"&r_nameORmessage="+URLEncoder.encode(rnameET.getText().toString(),"gbk")+"&r_locORpackage_loc="+URLEncoder.encode(locET.getText().toString(),"gbk")+"&r_phoneORphone="+rphoneET.getText().toString()+
-                                "&nullORpackage_Id="+URLEncoder.encode(pgidET.getText().toString(),"gbk");
+                                "&nullORpackage_Id="+URLEncoder.encode(pgidET.getText().toString(),"gbk")+"&point="+point;
 
                         Log.i("tag", Url);
                         URL url = new URL(Url);
@@ -141,6 +154,8 @@ public class ReceivepublishActivity extends Activity {
                             HomeActivity.ActivityA.finish();
                             Intent intent = new Intent(ReceivepublishActivity.this,HomeActivity.class);
                             msg.obj="发布成功";
+                            db.execSQL("update usertb set point ="+user.getPoint());
+
                             handler.sendMessage(msg);
 //                            SharedPreferences pre = getSharedPreferences("publishflag",MODE_PRIVATE);
 //                            SharedPreferences.Editor editor = pre.edit();
@@ -161,6 +176,8 @@ public class ReceivepublishActivity extends Activity {
                             msg.obj="服务器问题";
                             handler.sendMessage(msg);
                         }
+                        db.close();
+                        c.close();
                     }
                     catch (Exception e)
                     {
@@ -172,6 +189,7 @@ public class ReceivepublishActivity extends Activity {
 
 
                 }
+
 
 
             }
