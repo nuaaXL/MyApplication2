@@ -219,8 +219,6 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                     }
                     try{
                         Message msg2 = new Message();
-                        msg2.obj=flag+"";
-                        handler.sendMessage(msg2);
                         String Url;
                         Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/requestServlet" + "?type=add" +"&flag=" +flag+
                                 "&publisher="+URLEncoder.encode(user.getName(),"gbk")+"&p_number="+user.getUserId()+"&p_phone="+user.getPhone()+"&user_loc="+ URLEncoder.encode(locET.getText().toString(),"gbk")+"&content="+URLEncoder.encode(contentET.getText().toString(),"gbk")+
