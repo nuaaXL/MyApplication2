@@ -60,7 +60,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:layout_marginBottom="18dp"
-                    android:layout_marginTop="10dp" >
+                    android:layout_marginTop="10dp"
+                    android:paddingRight="15dp">
 
                     <ImageView
                         android:id="@+id/rd_helper_image"
@@ -105,22 +106,23 @@
 
                     </LinearLayout>
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/rd_callhelper"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/button_grey"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_toLeftOf="@+id/rd_messhelper"
                         android:layout_centerVertical="true"
-                        android:text="拨打电话"/>
-                    <Button
+                        android:src="@drawable/ic_call_black_24dp"
+                        android:background="@drawable/button_graycircle"/>
+                    <ImageButton
                         android:id="@+id/rd_messhelper"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/button_grey"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:text="发送短信"/>
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/ic_message_black_24dp"
+                        android:background="@drawable/button_graycircle"/>
 
 
                 </RelativeLayout>
