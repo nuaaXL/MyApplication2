@@ -68,7 +68,7 @@
                         android:orientation="horizontal" >
 
                         <TextView
-                            android:id="@+id/tv_rd_name"
+                            android:id="@+id/tv_prd_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="张俊东"
@@ -81,7 +81,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tv_rd_accout"
+                        android:id="@+id/tv_prd_accout"
                         android:layout_marginLeft="16dp"
                         android:layout_marginTop="5dp"
                         android:layout_below="@+id/ll_name"
@@ -114,7 +114,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_rd_content"
+                        android:id="@+id/tv_prd_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -144,7 +144,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_rd_loc"
+                        android:id="@+id/tv_prd_loc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -177,7 +177,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_rd_rname"
+                        android:id="@+id/tv_prd_rname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -210,7 +210,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_rd_phone"
+                        android:id="@+id/tv_prd_rphone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
@@ -243,7 +243,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_rd_number"
+                        android:id="@+id/tv_prd_pckid"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -275,7 +275,7 @@
 
                     <TextView
 
-                        android:id="@+id/tv_rd_note"
+                        android:id="@+id/tv_prd_note"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
@@ -316,7 +316,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:id="@+id/ld_rd_call"
+                android:id="@+id/rl_prd_call"
                 android:visibility="visible"
                 >
 
@@ -331,7 +331,7 @@
                     >
 
                     <Button
-                        android:id="@+id/btn_call"
+                        android:id="@+id/btn_prd_call"
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
@@ -343,7 +343,7 @@
                         android:background="@color/button_g"/>
 
                     <Button
-                        android:id="@+id/btn_message"
+                        android:id="@+id/btn_prd_message"
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
@@ -362,10 +362,10 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:id="@+id/my_rd_help"
+                android:id="@+id/rl_prd_finish"
                 >
                 <Button
-                    android:id="@+id/rd_help_finished"
+                    android:id="@+id/btn_prd_finished"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:visibility="gone"
