@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by chenjunfan on 16/7/20.
@@ -145,6 +146,8 @@ public class helpsdActivity extends Activity {
             noteTV.setText(note);
             if((tflag/10)%10==2)
             {
+                Toast.makeText(helpsdActivity.this,"in2",Toast.LENGTH_LONG).show();
+
                 callRL.setVisibility(View.GONE);
                 finishiRL.setVisibility(View.VISIBLE);
             }
