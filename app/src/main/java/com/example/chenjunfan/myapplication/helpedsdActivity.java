@@ -1,9 +1,12 @@
 package com.example.chenjunfan.myapplication;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +16,16 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.List;
 
 /**
  * Created by chenjunfan on 16/7/20.
@@ -24,6 +37,8 @@ public class helpedsdActivity extends Activity {
     private ImageButton callBT,msgBT;
     private String haccout,hname,content,userloc,pay,rname,rphone,raddress,kuaidi,note,hphone;
     private int num,tflag;
+    private ProgressDialog prodialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +183,163 @@ public class helpedsdActivity extends Activity {
                 finishedRL.setVisibility(View.VISIBLE);
             }
 
+        }
+    };
+
+    public void dsdmakecall(View view)
+    {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+hphone));
+        try {
+            startActivity(intent);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void dsdsendmsg(View view)
+    {
+        Uri smsToUri = Uri.parse("smsto:"+hphone);
+        Intent intent = new Intent(Intent.ACTION_SENDTO,smsToUri);
+        intent.putExtra("sms_body","你好，请问是你接了我的订单吗？");
+        startActivity(intent);
+    }
+
+    public void drdmakefinish(View view)
+    {
+        prodialog=new ProgressDialog(helpedsdActivity.this);
+        prodialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        prodialog.setIndeterminate(true);
+        prodialog.setMessage("正在完成订单");
+        handlershow.sendMessage(new Message());
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                User user = new User();
+                SQLiteDatabase db = openOrCreateDatabase("user.db", MODE_PRIVATE, null);
+                db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
+                        ",phone text,school text,point integer)");
+                Cursor c = db.rawQuery("select * from usertb", null);
+                if (c != null) {
+                    while (c.moveToNext()) {
+
+
+                        user.setUserId(c.getString(c.getColumnIndex("userId")));
+                        user.setName(c.getString(c.getColumnIndex("name")));
+                        user.setPasswd(c.getString(c.getColumnIndex("passwd")));
+                        user.setGender(c.getInt(c.getColumnIndex("gender")));
+                        user.setPhone(c.getString(c.getColumnIndex("phone")));
+                        user.setSchool(c.getString(c.getColumnIndex("school")));
+                        user.setPoint(c.getInt(c.getColumnIndex("point")));
+
+
+                    }
+                }
+
+                db.close();
+                c.close();
+
+                try {
+                    String Url;
+                    Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/helpServlet?type=helped"+"&num="+
+                            num;
+                    Log.i("tag", Url);
+                    URL url = new URL(Url);
+                    URLConnection conn = url.openConnection();
+                    conn.setRequestProperty("Accept-Charset", "gbk");
+                    conn.setRequestProperty("contentType", "gbk");
+                    conn.setReadTimeout(2000);
+                    InputStreamReader reader = new InputStreamReader(conn.getInputStream(), "gbk");
+                    BufferedReader br = new BufferedReader(reader);
+                    String str = br.readLine();
+                    System.out.println(str);
+                    Gson gson = new Gson();
+                    List<User> userList = gson.fromJson(str, new TypeToken<List<User>>() {
+                    }.getType());
+                    user = (User) userList.get(0);
+                    Log.i("user1", user.getUserId());
+                    if (user.getUserId() != null && user.getUserId().equals("1")) {
+                        Message msg = new Message();
+                        msg.obj = "订单完成";
+                        handler.sendMessage(msg);
+                        handler2.sendMessage(msg);
+                        handlerunshow.sendMessage(new Message());
+
+                        //Toast.makeText(LoginActivity.this,"账户不存在！",Toast.LENGTH_SHORT).show();
+                    } else if(user.getUserId() != null && user.getUserId().equals("-1")){
+                        Message msg = new Message();
+                        msg.obj = "订单已完成";
+                        handler.sendMessage(msg);
+                        handlerunshow.sendMessage(new Message());
+
+
+                    }
+                    else if(user.getUserId() != null && user.getUserId().equals("-2"))
+                    {
+                        Message msg = new Message();
+                        msg.obj = "完成订单失败，请稍候再试";
+                        handler.sendMessage(msg);
+                        handlerunshow.sendMessage(new Message());
+
+
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    handlerunshow.sendMessage(new Message());
+
+                }
+            }
+        });
+        t.start();
+    }
+
+
+    Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            Toast.makeText(helpedsdActivity.this,msg.obj.toString(),Toast.LENGTH_SHORT).show();
+        }
+    };
+    Handler handler2 = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            waitRL.setVisibility(View.GONE);
+            finishRL.setVisibility(View.GONE);
+            finishedRL.setVisibility(View.VISIBLE);
+//            behelp=1;
+//            SharedPreferences pre = getSharedPreferences("refreshflag",MODE_PRIVATE);
+//            SharedPreferences.Editor editor = pre.edit();
+//            editor.putInt("flag",behelp);
+//            editor.commit();
+
+        }
+    };
+    Handler handlershow = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            prodialog.show();
+        }
+    };
+    Handler handlerunshow = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            prodialog.cancel();
         }
     };
 }

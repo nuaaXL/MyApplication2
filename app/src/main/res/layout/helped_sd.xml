@@ -110,6 +110,7 @@
 
                     <ImageButton
                         android:id="@+id/btn_dsd_call"
+                        android:onClick="dsdmakecall"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_toLeftOf="@+id/btn_dsd_msg"
@@ -118,6 +119,7 @@
                         android:background="@drawable/button_graycircle"/>
                     <ImageButton
                         android:id="@+id/btn_dsd_msg"
+                        android:onClick="dsdsendmsg"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_alignParentRight="true"
@@ -440,6 +442,7 @@
                     android:id="@+id/btn_dsd_finish"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
+                    android:onClick="dsdmakefinish"
                     android:text="确认订单完成"
                     android:textSize="25sp"
                     android:gravity="center"
