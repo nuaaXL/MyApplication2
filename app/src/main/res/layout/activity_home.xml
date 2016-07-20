@@ -6,27 +6,10 @@
     android:orientation="vertical">
 
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
+
 
         <include layout="@layout/layout_title"/>
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="60dp">
-            <ImageView
-                android:id="@+id/refresh"
-                android:layout_width="40dp"
-                android:layout_height="22dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:contentDescription="@string/app_name"
-                android:src="@mipmap/refresh" />
-        </RelativeLayout>
-
-    </FrameLayout>
 
 
 
@@ -54,6 +37,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/swipe_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
 
             <com.example.chenjunfan.myapplication.LoadListView
                 android:layout_width="match_parent"
@@ -64,6 +52,8 @@
                 android:id="@+id/LVmain"
                 >
             </com.example.chenjunfan.myapplication.LoadListView>
+
+                </android.support.v4.widget.SwipeRefreshLayout>
 
                 <View
                     android:layout_width="match_parent"
