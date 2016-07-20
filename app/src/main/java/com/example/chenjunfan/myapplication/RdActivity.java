@@ -2,9 +2,11 @@ package com.example.chenjunfan.myapplication;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -43,12 +45,14 @@ public class RdActivity extends Activity{
     private TextView noteTV;
     private Button helpBT;
     private Button callBT;
+    private Button smsgBT;
     private int num;
     private String username,name,loc,content,accout,note;
     private RelativeLayout nameRL,phoneRL,packidRL,helpRL,callRL;
     private Request request;
     private String packid,r_phone,r_name;
     private TextView rnameTV,rphoneTV,packidTV;
+    private String pphone;
     int flag;
     String number;
     int behelp=0;
@@ -64,8 +68,10 @@ public class RdActivity extends Activity{
         contentTV = (TextView) findViewById(R.id.tv_rd_content);
         imageBack = (ImageView) findViewById(R.id.img_back);
         helpBT = (Button) findViewById(R.id.btn_rd_helpqu);
+        callBT = (Button) findViewById(R.id.btn_rd_call);
         helpRL= (RelativeLayout) findViewById(R.id.ld_rd_help);
         callRL= (RelativeLayout) findViewById(R.id.ld_rd_call);
+        smsgBT = (Button) findViewById(R.id.btn_rd_message);
 
         nameRL = (RelativeLayout) findViewById(R.id.RD_name);
         phoneRL= (RelativeLayout) findViewById(R.id.RD_phone);
@@ -117,6 +123,8 @@ public class RdActivity extends Activity{
                         r_name=c.getString(c.getColumnIndex("r_nameORmessage"));
                         flag = c.getInt(c.getColumnIndex("flag"));
                         number = c.getString(c.getColumnIndex("p_number"));
+                        pphone = c.getString(c.getColumnIndex("p_phone"));
+
                     }
                 }
 
@@ -332,6 +340,26 @@ public class RdActivity extends Activity{
             }
         }
     };
+    public void makerdcall(View view)
+    {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+pphone));
+        try {
+            startActivity(intent);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void sendrdmsg(View view)
+    {
+        Uri smsToUri = Uri.parse("smsto:"+pphone);
+        Intent intent = new Intent(Intent.ACTION_SENDTO,smsToUri);
+        intent.putExtra("sms_body","你好，我已接单");
+        startActivity(intent);
+    }
+
+
 
 
 }
