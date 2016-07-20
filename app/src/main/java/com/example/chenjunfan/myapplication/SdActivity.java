@@ -2,9 +2,11 @@ package com.example.chenjunfan.myapplication;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -43,6 +45,7 @@ public class SdActivity extends Activity {
     private Button helpBT;
     private RelativeLayout nameRL,phoneRL,addressRL,helpRL,callRL;
     private TextView rnameTV,rphoneTV,raddressTV,noteTV;
+    private String pphone;
     String rname,rphone,raddress,note;
     private int num;
     int tflag;
@@ -113,6 +116,7 @@ public class SdActivity extends Activity {
                         raddress=(c.getString(c.getColumnIndex("r_locORpackage_loc")));
                         note=(c.getString(c.getColumnIndex("infor")));
                         number=c.getString(c.getColumnIndex("p_number"));
+                    pphone=c.getString(c.getColumnIndex("p_phone"));
                     freshhandler.sendMessage(new Message());
 
                         tflag = c.getInt(c.getColumnIndex("flag"));
@@ -367,6 +371,24 @@ public class SdActivity extends Activity {
             noteTV.setText(note);
         }
     };
+    public void makesdcall(View view)
+    {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+pphone));
+        try {
+            startActivity(intent);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void sendsdmsg(View view)
+    {
+        Uri smsToUri = Uri.parse("smsto:"+pphone);
+        Intent intent = new Intent(Intent.ACTION_SENDTO,smsToUri);
+        intent.putExtra("sms_body","你好，我已接单");
+        startActivity(intent);
+    }
 
 
 
