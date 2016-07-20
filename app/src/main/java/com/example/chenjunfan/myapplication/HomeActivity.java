@@ -10,6 +10,7 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,7 +37,8 @@ import java.util.Map;
 /**
  * Created by chenjunfan on 16/7/10.
  */
-public class HomeActivity extends Activity implements AdapterView.OnItemClickListener,LoadListView.ILoadListener {
+public class HomeActivity extends Activity implements AdapterView.OnItemClickListener,LoadListView.ILoadListener,SwipeRefreshLayout.OnRefreshListener {
+    private SwipeRefreshLayout mSwipeLayout;
     private ImageView homeIV;
     private ImageView meIV;
     private RelativeLayout homeRL;
@@ -179,6 +181,10 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         homeTV = (TextView) findViewById(R.id.tv_home);
         meTV = (TextView) findViewById(R.id.tv_me);
         timeTV = (TextView) findViewById(R.id.item_time);
+
+        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setColorSchemeResources(R.color.button_g);
 
         refresh();
 
@@ -524,6 +530,19 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         },1700);
 
     }
+
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(false);
+                datamapList.removeAll(datamapList);
+                num=-1;
+                getDataFromNetwork();
+            }
+        }, 2000);
+    }
+
 }
 
 
