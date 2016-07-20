@@ -113,9 +113,11 @@
                         android:layout_toLeftOf="@+id/btn_drd_msg"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_call_black_24dp"
+                        android:onClick="drdmakecall"
                         android:background="@drawable/button_graycircle"/>
                     <ImageButton
                         android:id="@+id/btn_drd_msg"
+                        android:onClick="drdsendmsg"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_alignParentRight="true"
@@ -385,6 +387,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:text="确认订单完成"
+                    android:onClick="drdmakefinish"
                     android:textSize="25sp"
                     android:gravity="center"
                     android:textColor="#ffffff"
