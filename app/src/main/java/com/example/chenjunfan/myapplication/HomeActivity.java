@@ -111,7 +111,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             int flag=mid.getFlag();
             flag=flag-(flag/10*10);
 
-            if(mid.getNum()!=0&&flag==2)//寄
+            if(mid.getNum()!=0&&flag==2)
             {
                 map.put("IV_flag",R.drawable.rflag);
                 map.put("content",mid.getContent());
@@ -125,12 +125,12 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 map.put("time",str);
                 datamapList.add(map);
             }
-            else if(mid.getNum()!=0&&flag==1)
+            else if(mid.getNum()!=0&&flag==1)//寄
             {
                 map.put("IV_flag",R.drawable.sflag);
                 map.put("content",mid.getContent());
                 map.put("flag",mid.getFlag());
-                map.put("location",mid.getR_locORpackage_loc());
+                map.put("location",mid.getUser_loc());
                 map.put("num",mid.getNum());
                 map.put("name",mid.publisher);
                 String str = mid.getTime();
