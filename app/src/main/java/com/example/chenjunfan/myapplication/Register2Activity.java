@@ -253,7 +253,7 @@ public class Register2Activity extends Activity implements View.OnClickListener 
                         URLConnection conn = url.openConnection();
                         conn.setRequestProperty("Accept-Charset", "gbk");
                         conn.setRequestProperty("contentType", "gbk");
-                        conn.setReadTimeout(3000);
+                        conn.setReadTimeout(4000);
                         InputStreamReader reader = new InputStreamReader(conn.getInputStream(), "gbk");
                         BufferedReader br = new BufferedReader(reader);
                         String str = br.readLine();
