@@ -1,5 +1,7 @@
 package com.example.chenjunfan.myapplication;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -30,8 +33,8 @@ import java.util.Map;
 /**
  * Created by 李计芃 on 2016/7/17.
  */
-public class helped extends Fragment {
-    private User user =new User();
+public class helped extends Fragment implements AdapterView.OnItemClickListener {
+    private User user = new User();
     private List<Request> dataList = new ArrayList<Request>();
     private List<Map<String, Object>> datamapList = new ArrayList<Map<String, Object>>();
     private ListView mainList;
@@ -41,12 +44,13 @@ public class helped extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
-        View view= inflater.inflate(R.layout.helped, container, false);
+        View view = inflater.inflate(R.layout.helped, container, false);
 
         mainList = (ListView) view.findViewById(R.id.LVhelp_send);
 
         mainListAdp = new SimpleAdapter(getActivity(), datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content", "flag", "location", "num", "name", "time"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content, R.id.flag, R.id.item_place, R.id.tv_num, R.id.item_username, R.id.item_time});
         mainList.setAdapter(mainListAdp);
+        mainList.setOnItemClickListener(this);
         getDataFromNetwork();
 
 
@@ -70,7 +74,7 @@ public class helped extends Fragment {
             @Override
             public void run() {
                 try {
-                    SQLiteDatabase db3 = getActivity().openOrCreateDatabase("request.db",getActivity().MODE_PRIVATE,null);
+                    SQLiteDatabase db3 = getActivity().openOrCreateDatabase("request.db", getActivity().MODE_PRIVATE, null);
 
                     db3.execSQL("create table if not exists myrequesttb(num integer,time text,flag integer,publisher text" +
                             ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
@@ -208,7 +212,7 @@ public class helped extends Fragment {
             map.put("r_phoneORphone", mid.getR_phoneORphone());
             map.put("nullORpackage", mid.getNullORpackage_Id());*/
             int flag = mid.getFlag();
-            flag = flag%10;
+            flag = flag % 10;
 
             if (mid.getNum() != 0 && flag == 2)//寄
             {
@@ -269,4 +273,33 @@ public class helped extends Fragment {
 
     };
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        try {
+
+
+            Object obj = datamapList.get(i).get("flag");
+            Object obj2 = datamapList.get(i).get("num");
+            int n = (int) obj2;
+            int temp = (int) obj;
+            SharedPreferences pre = getActivity().getSharedPreferences("clickitemnum", getActivity().MODE_PRIVATE);
+            SharedPreferences.Editor editor = pre.edit();
+            editor.putInt("num", n);
+            Log.i("putnum", "num: " + n);
+            editor.commit();
+            if (temp % 10 == 2) {//取
+                Log.i("tag", "取");
+                Intent intent = new Intent(getActivity(), helpedrdActivity.class);
+                startActivity(intent);
+            } else {//寄
+                Intent intent = new Intent(getActivity(), helpedsdActivity.class);
+                Log.i("tag", "寄");
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
+
