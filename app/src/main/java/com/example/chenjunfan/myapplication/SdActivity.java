@@ -47,6 +47,7 @@ public class SdActivity extends Activity {
     private int num;
     int tflag;
     private String number;
+    int behelp=0;
 
     String username,content,loc,pay,kuaidi,name,accout;
 
@@ -236,7 +237,6 @@ public class SdActivity extends Activity {
                 if (c != null) {
                     while (c.moveToNext()) {
 
-
                         user.setUserId(c.getString(c.getColumnIndex("userId")));
                         user.setName(c.getString(c.getColumnIndex("name")));
                         user.setPasswd(c.getString(c.getColumnIndex("passwd")));
@@ -275,7 +275,6 @@ public class SdActivity extends Activity {
                         Message msg = new Message();
                         msg.obj = "抢单成功！";
                         handlerunshow.sendMessage(new Message());
-
                         handler.sendMessage(msg);
                         handler4.sendMessage(msg);
                         //Toast.makeText(LoginActivity.this,"账户不存在！",Toast.LENGTH_SHORT).show();
@@ -325,6 +324,11 @@ public class SdActivity extends Activity {
             nameRL.setVisibility(View.VISIBLE);
             phoneRL.setVisibility(View.VISIBLE);
             addressRL.setVisibility(View.VISIBLE);
+           behelp=1;
+            SharedPreferences pre = getSharedPreferences("refreshflag",MODE_PRIVATE);
+            SharedPreferences.Editor editor = pre.edit();
+            editor.putInt("flag",behelp);
+            editor.commit();
 
         }
     };
@@ -363,6 +367,7 @@ public class SdActivity extends Activity {
             noteTV.setText(note);
         }
     };
+
 
 
 }
