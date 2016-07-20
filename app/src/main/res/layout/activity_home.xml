@@ -119,8 +119,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="0.03">
+                    android:layout_gravity="center_horizontal">
 
 
 
@@ -135,7 +134,8 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_marginLeft="15dp"
-                            android:background="@drawable/qqtouxiang" />
+                            android:src="@drawable/qqtouxiang"
+                            android:scaleType="centerCrop"/>
 
                         <LinearLayout
                             android:id="@+id/ll_name"
