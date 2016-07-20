@@ -75,7 +75,7 @@
 
 
                     <TextView
-                        android:id="@+id/sd_helper_accout"
+                        android:id="@+id/tv_dsd_haccount"
                         android:layout_marginLeft="16dp"
                         android:layout_marginTop="5dp"
                         android:layout_below="@+id/ll_name1"
@@ -97,27 +97,27 @@
                         android:orientation="horizontal" >
 
                     <TextView
-                        android:id="@+id/sd_helper_name"
+                        android:id="@+id/tv_dsd_hname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="张俊东"
                         android:textColor="#353535"
                         android:textSize="18sp"
                         android:layout_alignParentTop="true"
-                        android:layout_alignStart="@+id/sd_helper_accout" />
+                        android:layout_alignStart="@+id/tv_dsd_haccount" />
 
                     </LinearLayout>
 
                     <ImageButton
-                        android:id="@+id/sd_callhelper"
+                        android:id="@+id/btn_dsd_call"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_toLeftOf="@+id/sd_messhelper"
+                        android:layout_toLeftOf="@+id/btn_dsd_msg"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_call_black_24dp"
                         android:background="@drawable/button_graycircle"/>
                     <ImageButton
-                        android:id="@+id/sd_messhelper"
+                        android:id="@+id/btn_dsd_msg"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_alignParentRight="true"
@@ -152,7 +152,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_sd_content"
+                        android:id="@+id/tv_dsd_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -182,7 +182,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_sd_loc"
+                        android:id="@+id/tv_dsd_userloc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -213,7 +213,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_sd_pay"
+                        android:id="@+id/tv_dsd_pay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -244,7 +244,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_sd_rname"
+                        android:id="@+id/tv_dsd_rname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -277,7 +277,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_sd_phone"
+                        android:id="@+id/tv_dsd_rphone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -310,7 +310,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_sd_address"
+                        android:id="@+id/tv_dsd_raddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -346,7 +346,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
-                        android:id="@+id/tv_sd_kuaidi"
+                        android:id="@+id/tv_dsd_kuaidi"
                         android:layout_toRightOf="@+id/tv_kuaidi"
                         android:hint="顺丰快递"
                         android:layout_centerVertical="true"
@@ -376,7 +376,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_sd_beizhu"
+                        android:id="@+id/tv_dsd_note"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
@@ -408,13 +408,14 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:id="@+id/rl_dsd_wait"
+                >
 
                 <Button
-                    android:id="@+id/sd_helped_wait"
+                    android:id="@+id/btn_dsd_wait"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:visibility="visible"
                     android:text="等待用户接单"
                     android:textSize="25sp"
                     android:gravity="center"
@@ -432,14 +433,13 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/my_sd_helped"
+                android:id="@+id/rl_dsd_finish"
                 >
 
                 <Button
-                    android:id="@+id/sd_helped_finish"
+                    android:id="@+id/btn_dsd_finish"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:visibility="gone"
                     android:text="确认订单完成"
                     android:textSize="25sp"
                     android:gravity="center"
@@ -453,13 +453,13 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/rl_dsd_finished"
                 >
 
                 <Button
-                    android:id="@+id/sd_helped_finished"
+                    android:id="@+id/btn_dsd_finished"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:visibility="gone"
                     android:text="订单已完成"
                     android:textSize="25sp"
                     android:gravity="center"
