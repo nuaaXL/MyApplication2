@@ -1,5 +1,7 @@
 package com.example.chenjunfan.myapplication;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -30,7 +33,7 @@ import java.util.Map;
 /**
  * Created by 李计芃 on 2016/7/17.
  */
-public class help extends Fragment {
+public class help extends Fragment implements AdapterView.OnItemClickListener {
     private User user =new User();
     private List<Request> dataList = new ArrayList<Request>();
     private List<Map<String, Object>> datamapList = new ArrayList<Map<String, Object>>();
@@ -49,6 +52,7 @@ public class help extends Fragment {
 
         mainListAdp = new SimpleAdapter(getActivity(), datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content", "flag", "location", "num", "name", "time"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content, R.id.flag, R.id.item_place, R.id.tv_num, R.id.item_username, R.id.item_time});
         mainList.setAdapter(mainListAdp);
+        mainList.setOnItemClickListener(this);
         getDataFromNetwork();
 
 
@@ -220,7 +224,7 @@ public class help extends Fragment {
                 map.put("IV_flag", R.drawable.sflag);
                 map.put("content", mid.getContent());
                 map.put("flag", mid.getFlag());
-                map.put("location", mid.getR_locORpackage_loc());
+                map.put("location", mid.getUser_loc());
                 map.put("num", mid.getNum());
                 map.put("name", mid.publisher);
                 String str = mid.getTime();
@@ -261,4 +265,35 @@ public class help extends Fragment {
         }
 
     };
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        try {
+
+
+
+            Object obj=datamapList.get(i).get("flag");
+            Object obj2=datamapList.get(i).get("num");
+            int n=(int)obj2;
+            int temp = (int)obj;
+            SharedPreferences pre=getActivity().getSharedPreferences("clickitemnum",getActivity().MODE_PRIVATE);
+            SharedPreferences.Editor editor =pre.edit();
+            editor.putInt("num",n);
+            Log.i("putnum", "num: "+ n);
+            editor.commit();
+            if (temp%10==2) {//取
+                Log.i("tag", "取");
+                Intent intent = new Intent(getActivity(), helprdActivity.class);
+                startActivity(intent);
+            } else {//寄
+                Intent intent = new Intent(getActivity(), helpsdActivity.class);
+                Log.i("tag", "寄");
+                startActivity(intent);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 }

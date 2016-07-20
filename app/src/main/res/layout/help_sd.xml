@@ -56,7 +56,7 @@
                     android:layout_marginTop="10dp" >
 
                     <ImageView
-                        android:id="@+id/iv_sd_image"
+                        android:id="@+id/iv_psd_touxiang"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_marginLeft="15dp"
@@ -68,13 +68,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
                         android:layout_marginTop="10dp"
-                        android:layout_toRightOf="@id/iv_avatar"
+                        android:layout_toRightOf="@id/iv_psd_touxiang"
                         android:orientation="horizontal" >
 
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tv_sd_accout"
+                        android:id="@+id/tv_psd_accout"
                         android:layout_marginLeft="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -82,17 +82,17 @@
                         android:textColor="#AAAAAA"
                         android:textSize="14sp"
                         android:layout_alignParentBottom="true"
-                        android:layout_toEndOf="@+id/iv_sd_image" />
+                        android:layout_toEndOf="@+id/iv_psd_touxiang" />
 
                     <TextView
-                        android:id="@+id/tv_sd_name"
+                        android:id="@+id/tv_psd_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="张俊东"
                         android:textColor="#353535"
                         android:textSize="18sp"
                         android:layout_alignParentTop="true"
-                        android:layout_alignStart="@+id/tv_sd_accout" />
+                        android:layout_alignStart="@+id/tv_psd_accout" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -113,7 +113,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_sd_content"
+                        android:id="@+id/tv_psd_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -143,7 +143,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_sd_loc"
+                        android:id="@+id/tv_psd_loc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -174,7 +174,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_sd_pay"
+                        android:id="@+id/tv_psd_pay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -205,7 +205,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_sd_rname"
+                        android:id="@+id/tv_psd_rname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -238,7 +238,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_sd_phone"
+                        android:id="@+id/tv_psd_rphone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -271,7 +271,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_sd_address"
+                        android:id="@+id/tv_psd_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -307,7 +307,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
-                        android:id="@+id/tv_sd_kuaidi"
+                        android:id="@+id/tv_psd_kuaidi"
                         android:layout_toRightOf="@+id/tv_kuaidi"
                         android:hint="顺丰快递"
                         android:layout_centerVertical="true"
@@ -337,7 +337,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_sd_beizhu"
+                        android:id="@+id/tv_psd_beizhu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
@@ -374,7 +374,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:id="@+id/rl_sd_call"
+                android:id="@+id/rl_psd_call"
                 android:visibility="visible"
                 >
 
@@ -389,7 +389,7 @@
                     >
 
                     <Button
-                        android:id="@+id/btn_call"
+                        android:id="@+id/btn_psd_call"
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
@@ -401,7 +401,7 @@
                         android:background="@color/button_g"/>
 
                     <Button
-                        android:id="@+id/btn_message"
+                        android:id="@+id/btn_psd_message"
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
@@ -417,14 +417,15 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/my_sd_help"
+                android:id="@+id/rl_psd_finish"
+                android:visibility="gone"
+
                 >
 
                 <Button
-                    android:id="@+id/sd_help_finished"
+                    android:id="@+id/btn_help_finished"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:visibility="gone"
                     android:text="订单已完成"
                     android:textSize="25sp"
                     android:gravity="center"

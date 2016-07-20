@@ -55,6 +55,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".Help_odersActivity" />
+        <activity android:name=".helprdActivity" />
+        <activity android:name=".helpedrdActivity" />
+        <activity android:name=".helpedsdActivity" />
+        <activity android:name=".helpsdActivity" />
+
+
+
+
 
     </application>
 
