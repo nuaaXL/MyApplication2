@@ -201,7 +201,7 @@ public class help extends Fragment {
             map.put("r_phoneORphone", mid.getR_phoneORphone());
             map.put("nullORpackage", mid.getNullORpackage_Id());*/
             int flag = mid.getFlag();
-            flag = flag - (flag / 10 * 10);
+            flag = flag%10;
 
             if (mid.getNum() != 0 && flag == 2)//寄
             {

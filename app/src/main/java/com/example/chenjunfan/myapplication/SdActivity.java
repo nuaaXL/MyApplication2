@@ -1,22 +1,36 @@
 package com.example.chenjunfan.myapplication;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.List;
 
 /**
  * Created by chenjunfan on 16/7/11.
  */
 public class SdActivity extends Activity {
+    private ProgressDialog prodialog;
 
     private TextView contentTV;
     private TextView locTV;
@@ -27,6 +41,9 @@ public class SdActivity extends Activity {
     private TextView accoutTV;
     private ImageView imageIV;
     private Button helpBT;
+    private RelativeLayout nameRL,phoneRL,addressRL,helpRL,callRL;
+    private TextView rnameTV,rphoneTV,raddressTV,noteTV;
+    private int num;
 
     String username,content,loc,pay,kuaidi,name,accout;
 
@@ -36,6 +53,16 @@ public class SdActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_senddetails);
+        nameRL= (RelativeLayout) findViewById(R.id.SD_name);
+        rnameTV= (TextView) findViewById(R.id.tv_sd_rname);
+        phoneRL= (RelativeLayout) findViewById(R.id.SD_phone);
+        rphoneTV= (TextView) findViewById(R.id.tv_sd_phone);
+        addressRL= (RelativeLayout) findViewById(R.id.SD_address);
+        raddressTV= (TextView) findViewById(R.id.tv_sd_address);
+        helpRL= (RelativeLayout) findViewById(R.id.rl_sd_help);
+        callRL= (RelativeLayout) findViewById(R.id.rl_sd_call);
+        noteTV= (TextView) findViewById(R.id.tv_sd_beizhu);
+
         imageBack = (ImageView) findViewById(R.id.img_back);
         imageBack.setOnClickListener(new View.OnClickListener() {
 
@@ -64,7 +91,7 @@ public class SdActivity extends Activity {
             @Override
             public void run() {
                 SharedPreferences pre = getSharedPreferences("clickitemnum", MODE_PRIVATE);
-                int num = pre.getInt("num", 0);
+                num = pre.getInt("num", 0);
                 SQLiteDatabase db = openOrCreateDatabase("request.db", MODE_PRIVATE, null);
                 db.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
                         ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
@@ -77,6 +104,10 @@ public class SdActivity extends Activity {
                     while (c.moveToNext()) {
                         content = c.getString(c.getColumnIndex("content"));
                         loc = c.getString(c.getColumnIndex("user_loc"));
+                        rnameTV.setText(c.getString(c.getColumnIndex("r_nameORmessage")));
+                        rphoneTV.setText(c.getString(c.getColumnIndex("r_phoneORphone")));
+                        raddressTV.setText(c.getString(c.getColumnIndex("r_locORpackage_loc")));
+                        noteTV.setText(c.getString(c.getColumnIndex("infor")));
                         int tflag = c.getInt(c.getColumnIndex("flag"));
 
                         if ((tflag-((tflag/1000)*1000))/100==1) {
@@ -151,14 +182,136 @@ public class SdActivity extends Activity {
         }
     };
 
-    public void helpji()
+    public void helpji(View view)
     {
+        prodialog=new ProgressDialog(SdActivity.this);
+        prodialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        prodialog.setIndeterminate(true);
+        prodialog.setMessage("正在抢单中");
+        handlershow.sendMessage(new Message());
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
+                User user = new User();
+                SQLiteDatabase db = openOrCreateDatabase("user.db", MODE_PRIVATE, null);
+                db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
+                        ",phone text,school text,point integer)");
+                Cursor c = db.rawQuery("select * from usertb", null);
+                if (c != null) {
+                    while (c.moveToNext()) {
 
+
+                        user.setUserId(c.getString(c.getColumnIndex("userId")));
+                        user.setName(c.getString(c.getColumnIndex("name")));
+                        user.setPasswd(c.getString(c.getColumnIndex("passwd")));
+                        user.setGender(c.getInt(c.getColumnIndex("gender")));
+                        user.setPhone(c.getString(c.getColumnIndex("phone")));
+                        user.setSchool(c.getString(c.getColumnIndex("school")));
+                        user.setPoint(c.getInt(c.getColumnIndex("point")));
+
+
+                    }
+                }
+
+                db.close();
+                c.close();
+
+                try {
+                    String Url;
+                    Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/helpServlet?type=tohelp"+"&h_number="+user.getUserId()+"&h_phone="+user.getPhone()+"&num=" +
+                            num+"&helper="+ URLEncoder.encode(user.getName(),"gbk");
+                    Log.i("tag", Url);
+                    URL url = new URL(Url);
+                    URLConnection conn = url.openConnection();
+                    conn.setRequestProperty("Accept-Charset", "gbk");
+                    conn.setRequestProperty("contentType", "gbk");
+                    conn.setReadTimeout(2000);
+                    InputStreamReader reader = new InputStreamReader(conn.getInputStream(), "gbk");
+                    BufferedReader br = new BufferedReader(reader);
+                    String str = br.readLine();
+                    System.out.println(str);
+                    Gson gson = new Gson();
+                    List<User> userList = gson.fromJson(str, new TypeToken<List<User>>() {
+                    }.getType());
+                    user = (User) userList.get(0);
+                    Log.i("user1", user.getUserId());
+                    if (user.getUserId() != null && user.getUserId().equals("1")) {
+                        Message msg = new Message();
+                        msg.obj = "抢单成功！";
+                        handlerunshow.sendMessage(new Message());
+
+                        handler.sendMessage(msg);
+                        handler4.sendMessage(msg);
+                        //Toast.makeText(LoginActivity.this,"账户不存在！",Toast.LENGTH_SHORT).show();
+                    } else if(user.getUserId() != null && user.getUserId().equals("-1")){
+                        Message msg = new Message();
+                        msg.obj = "抢单失败，下次再快一点哦~！";
+                        handler.sendMessage(msg);
+                        handlerunshow.sendMessage(new Message());
+
+                    }
+                    else if(user.getUserId() != null && user.getUserId().equals("-2"))
+                    {
+                        Message msg = new Message();
+                        msg.obj = "亲你调皮了~别接自己发的单哦~";
+                        handler.sendMessage(msg);
+                        handlerunshow.sendMessage(new Message());
+
+                    }
+
+
+                } catch (Exception e) {
+                    handlerunshow.sendMessage(new Message());
+
+                }
             }
         });
+        t.start();
     }
+
+    Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            Toast.makeText(SdActivity.this,msg.obj.toString(),Toast.LENGTH_SHORT).show();
+        }
+    };
+    Handler handler4 = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            helpRL.setVisibility(View.GONE);
+            callRL.setVisibility(View.VISIBLE);
+            nameRL.setVisibility(View.VISIBLE);
+            phoneRL.setVisibility(View.VISIBLE);
+            addressRL.setVisibility(View.VISIBLE);
+
+        }
+    };
+    Handler handlershow = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            prodialog.show();
+        }
+    };
+    Handler handlerunshow = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            prodialog.cancel();
+        }
+    };
+
 
 }

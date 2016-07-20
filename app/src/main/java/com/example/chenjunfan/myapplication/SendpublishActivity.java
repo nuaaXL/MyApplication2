@@ -1,6 +1,7 @@
 package com.example.chenjunfan.myapplication;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -46,6 +47,8 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
     private int flag=1;
     private int point=0;
     private int restpoint=0;
+    private ProgressDialog prodialog;
+
 
 
     Handler handler = new Handler() {
@@ -56,6 +59,26 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
             super.handleMessage(msg);
 
             Toast.makeText(SendpublishActivity.this,msg.obj.toString(),Toast.LENGTH_SHORT).show();
+        }
+    };
+    Handler handlershow = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            prodialog.show();
+        }
+    };
+    Handler handlerunshow = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            prodialog.cancel();
         }
     };
 
@@ -156,6 +179,10 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
 
     public void submit(View view)
     {
+        prodialog=new ProgressDialog(SendpublishActivity.this);
+        prodialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        prodialog.setIndeterminate(true);
+        prodialog.setMessage("正在发布");
 
 
         Thread t = new Thread(new Runnable() {
@@ -180,52 +207,40 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                         user.setSchool(c.getString(c.getColumnIndex("school")));
                         user.setPoint(c.getInt(c.getColumnIndex("point")));
                     }
-                    point=Integer.parseInt(pointET.getText().toString());
+                    point = Integer.parseInt(pointET.getText().toString());
                 }
 
-                Message msg=new Message();
-                if(contentET.getText().toString().equals(""))
-                {
-                    msg.obj="请输入包裹内容";
+                Message msg = new Message();
+                if (contentET.getText().toString().equals("")) {
+                    msg.obj = "请输入包裹内容";
                     handler.sendMessage(msg);
-                }
-                else if(locET.getText().toString().equals(""))
-                {
-                    msg.obj="请输入您的位置";
+                } else if (locET.getText().toString().equals("")) {
+                    msg.obj = "请输入您的位置";
                     handler.sendMessage(msg);
-                }
-                else if(nameET.getText().toString().equals(""))
-                {
-                    msg.obj="请输入您的姓名";
+                } else if (nameET.getText().toString().equals("")) {
+                    msg.obj = "请输入您的姓名";
                     handler.sendMessage(msg);
-                }
-                else if(phoneET.getText().toString().equals(""))
-                {
-                    msg.obj="请输入您的手机号码";
+                } else if (phoneET.getText().toString().equals("")) {
+                    msg.obj = "请输入您的手机号码";
                     handler.sendMessage(msg);
-                }
-                else if((user.getPoint()-point)<0) {
+                } else if ((user.getPoint() - point) < 0) {
 
 
-                    msg.obj="您的积分剩余为:"+user.getPoint()+",不足以悬赏，请重新输入悬赏积分！";
+                    msg.obj = "您的积分剩余为:" + user.getPoint() + ",不足以悬赏，请重新输入悬赏积分！";
                     handler.sendMessage(msg);
-                }
-                else {
+                } else {
+                    handlershow.sendMessage(new Message());
+
                     Request request = new Request();
 
 
-
-
-                    }
-                    try{
+                    try {
                         Message msg2 = new Message();
-                        msg2.obj=flag+"";
-                        handler.sendMessage(msg2);
                         String Url;
-                        Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/requestServlet" + "?type=add" +"&flag=" +flag+
-                                "&publisher="+URLEncoder.encode(user.getName(),"gbk")+"&p_number="+user.getUserId()+"&p_phone="+user.getPhone()+"&user_loc="+ URLEncoder.encode(locET.getText().toString(),"gbk")+"&content="+URLEncoder.encode(contentET.getText().toString(),"gbk")+
-                                "&infor="+URLEncoder.encode(noteET.getText().toString(),"gbk")+"&r_nameORmessage="+URLEncoder.encode(nameET.getText().toString(),"gbk")+"&r_locORpackage_loc="+URLEncoder.encode(addressET.getText().toString(),"gbk")+"&r_phoneORphone="+phoneET.getText().toString()+
-                                "&nullORpackage_Id="+URLEncoder.encode("xx","gbk")+"&point="+point;
+                        Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/requestServlet" + "?type=add" + "&flag=" + flag +
+                                "&publisher=" + URLEncoder.encode(user.getName(), "gbk") + "&p_number=" + user.getUserId() + "&p_phone=" + user.getPhone() + "&user_loc=" + URLEncoder.encode(locET.getText().toString(), "gbk") + "&content=" + URLEncoder.encode(contentET.getText().toString(), "gbk") +
+                                "&infor=" + URLEncoder.encode(noteET.getText().toString(), "gbk") + "&r_nameORmessage=" + URLEncoder.encode(nameET.getText().toString(), "gbk") + "&r_locORpackage_loc=" + URLEncoder.encode(addressET.getText().toString(), "gbk") + "&r_phoneORphone=" + phoneET.getText().toString() +
+                                "&nullORpackage_Id=" + URLEncoder.encode("xx", "gbk") + "&point=" + point;
 
 //
                         locET.getText().toString();
@@ -244,14 +259,16 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                         }.getType());
                         user = (User) userList.get(0);
                         Log.i("user1", user.getUserId());
-                        if (user.getUserId().toString().equals("1"))
-                        {
+                        if (user.getUserId().toString().equals("1")) {
                             HomeActivity.ActivityA.finish();
-                            Intent intent = new Intent(SendpublishActivity.this,HomeActivity.class);
-                            msg.obj="发布成功";
-                            db.execSQL("update usertb set point ="+user.getPoint());
+                            Intent intent = new Intent(SendpublishActivity.this, HomeActivity.class);
+                            msg.obj = "发布成功";
+                            db.execSQL("update usertb set point =" + user.getPoint());
 
                             handler.sendMessage(msg);
+                            handlerunshow.sendMessage(new Message());
+
+
 //                            SharedPreferences pre = getSharedPreferences("publishflag",MODE_PRIVATE);
 //                            SharedPreferences.Editor editor = pre.edit();
 //                            editor.putString("flag","1");
@@ -260,22 +277,24 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
 
                             finish();
 
-                        }
-                        else if(user.getUserId().toString().equals("-1"))
-                        {
-                            msg.obj="失败";
+                        } else if (user.getUserId().toString().equals("-1")) {
+                            msg.obj = "失败";
                             handler.sendMessage(msg);
-                        }
-                        else
-                        {
-                            msg.obj="服务器问题";
+                            handlerunshow.sendMessage(new Message());
+
+
+                        } else {
+                            msg.obj = "服务器问题";
                             handler.sendMessage(msg);
+                            handlerunshow.sendMessage(new Message());
+
+
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        msg.obj="服务器出现问题，请稍候再试";
+                    } catch (Exception e) {
+                        msg.obj = "服务器出现问题，请稍候再试";
                         handler.sendMessage(msg);
+                        handlerunshow.sendMessage(new Message());
+
                         e.printStackTrace();
                     }
                     db.close();
@@ -283,6 +302,7 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
 
 
                 }
+            }
 
 
 
@@ -290,5 +310,6 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
 
         t.start();
     }
+
 
 }

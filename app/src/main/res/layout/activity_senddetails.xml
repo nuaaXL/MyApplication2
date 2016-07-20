@@ -369,7 +369,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:id="@+id/rl_sd_help"
+                >
 
         <Button
             android:id="@+id/btn_helpji"
@@ -390,7 +392,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true">
+                android:layout_alignParentStart="true"
+                android:id="@+id/rl_sd_call"
+                android:visibility="gone"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -398,7 +403,9 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentStart="true"
                     android:orientation="horizontal"
-                    android:weightSum="2">
+                    android:weightSum="2"
+
+                    >
 
                     <Button
                         android:id="@+id/btn_call"
@@ -406,7 +413,7 @@
                         android:layout_height="45dp"
                         android:layout_weight="1"
                         android:text="拨打电话"
-                        android:visibility="gone"
+
                         android:textSize="25sp"
                         android:gravity="center"
                         android:textColor="#ffffff"
@@ -418,7 +425,6 @@
                         android:layout_height="45dp"
                         android:layout_weight="1"
                         android:text="发送短信"
-                        android:visibility="gone"
                         android:textSize="25sp"
                         android:gravity="center"
                         android:textColor="#ffffff"
