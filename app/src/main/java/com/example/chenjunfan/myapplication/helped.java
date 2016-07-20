@@ -227,7 +227,7 @@ public class helped extends Fragment {
                 map.put("IV_flag", R.drawable.sflag);
                 map.put("content", mid.getContent());
                 map.put("flag", mid.getFlag());
-                map.put("location", mid.getR_locORpackage_loc());
+                map.put("location", mid.getUser_loc());
                 map.put("num", mid.getNum());
                 map.put("name", mid.publisher);
                 String str = mid.getTime();

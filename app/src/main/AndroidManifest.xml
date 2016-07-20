@@ -16,6 +16,8 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+
     <!-- bmob pay  sdk permission end -->
 
 
@@ -53,6 +55,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".Help_odersActivity" />
+        <activity android:name=".helprdActivity" />
+        <activity android:name=".helpedrdActivity" />
+        <activity android:name=".helpedsdActivity" />
+        <activity android:name=".helpsdActivity" />
+
+
+
+
 
     </application>
 

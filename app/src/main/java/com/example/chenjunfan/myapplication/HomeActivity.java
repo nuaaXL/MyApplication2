@@ -69,13 +69,30 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     @Override
     protected void onRestart() {
         super.onRestart();
-        refresh();
 
 
         }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int flag = 0;
+        SharedPreferences pre = getSharedPreferences("refreshflag", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pre.edit();
+        flag = pre.getInt("flag", 0);
+        if (flag == 1) {
+            num=-1;
+            datamapList.removeAll(datamapList);
+            getDataFromNetwork();
+            refresh();
+            Toast.makeText(HomeActivity.this,"onResume"+flag,Toast.LENGTH_LONG).show();
+        } else {
 
+        }
 
+        editor.remove("flag");
+        editor.commit();
+    }
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -540,7 +557,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 num=-1;
                 getDataFromNetwork();
             }
-        }, 2000);
+        }, 1500);
     }
 
 }

@@ -412,6 +412,7 @@
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
+                        android:onClick="makesdcall"
                         android:text="拨打电话"
 
                         android:textSize="25sp"
@@ -424,6 +425,7 @@
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
+                        android:onClick="sendsdmsg"
                         android:text="发送短信"
                         android:textSize="25sp"
                         android:gravity="center"
