@@ -336,7 +336,7 @@
                         android:layout_height="45dp"
                         android:layout_weight="1"
                         android:text="拨打电话"
-                        android:onClick="makecall"
+                        android:onClick="prdmakecall"
                         android:textSize="25sp"
                         android:gravity="center"
                         android:textColor="#ffffff"
@@ -345,6 +345,7 @@
                     <Button
                         android:id="@+id/btn_prd_message"
                         android:layout_width="0dp"
+                        android:onClick="prdsendmsg"
                         android:layout_height="45dp"
                         android:layout_weight="1"
                         android:text="发送短信"

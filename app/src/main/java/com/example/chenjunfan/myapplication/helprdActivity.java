@@ -1,9 +1,11 @@
 package com.example.chenjunfan.myapplication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -134,4 +136,23 @@ public class helprdActivity extends Activity  {
 
         }
     };
+
+    public void prdmakecall(View view)
+    {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+pphone));
+        try {
+            startActivity(intent);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void prdsendmsg(View view)
+    {
+        Uri smsToUri = Uri.parse("smsto:"+pphone);
+        Intent intent = new Intent(Intent.ACTION_SENDTO,smsToUri);
+        intent.putExtra("sms_body","你好，我已接单");
+        startActivity(intent);
+    }
 }

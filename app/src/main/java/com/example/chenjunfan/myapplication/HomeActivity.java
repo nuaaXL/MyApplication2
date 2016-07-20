@@ -557,7 +557,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 num=-1;
                 getDataFromNetwork();
             }
-        }, 1500);
+        }, 1000);
     }
 
 }
