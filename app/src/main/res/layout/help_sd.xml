@@ -421,7 +421,7 @@
                 >
 
                 <Button
-                    android:id="@+id/sd_help_finish"
+                    android:id="@+id/sd_help_finished"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:visibility="gone"

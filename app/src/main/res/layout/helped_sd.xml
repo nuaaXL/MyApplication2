@@ -442,6 +442,26 @@
                     android:textSize="25sp"
                     android:gravity="center"
                     android:textColor="#ffffff"
+                    android:background="@color/button_g"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <Button
+                    android:id="@+id/sd_helped_finished"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:visibility="gone"
+                    android:text="订单已完成"
+                    android:textSize="25sp"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
                     android:background="@color/textgrey"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentStart="true"/>
