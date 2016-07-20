@@ -50,6 +50,7 @@ public class RdActivity extends Activity{
     private String packid,r_phone,r_name;
     private TextView rnameTV,rphoneTV,packidTV;
     int flag;
+    String number;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,8 +115,32 @@ public class RdActivity extends Activity{
                         r_phone=c.getString(c.getColumnIndex("r_phoneORphone"));
                         r_name=c.getString(c.getColumnIndex("r_nameORmessage"));
                         flag = c.getInt(c.getColumnIndex("flag"));
+                        number = c.getString(c.getColumnIndex("p_number"));
                     }
                 }
+
+                User user = new User();
+                SQLiteDatabase db3 = openOrCreateDatabase("user.db", MODE_PRIVATE, null);
+                db3.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
+                        ",phone text,school text,point integer)");
+                Cursor c3 = db3.rawQuery("select * from usertb", null);
+                if (c3 != null) {
+                    c3.moveToNext();
+
+
+
+                    user.setUserId(c3.getString(c3.getColumnIndex("userId")));
+                    if(user.getUserId().equals(number))
+                    {
+                        handlertouchme.sendMessage(new Message());
+                    }
+
+
+
+
+                }
+                db3.close();
+                c3.close();
 
                 handler3.sendMessage(new Message());
             }
@@ -282,6 +307,23 @@ public class RdActivity extends Activity{
             super.handleMessage(msg);
 
             prodialog.cancel();
+        }
+    };
+    Handler handlertouchme = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+            if((flag/10)%10==0)
+            {
+                Message msg2=new Message();
+                msg2.obj="这是您自己的订单，正在等待被接单";
+                helpRL.setVisibility(View.GONE);
+                handler.sendMessage(msg2);
+                Log.i("test", "handleMessage:handlertouchme ");
+
+            }
         }
     };
 

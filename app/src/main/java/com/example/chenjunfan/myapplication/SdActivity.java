@@ -43,7 +43,10 @@ public class SdActivity extends Activity {
     private Button helpBT;
     private RelativeLayout nameRL,phoneRL,addressRL,helpRL,callRL;
     private TextView rnameTV,rphoneTV,raddressTV,noteTV;
+    String rname,rphone,raddress,note;
     private int num;
+    int tflag;
+    private String number;
 
     String username,content,loc,pay,kuaidi,name,accout;
 
@@ -101,14 +104,17 @@ public class SdActivity extends Activity {
                 Cursor c = db.rawQuery("select * from requesttb where num=" + num, null);
 
                 if (c != null) {
-                    while (c.moveToNext()) {
+                    c.moveToNext();
                         content = c.getString(c.getColumnIndex("content"));
                         loc = c.getString(c.getColumnIndex("user_loc"));
-                        rnameTV.setText(c.getString(c.getColumnIndex("r_nameORmessage")));
-                        rphoneTV.setText(c.getString(c.getColumnIndex("r_phoneORphone")));
-                        raddressTV.setText(c.getString(c.getColumnIndex("r_locORpackage_loc")));
-                        noteTV.setText(c.getString(c.getColumnIndex("infor")));
-                        int tflag = c.getInt(c.getColumnIndex("flag"));
+                        rname=(c.getString(c.getColumnIndex("r_nameORmessage")));
+                        rphone=(c.getString(c.getColumnIndex("r_phoneORphone")));
+                        raddress=(c.getString(c.getColumnIndex("r_locORpackage_loc")));
+                        note=(c.getString(c.getColumnIndex("infor")));
+                        number=c.getString(c.getColumnIndex("p_number"));
+                    freshhandler.sendMessage(new Message());
+
+                        tflag = c.getInt(c.getColumnIndex("flag"));
 
                         if ((tflag-((tflag/1000)*1000))/100==1) {
                             pay = "货到付款";
@@ -147,22 +153,52 @@ public class SdActivity extends Activity {
 
 
 
-                    }
+
                 }
+
+                User user = new User();
+                SQLiteDatabase db3 = openOrCreateDatabase("user.db", MODE_PRIVATE, null);
+                db3.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
+                        ",phone text,school text,point integer)");
+                Cursor c3 = db3.rawQuery("select * from usertb", null);
+                if (c3 != null) {
+                    c3.moveToNext();
+
+
+
+                    user.setUserId(c3.getString(c3.getColumnIndex("userId")));
+                    if(user.getUserId().equals(number))
+                    {
+                        handlertouchme.sendMessage(new Message());
+                    }
+
+
+
+
+                }
+                db3.close();
+                c3.close();
 
                 handler3.sendMessage(new Message());
             }
         });
         t.start();
     }
-    Handler handler2 = new Handler() {
+    Handler handlertouchme = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
 
             super.handleMessage(msg);
+            if((tflag/10)%10==0)
+            {
+                Message msg2=new Message();
+                msg2.obj="这是您自己的订单，正在等待被接单";
+                helpRL.setVisibility(View.GONE);
+                handler.sendMessage(msg2);
+                Log.i("test", "handleMessage:handlertouchme ");
 
-            Toast.makeText(SdActivity.this,msg.obj.toString(),Toast.LENGTH_SHORT).show();
+            }
         }
     };
     Handler handler3 = new Handler() {
@@ -302,6 +338,7 @@ public class SdActivity extends Activity {
             prodialog.show();
         }
     };
+
     Handler handlerunshow = new Handler() {
 
         @Override
@@ -310,6 +347,20 @@ public class SdActivity extends Activity {
             super.handleMessage(msg);
 
             prodialog.cancel();
+        }
+    };
+
+    Handler freshhandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            rnameTV.setText(rname);
+            rphoneTV.setText(rphone);
+            raddressTV.setText(raddress);
+            noteTV.setText(note);
         }
     };
 
