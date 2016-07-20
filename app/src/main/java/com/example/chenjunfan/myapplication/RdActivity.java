@@ -51,6 +51,7 @@ public class RdActivity extends Activity{
     private TextView rnameTV,rphoneTV,packidTV;
     int flag;
     String number;
+    int behelp=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -286,6 +287,11 @@ public class RdActivity extends Activity{
             nameRL.setVisibility(View.VISIBLE);
             phoneRL.setVisibility(View.VISIBLE);
             packidRL.setVisibility(View.VISIBLE);
+            behelp=1;
+            SharedPreferences pre = getSharedPreferences("refreshflag",MODE_PRIVATE);
+            SharedPreferences.Editor editor = pre.edit();
+            editor.putInt("flag",behelp);
+            editor.commit();
 
         }
     };
@@ -326,5 +332,6 @@ public class RdActivity extends Activity{
             }
         }
     };
+
 
 }
