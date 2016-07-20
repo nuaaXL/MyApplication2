@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+
+        <include layout="@layout/rd_title"/>
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <ImageView
+                android:id="@+id/img_back"
+                android:layout_width="40dp"
+                android:layout_height="22dp"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/icon_back" />
+        </RelativeLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:orientation="vertical" >
+
+
+                <TextView
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="联系帮助者:"
+                    android:textColor="#AAAAAA"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:layout_marginBottom="18dp"
+                    android:layout_marginTop="10dp" >
+
+                    <ImageView
+                        android:id="@+id/rd_helper_image"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/button_g" />
+
+
+
+                    <TextView
+                        android:id="@+id/rd_helper_accout"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/ll_name1"
+                        android:layout_toRightOf="@id/sd_helper_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="学号：161430319"
+                        android:textColor="#AAAAAA"
+                        android:textSize="14sp"
+                        android:layout_toEndOf="@+id/rd_helper_image" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_name1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@id/rd_helper_image"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@+id/rd_helper_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="张俊东"
+                            android:textColor="#353535"
+                            android:textSize="18sp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignStart="@+id/rd_helper_accout" />
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/rd_callhelper"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_grey"
+                        android:layout_toLeftOf="@+id/rd_messhelper"
+                        android:layout_centerVertical="true"
+                        android:text="拨打电话"/>
+                    <Button
+                        android:id="@+id/rd_messhelper"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_grey"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="发送短信"/>
+
+
+                </RelativeLayout>
+
+                <View
+                    android:background="@color/black2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0dip" />
+
+
+
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp">
+
+                    <TextView
+                        android:id="@+id/tv_sign_temp1"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="8dp"
+                        android:text="包裹内容"
+                        android:textColor="#AAAAAA"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_rd_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/tv_sign_temp1"
+                        android:text="一个硬盘"
+                        android:singleLine="true"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp" >
+
+                    <TextView
+                        android:id="@+id/tv_sign_temp2"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="8dp"
+                        android:text="用户位置"
+                        android:textColor="#AAAAAA"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_rd_loc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/tv_sign_temp2"
+                        android:text="三食堂"
+                        android:singleLine="true"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/RD_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/tv_sign_temp3"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="8dp"
+                        android:text="收件人姓名"
+                        android:textColor="#AAAAAA"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_rd_rname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/tv_sign_temp3"
+                        android:text="张俊东"
+                        android:singleLine="true"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/RD_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/tv_sign_temp4"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="8dp"
+                        android:text="收件人手机号"
+                        android:textColor="#AAAAAA"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_rd_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/tv_sign_temp4"
+                        android:text="15600000000"
+                        android:singleLine="true"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/RD_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/tv_sign_temp5"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="8dp"
+                        android:text="快递单号"
+                        android:textColor="#AAAAAA"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_rd_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/tv_sign_temp5"
+                        android:text="1234..."
+                        android:singleLine="true"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp" >
+
+                    <TextView
+                        android:id="@+id/tv_sign_temp7"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="8dp"
+                        android:text="备注"
+                        android:textColor="#AAAAAA"
+                        android:textSize="16sp" />
+
+                    <TextView
+
+                        android:id="@+id/tv_rd_note"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/tv_sign_temp7"
+                        android:text="北门中午12点到12点30"
+                        android:singleLine="true"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/shadow2" />
+
+
+
+
+
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/rd_helped_wait"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:visibility="visible"
+                    android:text="等待用户接单"
+                    android:textSize="25sp"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:background="@color/textgrey"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/my_rd_helped"
+                >
+                <Button
+                    android:id="@+id/rd_helped_finish"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:visibility="gone"
+                    android:text="确认订单完成"
+                    android:textSize="25sp"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:background="@color/button_g"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                >
+                <Button
+                    android:id="@+id/rd_helped_finished"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:visibility="gone"
+                    android:text="订单已完成"
+                    android:textSize="25sp"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:background="@color/textgrey"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"/>
+            </RelativeLayout>
+
+
+
+
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+</LinearLayout>
