@@ -30,7 +30,7 @@
             android:layout_width="116dp"
             android:layout_height="116dp"
             android:src="@mipmap/ic_launcher"
-            />
+            android:scaleType="centerCrop"/>
 
 
 
@@ -100,6 +100,7 @@
                     android:textSize="16sp"
                     android:paddingTop="6dp"
                     android:layout_toRightOf="@+id/IV_location"
+                    android:singleLine="true"
                     android:id="@+id/item_place"
 
                     android:text="三号楼"/>
@@ -110,7 +111,6 @@
                     android:textColor="#AAAAAA"
                     android:textSize="12sp"
                     android:paddingLeft="16dp"
-
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
                     android:id="@+id/item_time"

@@ -52,7 +52,7 @@
             android:layout_weight="1.0"
             android:textColor="@color/half_black"
             android:gravity="bottom|center"
-            android:text="帮助我的"
+            android:text="我求助的"
             android:textSize="18sp"/>
 
     </LinearLayout>
