@@ -20,11 +20,11 @@ import android.widget.Toast;
  * Created by chenjunfan on 16/7/20.
  */
 public class helprdActivity extends Activity  {
-    private TextView nameTV,accoutTV,contentTV,userlocTV,rnameTV,rphoneTV,pckidTV,noteTV;
+    private TextView nameTV,accoutTV,contentTV,userlocTV,rnameTV,rphoneTV,pckidTV,noteTV,jifenTV;
     private RelativeLayout callRL,finishRL;
     private Button callBT,messageBT,finishBT;
     String name,accout,content,userloc,rname,rphone,pckid,note,pphone;
-    int num,tflag;
+    int num,tflag,jifen;
 
 
     @Override
@@ -53,8 +53,7 @@ public class helprdActivity extends Activity  {
         messageBT= (Button) findViewById(R.id.btn_prd_message);
         finishRL = (RelativeLayout) findViewById(R.id.rl_prd_finish);
         finishBT = (Button) findViewById(R.id.btn_prd_finished);
-
-
+        jifenTV = (TextView) findViewById(R.id.tv_prd_jifen);
 
 
     }
@@ -68,9 +67,9 @@ public class helprdActivity extends Activity  {
                 num = pre.getInt("num", 0);
                 Log.i("num", "run: "+num);
                 SQLiteDatabase db = openOrCreateDatabase("request.db", MODE_PRIVATE, null);
-                db.execSQL("create table if not exists myrequesttb(num integer,time text,flag integer,publisher text" +
-                        ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-                        "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+//                db.execSQL("create table if not exists myrequesttb(num integer,time text,flag integer,publisher text" +
+//                        ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
+//                        "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
 
 
                 Cursor c = db.rawQuery("select * from myrequesttb where num=" + num, null);
@@ -84,6 +83,7 @@ public class helprdActivity extends Activity  {
                     note=(c.getString(c.getColumnIndex("infor")));
                     pphone=c.getString(c.getColumnIndex("p_phone"));
                     pckid = c.getString(c.getColumnIndex("nullORpackage_Id"));
+                    jifen=c.getInt(c.getColumnIndex("point"));
 
                     tflag = c.getInt(c.getColumnIndex("flag"));
 
@@ -122,6 +122,7 @@ public class helprdActivity extends Activity  {
             rphoneTV.setText(rphone);
             pckidTV.setText(pckid);
             noteTV.setText(note);
+            jifenTV.setText(jifen+"");
             if((tflag/10)%10==2)
             {
                 Toast.makeText(helprdActivity.this,"in2",Toast.LENGTH_LONG).show();

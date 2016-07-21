@@ -114,7 +114,7 @@ public class ChangepasswdActivity extends Activity {
 
                     try {
                         String Url;
-                        Url = "http://192.168.4.100:8080/Ren_Test/modifyServlet" + "?name=" + URLEncoder.encode(user.getName(), "gbk") + "&gender=" + user.getGender() + "&passwd=" + newpw.getText() + "&phone="
+                        Url = "http://"+getResources().getText(R.string.IP)+"/Ren_Test/modifyServlet" + "?name=" + URLEncoder.encode(user.getName(), "gbk") + "&gender=" + user.getGender() + "&passwd=" + newpw.getText() + "&phone="
                                 + user.getPhone() + "&school=" + URLEncoder.encode(user.getSchool(), "gbk") + "&actionCode=modifyConfirm" + "&userId=" + user.getUserId();
                         Log.i("url", Url);
                         db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
