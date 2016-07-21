@@ -23,6 +23,9 @@
         android:layout_height="116dp">
 
 
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
 
         <ImageView
@@ -31,6 +34,29 @@
             android:layout_height="116dp"
             android:src="@mipmap/ic_launcher"
             android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/iv_accept"
+                android:visibility="gone"
+                android:layout_width="116dp"
+                android:layout_height="116dp"
+                android:src="@drawable/accept"
+                android:paddingLeft="76dp"
+                android:paddingTop="76dp"/>
+
+            <ImageView
+                android:id="@+id/iv_done"
+                android:visibility="gone"
+                android:layout_width="116dp"
+                android:layout_height="116dp"
+                android:src="@drawable/done"
+                android:paddingLeft="76dp"
+                android:paddingTop="76dp"/>
+
+
+
+
+        </FrameLayout>
 
 
 
@@ -51,17 +77,38 @@
                     android:gravity="center|bottom"
                     android:layout_width="wrap_content"
                     android:layout_centerVertical="true"
+                    android:singleLine="true"
+                    android:maxEms="7"
+                    android:ellipsize="end"
                     android:layout_height="40dp"
                     android:paddingLeft="16dp"
                     android:drawablePadding="10dp"
                     android:text="快件" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imagejifen"
+                    android:layout_toLeftOf="@+id/tv_jifen"
+                    android:layout_alignBottom="@+id/item_content"
+                    android:src="@drawable/ic_monetization_on_black_24dp"/>
+
+                <TextView
+                    android:id="@+id/tv_jifen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="#000000"
+                    android:text="0"
+                    android:layout_alignBottom="@+id/imagejifen"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="40dp"/>
 
             </RelativeLayout>
             <View
                 android:background="@color/black2"
                 android:layout_width="fill_parent"
                 android:layout_height="1.0dip"
-
                 android:layout_marginLeft="15dp"/>
 
 
@@ -101,6 +148,8 @@
                     android:paddingTop="6dp"
                     android:layout_toRightOf="@+id/IV_location"
                     android:singleLine="true"
+                    android:maxEms="7"
+                    android:ellipsize="end"
                     android:id="@+id/item_place"
 
                     android:text="三号楼"/>
@@ -116,9 +165,6 @@
                     android:id="@+id/item_time"
 
                     android:text="2016年7月14日16:06" />
-
-
-
 
 
             </RelativeLayout>
