@@ -138,10 +138,19 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 map.put("location",mid.getUser_loc());
                 map.put("num",mid.getNum());
                 map.put("name",mid.publisher);
+                map.put("point",mid.getPoint());
                 String str = mid.getTime();
                String []time =str.split("-");
                 str=time[0]+"年"+time[1]+"月"+time[2]+"日"+time[3]+"点"+time[4]+"分";
                 map.put("time",str);
+                if((flag%100)/10==1)
+                {
+                    map.put("done",R.mipmap.iv_accept);
+                }
+                else if((flag%100)/10==2)
+                {
+                    map.put("done",R.mipmap.iv_done);
+                }
                 datamapList.add(map);
             }
             else if(mid.getNum()!=0&&flag==1)//寄
@@ -151,11 +160,20 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 map.put("flag",mid.getFlag());
                 map.put("location",mid.getUser_loc());
                 map.put("num",mid.getNum());
+                map.put("point",mid.getPoint());
                 map.put("name",mid.publisher);
                 String str = mid.getTime();
                 String [] time=str.split("-");
                 str=time[0]+"年"+time[1]+"月"+time[2]+"日"+time[3]+"点"+time[4]+"分";
                 map.put("time",str);
+                if((flag%100)/10==1)
+                {
+                    map.put("done",R.mipmap.iv_accept);
+                }
+                else if((flag%100)/10==2)
+                {
+                    map.put("done",R.mipmap.iv_done);
+                }
                 datamapList.add(map);
             }
 
@@ -173,10 +191,10 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         setContentView(R.layout.activity_home);
         ActivityA=this;
         SQLiteDatabase db5 = openOrCreateDatabase("request.db",MODE_PRIVATE,null);
-        db5.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
+        db5.execSQL("create table if not exists requesttb(num integer,time text,flag integer,point integer,publisher text" +
                 ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
                 "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
-        db5.execSQL("delete from requesttb");
+        db5.execSQL("drop table requesttb");
         db5.close();
         getDataFromNetwork();
         accoutTV = (TextView) findViewById(R.id.tv_accout);
@@ -206,7 +224,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         refresh();
 
 
-        mainListAdp = new SimpleAdapter(this, datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location","num","name","time"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place,R.id.tv_num,R.id.item_username,R.id.item_time});
+        mainListAdp = new SimpleAdapter(this, datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location","num","name","time","point","done"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place,R.id.tv_num,R.id.item_username,R.id.item_time,R.id.tv_jifen,R.id.iv_done});
         mainList.setAdapter(mainListAdp);
         mainList.setOnItemClickListener(this);
 
@@ -360,12 +378,12 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                             Request request = (Request) dataList.get(i);
                             if(request.getNum()!=0) {
                                 SQLiteDatabase db = openOrCreateDatabase("request.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
-                                db.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
+                                db.execSQL("create table if not exists requesttb(num integer,time text,flag integer,point integer,publisher text" +
                                         ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
                                         "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
-                                db.execSQL("insert into requesttb(num,time,flag,publisher,p_number,p_phone,helper,h_number,h_phone,user_loc,content,infor," +
+                                db.execSQL("insert into requesttb(num,time,flag,point,publisher,p_number,p_phone,helper,h_number,h_phone,user_loc,content,infor," +
                                         "r_nameORmessage,r_locORpackage_loc,r_phoneORphone,nullORpackage_Id)values(" + request.getNum() + ",'" + request.getTime() + "'," +
-                                        request.getFlag() + ",'" + request.getPublisher() + "','" + request.getP_number() + "','" + request.getP_phone() + "','" + request.getHelper()
+                                        request.getFlag() +","+request.getPoint()+ ",'" + request.getPublisher() + "','" + request.getP_number() + "','" + request.getP_phone() + "','" + request.getHelper()
                                         + "','" + request.getH_number() + "','" + request.getH_phone() + "','" + request.getUser_loc() + "','" + request.getContent() + "','" +
                                         request.getInfor() + "','" + request.getR_nameORmessage() + "','" + request.getR_locORpackage_loc() + "','" + request.getR_phoneORphone() +
                                         "','" + request.getNullORpackage_Id() + "')");

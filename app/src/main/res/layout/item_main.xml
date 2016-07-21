@@ -11,7 +11,7 @@
         android:layout_height="1dp"/>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="116dp"
+        android:layout_height="117dp"
         android:layout_gravity="center">
 
 
@@ -20,36 +20,27 @@
         android:orientation="horizontal"
         android:paddingRight="12dp"
         android:layout_width="match_parent"
-        android:layout_height="116dp">
+        android:layout_height="match_parent">
 
 
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
 
         <ImageView
             android:id="@+id/pic"
             android:layout_width="116dp"
             android:layout_height="116dp"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/umbrella"
             android:scaleType="centerCrop"/>
 
-            <ImageView
-                android:id="@+id/iv_accept"
-                android:visibility="gone"
-                android:layout_width="116dp"
-                android:layout_height="116dp"
-                android:src="@drawable/accept"
-                android:paddingLeft="76dp"
-                android:paddingTop="76dp"/>
+
 
             <ImageView
                 android:id="@+id/iv_done"
-                android:visibility="gone"
-                android:layout_width="116dp"
-                android:layout_height="116dp"
-                android:src="@drawable/done"
+                android:layout_width="117dp"
+                android:layout_height="match_parent"
                 android:paddingLeft="76dp"
                 android:paddingTop="76dp"/>
 

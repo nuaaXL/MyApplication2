@@ -44,11 +44,11 @@ public class SdActivity extends Activity {
     private ImageView imageIV;
     private Button helpBT;
     private RelativeLayout nameRL,phoneRL,addressRL,helpRL,callRL;
-    private TextView rnameTV,rphoneTV,raddressTV,noteTV;
+    private TextView rnameTV,rphoneTV,raddressTV,noteTV,jifenTV;
     private String pphone;
     String rname,rphone,raddress,note;
     private int num;
-    int tflag;
+    int tflag,jifen;
     private String number;
     int behelp=0;
 
@@ -63,6 +63,7 @@ public class SdActivity extends Activity {
         nameRL= (RelativeLayout) findViewById(R.id.SD_name);
         rnameTV= (TextView) findViewById(R.id.tv_sd_rname);
         phoneRL= (RelativeLayout) findViewById(R.id.SD_phone);
+        jifenTV = (TextView) findViewById(R.id.tv_sd_jifen);
         rphoneTV= (TextView) findViewById(R.id.tv_sd_phone);
         addressRL= (RelativeLayout) findViewById(R.id.SD_address);
         raddressTV= (TextView) findViewById(R.id.tv_sd_address);
@@ -100,9 +101,9 @@ public class SdActivity extends Activity {
                 SharedPreferences pre = getSharedPreferences("clickitemnum", MODE_PRIVATE);
                 num = pre.getInt("num", 0);
                 SQLiteDatabase db = openOrCreateDatabase("request.db", MODE_PRIVATE, null);
-                db.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
-                        ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-                        "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+//                db.execSQL("create table if not exists requesttb(num integer,time text,flag integer,point integer,publisher text" +
+//                        ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
+//                        "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
 
 
                 Cursor c = db.rawQuery("select * from requesttb where num=" + num, null);
@@ -116,6 +117,7 @@ public class SdActivity extends Activity {
                         raddress=(c.getString(c.getColumnIndex("r_locORpackage_loc")));
                         note=(c.getString(c.getColumnIndex("infor")));
                         number=c.getString(c.getColumnIndex("p_number"));
+                    jifen = c.getInt(c.getColumnIndex("point"));
                     pphone=c.getString(c.getColumnIndex("p_phone"));
                     freshhandler.sendMessage(new Message());
 
@@ -219,6 +221,7 @@ public class SdActivity extends Activity {
             kuaidiTV.setText(kuaidi);
             userName.setText(username);
             accoutTV.setText(accout);
+            jifenTV.setText(jifen+"");
 
         }
     };

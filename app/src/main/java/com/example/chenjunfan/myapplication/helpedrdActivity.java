@@ -32,13 +32,13 @@ import java.util.List;
  * Created by chenjunfan on 16/7/20.
  */
 public class helpedrdActivity extends Activity {
-private TextView haccoutTV,hnameTV,contentTV,userlocTV,rnameTV,rphoneTV,pckidTV,noteTV;
+private TextView haccoutTV,hnameTV,contentTV,userlocTV,rnameTV,rphoneTV,pckidTV,noteTV,jifenTV;
     private ImageButton callBT,msgBT;
     private Button waitBT,finishBT,finishedBT;
     RelativeLayout waitRL,finishRL,finishedRL;
     String haccout,hname,content,userloc,rname,rphone,pckid,note;
     int num;
-    int tflag;
+    int tflag,jifen;
     String hphone;
     private ProgressDialog prodialog;
     private LinearLayout callhelperLL;
@@ -73,6 +73,7 @@ private TextView haccoutTV,hnameTV,contentTV,userlocTV,rnameTV,rphoneTV,pckidTV,
         finishedRL = (RelativeLayout) findViewById(R.id.rl_drd_finished);
         finishedBT = (Button) findViewById(R.id.btn_drd_finished);
         callhelperLL = (LinearLayout) findViewById(R.id.drd_callhelper);
+        jifenTV = (TextView) findViewById(R.id.tv_drd_jifen);
 
 
     }
@@ -86,9 +87,9 @@ private TextView haccoutTV,hnameTV,contentTV,userlocTV,rnameTV,rphoneTV,pckidTV,
                 num = pre.getInt("num", 0);
                 Log.i("num", "run: "+num);
                 SQLiteDatabase db = openOrCreateDatabase("request.db", MODE_PRIVATE, null);
-                db.execSQL("create table if not exists myrequesttb(num integer,time text,flag integer,publisher text" +
-                        ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-                        "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+//                db.execSQL("create table if not exists myrequesttb(num integer,time text,flag integer,publisher text" +
+//                        ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
+//                        "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
 
 
                 Cursor c = db.rawQuery("select * from myrequesttb where num=" + num, null);
@@ -102,6 +103,7 @@ private TextView haccoutTV,hnameTV,contentTV,userlocTV,rnameTV,rphoneTV,pckidTV,
                     note=(c.getString(c.getColumnIndex("infor")));
                     hphone=c.getString(c.getColumnIndex("h_phone"));
                     pckid = c.getString(c.getColumnIndex("nullORpackage_Id"));
+                    jifen = c.getInt(c.getColumnIndex("point"));
 
                     tflag = c.getInt(c.getColumnIndex("flag"));
 
@@ -140,6 +142,7 @@ private TextView haccoutTV,hnameTV,contentTV,userlocTV,rnameTV,rphoneTV,pckidTV,
             rphoneTV.setText(rphone);
             pckidTV.setText(pckid);
             noteTV.setText(note);
+            jifenTV.setText(jifen+"");
             if((tflag/10)%10==0)
             {
                 waitRL.setVisibility(View.VISIBLE);

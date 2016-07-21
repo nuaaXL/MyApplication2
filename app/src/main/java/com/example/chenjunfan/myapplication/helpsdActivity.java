@@ -20,10 +20,22 @@ import android.widget.Toast;
  * Created by chenjunfan on 16/7/20.
  */
 public class helpsdActivity extends Activity {
-    private TextView accoutTV,nameTV,contentTV,userlocTV,payTV,rnameTV,rphoneTV,raddressTV,kuaidiTV,noteTV;
+    private TextView accoutTV,nameTV,contentTV,userlocTV,payTV,rnameTV,rphoneTV,raddressTV,kuaidiTV,noteTV,jifenTV;
     private Button callBT,messageBT,hfinishBT;
     private RelativeLayout callRL,finishiRL;
-    private String accout,name,content,userloc,pay,rname,rphone,raddress,kuaidi,note,number,pphone;
+    private String accout;
+    private String name;
+    private String content;
+    private String userloc;
+    private String pay;
+    private String rname;
+    private String rphone;
+    private String raddress;
+    private String kuaidi;
+    private String note;
+    private String number;
+    private String pphone;
+    private int jifen;
     private int num,tflag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +61,7 @@ public class helpsdActivity extends Activity {
         hfinishBT = (Button) findViewById(R.id.btn_help_finished);
         callRL = (RelativeLayout) findViewById(R.id.rl_psd_call);
         finishiRL = (RelativeLayout) findViewById(R.id.rl_psd_finish);
+        jifenTV = (TextView) findViewById(R.id.tv_psd_jifen);
         refresh();
 
 
@@ -63,9 +76,9 @@ public class helpsdActivity extends Activity {
                 num = pre.getInt("num", 0);
                 Log.i("num", "run: "+num);
                 SQLiteDatabase db = openOrCreateDatabase("request.db", MODE_PRIVATE, null);
-                db.execSQL("create table if not exists myrequesttb(num integer,time text,flag integer,publisher text" +
-                        ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-                        "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+//                db.execSQL("create table if not exists myrequesttb(num integer,time text,flag integer,point text,publisher text" +
+//                        ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
+//                        "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
 
 
                 Cursor c = db.rawQuery("select * from myrequesttb where num=" + num, null);
@@ -80,6 +93,7 @@ public class helpsdActivity extends Activity {
                     note=(c.getString(c.getColumnIndex("infor")));
                     number=c.getString(c.getColumnIndex("p_number"));
                     pphone=c.getString(c.getColumnIndex("p_phone"));
+                    jifen = c.getInt(c.getColumnIndex("point"));
 
                     tflag = c.getInt(c.getColumnIndex("flag"));
 
@@ -146,6 +160,7 @@ public class helpsdActivity extends Activity {
             raddressTV.setText(raddress);
             kuaidiTV.setText(kuaidi);
             noteTV.setText(note);
+            jifenTV.setText(jifen+"");
             if((tflag/10)%10==2)
             {
                 Toast.makeText(helpsdActivity.this,"in2",Toast.LENGTH_LONG).show();
