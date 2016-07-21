@@ -28,6 +28,13 @@
             android:layout_height="wrap_content">
 
 
+        <ImageView
+            android:id="@+id/pic"
+            android:layout_width="116dp"
+            android:layout_height="116dp"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="centerCrop"/>
+
             <ImageView
                 android:id="@+id/iv_accept"
                 android:visibility="gone"
@@ -46,12 +53,7 @@
                 android:paddingLeft="76dp"
                 android:paddingTop="76dp"/>
 
-            <ImageView
-                android:id="@+id/pic"
-                android:layout_width="116dp"
-                android:layout_height="116dp"
-                android:src="@mipmap/ic_launcher"
-                android:scaleType="centerCrop"/>
+
 
 
         </FrameLayout>
