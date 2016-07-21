@@ -204,10 +204,10 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
         {
             mid=requests.get(i);
             int tflag=mid.getFlag();
-            tflag=tflag-(tflag/10*10);
 
 
-            if(mid.getNum()!=0&&tflag==2)
+
+            if(mid.getNum()!=0&&tflag%10==2)
             {
                 iImagepic=R.mipmap.ic_launcher;
                 iImageflag=R.drawable.rflag;
@@ -221,19 +221,19 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
                 String []ttime =str.split("-");
                 str=ttime[0]+"年"+ttime[1]+"月"+ttime[2]+"日"+ttime[3]+"点"+ttime[4]+"分";
                 itime=str;
-                if((tflag%100)/10==1)
+                if(tflag%100/10==1)
                 {
-                    iImagedone=R.mipmap.ic_launcher;
+                   iImagedone=R.drawable.iv_accept;
                 }
-                else if((tflag%100)/10==2)
+                else if(tflag%100/10==2)
                 {
-                    iImagedone=R.mipmap.ic_launcher;
+                    iImagedone=R.drawable.iv_done;
 
                 }
                 itemBeanList.add(new ItemBean(itime,inum,iflag,iImagepic,iImagedone,iImageflag,icontent,ijifen,iusername,iplace));
 
             }
-            else if(mid.getNum()!=0&&tflag==1)//寄
+            else if(mid.getNum()!=0&&tflag%10==1)//寄
             {
                 iImagepic=R.mipmap.ic_launcher;
                 iImageflag=R.drawable.sflag;
@@ -247,13 +247,13 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
                 String []ttime =str.split("-");
                 str=ttime[0]+"年"+ttime[1]+"月"+ttime[2]+"日"+ttime[3]+"点"+ttime[4]+"分";
                 itime=str;
-                if((tflag%100)/10==1)
+                if(tflag%100/10==1)
                 {
-                    iImagedone=R.mipmap.ic_launcher;
+                    iImagedone=R.drawable.iv_accept;
                 }
-                else if((tflag%100)/10==2)
+                else if(tflag%100/10==2)
                 {
-                    iImagedone=R.mipmap.ic_launcher;
+                    iImagedone=R.drawable.iv_done;
                 }
 
                 itemBeanList.add(new ItemBean(itime,inum,iflag,iImagepic,iImagedone,iImageflag,icontent,ijifen,iusername,iplace));

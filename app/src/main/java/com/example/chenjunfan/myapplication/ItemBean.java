@@ -14,9 +14,9 @@ public class ItemBean {
         this.time = time;
         this.num = num;
         this.flag = flag;
-        Imagepic = imagepic;
-        Imagedone = imagedone;
-        Imageflag = imageflag;
+        this.Imagepic = imagepic;
+        this.Imagedone = imagedone;
+        this.Imageflag = imageflag;
         this.content = content;
         this.jifen = jifen;
         this.username = username;
