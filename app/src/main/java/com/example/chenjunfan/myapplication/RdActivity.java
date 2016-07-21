@@ -42,7 +42,7 @@ public class RdActivity extends Activity{
     private TextView accoutTV;
     private TextView contentTV;
     private TextView locTV;
-    private TextView noteTV;
+    private TextView noteTV,jifenTV;
     private Button helpBT;
     private Button callBT;
     private Button smsgBT;
@@ -53,7 +53,7 @@ public class RdActivity extends Activity{
     private String packid,r_phone,r_name;
     private TextView rnameTV,rphoneTV,packidTV;
     private String pphone;
-    int flag;
+    int flag,point;
     String number;
     int behelp=0;
     @Override
@@ -72,6 +72,7 @@ public class RdActivity extends Activity{
         helpRL= (RelativeLayout) findViewById(R.id.ld_rd_help);
         callRL= (RelativeLayout) findViewById(R.id.ld_rd_call);
         smsgBT = (Button) findViewById(R.id.btn_rd_message);
+        jifenTV = (TextView) findViewById(R.id.tv_rd_jifen);
 
         nameRL = (RelativeLayout) findViewById(R.id.RD_name);
         phoneRL= (RelativeLayout) findViewById(R.id.RD_phone);
@@ -103,9 +104,9 @@ public class RdActivity extends Activity{
                 SharedPreferences pre = getSharedPreferences("clickitemnum", MODE_PRIVATE);
                  num = pre.getInt("num", 0);
                 SQLiteDatabase db = openOrCreateDatabase("request.db", MODE_PRIVATE, null);
-                db.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
-                        ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-                        "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+//                db.execSQL("create table if not exists requesttb(num integer,time text,flag integer,publisher text" +
+//                        ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
+//                        "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
 
 
                 Cursor c = db.rawQuery("select * from requesttb where num=" + num, null);
@@ -124,6 +125,7 @@ public class RdActivity extends Activity{
                         flag = c.getInt(c.getColumnIndex("flag"));
                         number = c.getString(c.getColumnIndex("p_number"));
                         pphone = c.getString(c.getColumnIndex("p_phone"));
+                        point = c.getInt(c.getColumnIndex("point"));
 
                     }
                 }
@@ -172,6 +174,7 @@ public class RdActivity extends Activity{
             rnameTV.setText(r_name);
             rphoneTV.setText(r_phone);
             packidTV.setText(packid);
+            jifenTV.setText(point+"");
             if((flag%100-flag%10)/10==1)
             {
                helpRL.setVisibility(View.GONE);
@@ -197,8 +200,8 @@ public class RdActivity extends Activity{
             public void run() {
                 User user = new User();
                 SQLiteDatabase db = openOrCreateDatabase("user.db", MODE_PRIVATE, null);
-                db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
-                        ",phone text,school text,point integer)");
+//                db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
+//                        ",phone text,school text,point integer)");
                 Cursor c = db.rawQuery("select * from usertb", null);
                 if (c != null) {
                     while (c.moveToNext()) {

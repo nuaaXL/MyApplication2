@@ -48,7 +48,7 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
 
         mainList = (ListView) view.findViewById(R.id.LVhelp_send);
 
-        mainListAdp = new SimpleAdapter(getActivity(), datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content", "flag", "location", "num", "name", "time"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content, R.id.flag, R.id.item_place, R.id.tv_num, R.id.item_username, R.id.item_time});
+        mainListAdp = new SimpleAdapter(getActivity(), datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location","num","name","time","point","done"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place,R.id.tv_num,R.id.item_username,R.id.item_time,R.id.tv_jifen,R.id.iv_done});
         mainList.setAdapter(mainListAdp);
         mainList.setOnItemClickListener(this);
         getDataFromNetwork();
@@ -76,10 +76,10 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
                 try {
                     SQLiteDatabase db3 = getActivity().openOrCreateDatabase("request.db", getActivity().MODE_PRIVATE, null);
 
-                    db3.execSQL("create table if not exists myrequesttb(num integer,time text,flag integer,publisher text" +
+                    db3.execSQL("create table if not exists myrequesttb(num integer,time text,flag integer,point integer,publisher text" +
                             ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
                             "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
-                    db3.execSQL("delete from myrequesttb");
+                    db3.execSQL("drop table myrequesttb");
                     db3.close();
 
                     SQLiteDatabase db = getActivity().openOrCreateDatabase("user.db", getActivity().MODE_PRIVATE, null);
@@ -147,12 +147,12 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
                         Request request = (Request) dataList.get(i);
                         if (request.getNum() != 0) {
                             SQLiteDatabase db5 = getActivity().openOrCreateDatabase("request.db", getActivity().MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
-                            db5.execSQL("create table if not exists myrequesttb(num integer,time text,flag integer,publisher text" +
+                            db5.execSQL("create table if not exists myrequesttb(num integer,time text,flag integer,point integer,publisher text" +
                                     ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
                                     "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
-                            db5.execSQL("insert into myrequesttb(num,time,flag,publisher,p_number,p_phone,helper,h_number,h_phone,user_loc,content,infor," +
+                            db5.execSQL("insert into myrequesttb(num,time,flag,point,publisher,p_number,p_phone,helper,h_number,h_phone,user_loc,content,infor," +
                                     "r_nameORmessage,r_locORpackage_loc,r_phoneORphone,nullORpackage_Id)values(" + request.getNum() + ",'" + request.getTime() + "'," +
-                                    request.getFlag() + ",'" + request.getPublisher() + "','" + request.getP_number() + "','" + request.getP_phone() + "','" + request.getHelper()
+                                    request.getFlag() +","+request.getPoint()+ ",'" + request.getPublisher() + "','" + request.getP_number() + "','" + request.getP_phone() + "','" + request.getHelper()
                                     + "','" + request.getH_number() + "','" + request.getH_phone() + "','" + request.getUser_loc() + "','" + request.getContent() + "','" +
                                     request.getInfor() + "','" + request.getR_nameORmessage() + "','" + request.getR_locORpackage_loc() + "','" + request.getR_phoneORphone() +
                                     "','" + request.getNullORpackage_Id() + "')");
@@ -222,6 +222,15 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
                 map.put("location", mid.getUser_loc());
                 map.put("num", mid.getNum());
                 map.put("name", mid.publisher);
+                map.put("point",mid.getPoint());
+                if((flag%100)/10==1)
+                {
+                    map.put("done",R.mipmap.iv_accept);
+                }
+                else if((flag%100)/10==2)
+                {
+                    map.put("done",R.mipmap.iv_done);
+                }
                 String str = mid.getTime();
                 String[] time = str.split("-");
                 str = time[0] + "年" + time[1] + "月" + time[2] + "日" + time[3] + "点" + time[4] + "分";
@@ -233,7 +242,16 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
                 map.put("flag", mid.getFlag());
                 map.put("location", mid.getUser_loc());
                 map.put("num", mid.getNum());
+                map.put("point",mid.getPoint());
                 map.put("name", mid.publisher);
+                if((flag%100)/10==1)
+                {
+                    map.put("done",R.mipmap.iv_accept);
+                }
+                else if((flag%100)/10==2)
+                {
+                    map.put("done",R.mipmap.iv_done);
+                }
                 String str = mid.getTime();
                 String[] time = str.split("-");
                 str = time[0] + "年" + time[1] + "月" + time[2] + "日" + time[3] + "点" + time[4] + "分";

@@ -4,6 +4,7 @@ public class Request {
 	int num;//编号
 	String time;//日期
 	int flag; //1寄      2取
+	int point;
 	String publisher,//求助人
 			p_number, //求助人学号
 			p_phone,//求助人联系方式
@@ -144,6 +145,15 @@ public class Request {
 	}
 	public void setNullORpackage_Id(String nullORpackage_Id) {
 		this.nullORpackage_Id = nullORpackage_Id;
+
+	}
+	public void setPoint(int point)
+	{
+		this.point = point;
+	}
+	public int getPoint()
+	{
+		return this.point;
 	}
 
 }
