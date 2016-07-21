@@ -17,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,9 +29,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by chenjunfan on 16/7/10.
@@ -46,9 +43,9 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     private TextView homeTV;
     private TextView meTV;
     private LoadListView mainList;
-    private SimpleAdapter mainListAdp;
+    private MyAdapter myAdapter;
     private List<Request> dataList=new ArrayList<Request>();
-    private List<Map<String,Object>>datamapList = new ArrayList<Map<String, Object>>();
+    private List<ItemBean> itemBeanList =new ArrayList<>();
     private RelativeLayout homeLL;
     private RelativeLayout meRL;
     private LinearLayout odersLL;
@@ -82,7 +79,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         flag = pre.getInt("flag", 0);
         if (flag == 1) {
             num=-1;
-            datamapList.removeAll(datamapList);
+            itemBeanList.removeAll(itemBeanList);
             getDataFromNetwork();
             refresh();
             Toast.makeText(HomeActivity.this,"onResume"+flag,Toast.LENGTH_LONG).show();
@@ -102,85 +99,74 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
 
 
 
-    public List<Map<String, Object>> acking(List<Request> requests)
+    public List<ItemBean> acking(List<Request> requests)
     {
         //List<Map<String,Object>> req=new ArrayList<Map<String,Object>>();
         Request mid=new Request();
-        Log.i("in", "----------- "+num);
+        int iImagepic=0,iImagedone=0,iImageflag=0,iflag=0,inum=0,ijifen=0;
+        String icontent=null,iusername=null,iplace=null,itime = null;
         for(int i=0;i<requests.size();i++)
         {
-            Map<String,Object> map=new HashMap<String,Object>();
             mid=requests.get(i);
-            /*map.put("num", mid.getNum());
-            map.put("time", mid.getTime());
-            map.put("flag", mid.getFlag());
-            map.put("publisher", mid.getPublisher());
-            map.put("p_number", mid.getP_number());
-            map.put("p_phone",mid.getP_phone());
-            map.put("helper", mid.getHelper());
-            map.put("h_number", mid.getH_number());
-            map.put("h_phone", mid.getH_phone());
-            map.put("user_loc", mid.getUser_loc());
-            map.put("content", mid.getContent());
-            map.put("info", mid.getInfor());
-            map.put("r_nameORmessage", mid.getR_nameORmessage());
-            map.put("r_locORpackage_loc", mid.getR_locORpackage_loc());
-            map.put("r_phoneORphone", mid.getR_phoneORphone());
-            map.put("nullORpackage", mid.getNullORpackage_Id());*/
-            int flag=mid.getFlag();
-            flag=flag-(flag/10*10);
+            int tflag=mid.getFlag();
+            tflag=tflag-(tflag/10*10);
 
-            if(mid.getNum()!=0&&flag==2)
+
+            if(mid.getNum()!=0&&tflag==2)
             {
-                map.put("IV_flag",R.drawable.rflag);
-                map.put("content",mid.getContent());
-                map.put("flag",mid.getFlag());
-                map.put("location",mid.getUser_loc());
-                map.put("num",mid.getNum());
-                map.put("name",mid.publisher);
-                map.put("point",mid.getPoint());
+                iImagepic=R.mipmap.ic_launcher;
+                iImageflag=R.drawable.rflag;
+                icontent=mid.getContent();
+                iflag=mid.getFlag();
+                iplace=mid.getUser_loc();
+                inum=mid.getNum();
+                iusername=mid.publisher;
+                ijifen=mid.getPoint();
                 String str = mid.getTime();
-               String []time =str.split("-");
-                str=time[0]+"年"+time[1]+"月"+time[2]+"日"+time[3]+"点"+time[4]+"分";
-                map.put("time",str);
-                if((flag%100)/10==1)
+               String []ttime =str.split("-");
+                str=ttime[0]+"年"+ttime[1]+"月"+ttime[2]+"日"+ttime[3]+"点"+ttime[4]+"分";
+                itime=str;
+                if((tflag%100)/10==1)
                 {
-                    map.put("done",R.mipmap.iv_accept);
+                    iImagedone=R.mipmap.iv_accept;
                 }
-                else if((flag%100)/10==2)
+                else if((tflag%100)/10==2)
                 {
-                    map.put("done",R.mipmap.iv_done);
+                    iImagedone=R.mipmap.iv_done;
+
                 }
-                datamapList.add(map);
+                itemBeanList.add(new ItemBean(itime,inum,iflag,iImagepic,iImagedone,iImageflag,icontent,ijifen,iusername,iplace));
+
             }
-            else if(mid.getNum()!=0&&flag==1)//寄
+            else if(mid.getNum()!=0&&tflag==1)//寄
             {
-                map.put("IV_flag",R.drawable.sflag);
-                map.put("content",mid.getContent());
-                map.put("flag",mid.getFlag());
-                map.put("location",mid.getUser_loc());
-                map.put("num",mid.getNum());
-                map.put("point",mid.getPoint());
-                map.put("name",mid.publisher);
+                iImagepic=R.mipmap.ic_launcher;
+                iImageflag=R.drawable.sflag;
+                icontent=mid.getContent();
+                iflag=mid.getFlag();
+                iplace=mid.getUser_loc();
+                inum=mid.getNum();
+                iusername=mid.publisher;
+                ijifen=mid.getPoint();
                 String str = mid.getTime();
-                String [] time=str.split("-");
-                str=time[0]+"年"+time[1]+"月"+time[2]+"日"+time[3]+"点"+time[4]+"分";
-                map.put("time",str);
-                if((flag%100)/10==1)
+                String []ttime =str.split("-");
+                str=ttime[0]+"年"+ttime[1]+"月"+ttime[2]+"日"+ttime[3]+"点"+ttime[4]+"分";
+                itime=str;
+                if((tflag%100)/10==1)
                 {
-                    map.put("done",R.mipmap.iv_accept);
+                    iImagedone=R.mipmap.iv_accept;
                 }
-                else if((flag%100)/10==2)
+                else if((tflag%100)/10==2)
                 {
-                    map.put("done",R.mipmap.iv_done);
+                    iImagedone=R.mipmap.iv_done;
                 }
-                datamapList.add(map);
+
+                itemBeanList.add(new ItemBean(itime,inum,iflag,iImagepic,iImagedone,iImageflag,icontent,ijifen,iusername,iplace));
             }
 
 
         }
-        Log.i("in", "----------- "+num);
-        return datamapList;
+        return itemBeanList;
     }
 
 
@@ -224,8 +210,9 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         refresh();
 
 
-        mainListAdp = new SimpleAdapter(this, datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location","num","name","time","point","done"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place,R.id.tv_num,R.id.item_username,R.id.item_time,R.id.tv_jifen,R.id.iv_done});
-        mainList.setAdapter(mainListAdp);
+//        mainListAdp = new SimpleAdapter(this, datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location","num","name","time","point","done"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place,R.id.tv_num,R.id.item_username,R.id.item_time,R.id.tv_jifen,R.id.iv_done});
+        myAdapter = new MyAdapter(this,itemBeanList);
+        mainList.setAdapter(myAdapter);
         mainList.setOnItemClickListener(this);
 
 
@@ -435,10 +422,10 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
 
 
 
-            Object obj=datamapList.get(i).get("flag");
-            Object obj2=datamapList.get(i).get("num");
-            int n=(int)obj2;
-            int temp = (int)obj;
+
+            int n=itemBeanList.get(i).getNum();
+            int temp =itemBeanList.get(i).getFlag();
+
             SharedPreferences pre=getSharedPreferences("clickitemnum",MODE_PRIVATE);
             SharedPreferences.Editor editor =pre.edit();
             editor.putInt("num",n);
@@ -543,7 +530,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             super.handleMessage(msg);
             isLoading=false;
 
-            mainListAdp.notifyDataSetChanged();
+            myAdapter.notifyDataSetChanged();
            // HomeActivity.this.findViewById(R.id.load_layout).setVisibility(View.GONE);
 
 
@@ -571,7 +558,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             @Override
             public void run() {
                 mSwipeLayout.setRefreshing(false);
-                datamapList.removeAll(datamapList);
+                itemBeanList.removeAll(itemBeanList);
                 num=-1;
                 getDataFromNetwork();
             }
