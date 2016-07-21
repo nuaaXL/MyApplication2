@@ -43,7 +43,6 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
     private int firstflag=0;
     SimpleAdapter mainListAdp;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
