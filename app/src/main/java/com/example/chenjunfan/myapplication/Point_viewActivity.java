@@ -1,9 +1,11 @@
 package com.example.chenjunfan.myapplication;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +19,9 @@ import c.b.PListener;
  */
 public class Point_viewActivity extends Activity{
     private TextView pointTV;
+    private ProgressDialog prodialog;
+
+
 
 
 
@@ -25,6 +30,10 @@ public class Point_viewActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prodialog=new ProgressDialog(Point_viewActivity.this);
+        prodialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        prodialog.setIndeterminate(true);
+        prodialog.setMessage("正在生成订单");
 
         BP.init(this,"325b6f72cd6027952c961615031d543f");
 
@@ -62,30 +71,41 @@ public class Point_viewActivity extends Activity{
     }
     public void getpoint(View view)
     {
-        BP.pay("商品名称", "商品描述", 0.02, false, new PListener(){
-            @Override
-            public void orderId(String s) {
 
-                Toast.makeText(Point_viewActivity.this,"订单id:"+s,Toast.LENGTH_LONG).show();
+
+                prodialog.show();
+
+
+                BP.pay("商品名称", "商品描述", 0.02, false, new PListener(){
+                    @Override
+                    public void orderId(String s) {
+                        Message msg = new Message();
+                       msg.obj="订单id:"+s;
+
+                    }
+
+                    @Override
+                    public void succeed() {
+                        Toast.makeText(Point_viewActivity.this,"success",Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void fail(int i, String s) {
+                        Toast.makeText(Point_viewActivity.this,"fail "+i+" "+s,Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void unknow() {
+                        Toast.makeText(Point_viewActivity.this,"unknow",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
 
-            @Override
-            public void succeed() {
-                Toast.makeText(Point_viewActivity.this,"success",Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void fail(int i, String s) {
-                Toast.makeText(Point_viewActivity.this,"fail "+i+" "+s,Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void unknow() {
-                Toast.makeText(Point_viewActivity.this,"unknow",Toast.LENGTH_SHORT).show();
-            }
-        });
+    @Override
+    protected void onResume() {
+        super.onResume();
+        prodialog.cancel();
     }
-
-
 }

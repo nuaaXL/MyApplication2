@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ public class helpedsdActivity extends Activity {
     private String haccout,hname,content,userloc,pay,rname,rphone,raddress,kuaidi,note,hphone;
     private int num,tflag;
     private ProgressDialog prodialog;
+    private LinearLayout callhelperLL;
 
 
     @Override
@@ -69,6 +71,7 @@ public class helpedsdActivity extends Activity {
         finishedBT = (Button) findViewById(R.id.btn_dsd_finished);
         callBT = (ImageButton) findViewById(R.id.btn_dsd_call);
         msgBT = (ImageButton) findViewById(R.id.btn_dsd_msg);
+        callhelperLL = (LinearLayout) findViewById(R.id.dsd_callhelper);
 
 
     }
@@ -170,17 +173,22 @@ public class helpedsdActivity extends Activity {
                 waitRL.setVisibility(View.VISIBLE);
                 finishRL.setVisibility(View.GONE);
                 finishedRL.setVisibility(View.GONE);
+                callhelperLL.setVisibility(View.GONE);
             }
             else if((tflag/10)%10==1)
             {
                 waitRL.setVisibility(View.GONE);
                 finishRL.setVisibility(View.VISIBLE);
                 finishedRL.setVisibility(View.GONE);
+                callhelperLL.setVisibility(View.VISIBLE);
+
             }
             else{
                 waitRL.setVisibility(View.GONE);
                 finishRL.setVisibility(View.GONE);
                 finishedRL.setVisibility(View.VISIBLE);
+                callhelperLL.setVisibility(View.VISIBLE);
+
             }
 
         }
@@ -205,7 +213,7 @@ public class helpedsdActivity extends Activity {
         startActivity(intent);
     }
 
-    public void drdmakefinish(View view)
+    public void dsdmakefinish(View view)
     {
         prodialog=new ProgressDialog(helpedsdActivity.this);
         prodialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

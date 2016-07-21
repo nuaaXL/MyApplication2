@@ -1,5 +1,6 @@
 package com.example.chenjunfan.myapplication;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -38,6 +39,8 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
     private List<Request> dataList = new ArrayList<Request>();
     private List<Map<String, Object>> datamapList = new ArrayList<Map<String, Object>>();
     private ListView mainList;
+    private ProgressDialog prodialog;
+    private int firstflag=0;
     SimpleAdapter mainListAdp;
 
 
@@ -61,12 +64,23 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
     }
 
     private void getDataFromNetwork() {
+        prodialog=new ProgressDialog(getActivity());
+        prodialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        prodialog.setIndeterminate(true);
+        prodialog.setMessage("正在刷新");
 
 
         Thread t2 = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+                    if(firstflag==0)
+
+                    {
+                        handlershow.sendMessage(new Message());
+                        firstflag=1;
+                    }
+
                     SQLiteDatabase db3 = getActivity().openOrCreateDatabase("request.db",getActivity().MODE_PRIVATE,null);
 
                     db3.execSQL("create table if not exists myrequesttb(num integer,time text,flag integer,publisher text" +
@@ -171,6 +185,10 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
                     handler2.sendMessage(msg);
                     //  HomeActivity.this.findViewById(R.id.load_layout).setVisibility(View.GONE);
                 }
+
+                    handlerunshow.sendMessage(new Message());
+
+
 
 
             }
@@ -296,4 +314,25 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
             e.printStackTrace();
         }
     }
+
+    Handler handlershow = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            prodialog.show();
+        }
+    };
+    Handler handlerunshow = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            prodialog.cancel();
+        }
+    };
 }
