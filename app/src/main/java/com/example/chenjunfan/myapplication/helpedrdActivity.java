@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ private TextView haccoutTV,hnameTV,contentTV,userlocTV,rnameTV,rphoneTV,pckidTV,
     int tflag;
     String hphone;
     private ProgressDialog prodialog;
+    private LinearLayout callhelperLL;
 
 
     @Override
@@ -70,6 +72,7 @@ private TextView haccoutTV,hnameTV,contentTV,userlocTV,rnameTV,rphoneTV,pckidTV,
         finishBT = (Button) findViewById(R.id.btn_drd_finish);
         finishedRL = (RelativeLayout) findViewById(R.id.rl_drd_finished);
         finishedBT = (Button) findViewById(R.id.btn_drd_finished);
+        callhelperLL = (LinearLayout) findViewById(R.id.drd_callhelper);
 
 
     }
@@ -142,17 +145,22 @@ private TextView haccoutTV,hnameTV,contentTV,userlocTV,rnameTV,rphoneTV,pckidTV,
                 waitRL.setVisibility(View.VISIBLE);
                 finishRL.setVisibility(View.GONE);
                 finishedRL.setVisibility(View.GONE);
+                callhelperLL.setVisibility(View.GONE);
             }
             else if((tflag/10)%10==1)
             {
                 waitRL.setVisibility(View.GONE);
                 finishRL.setVisibility(View.VISIBLE);
                 finishedRL.setVisibility(View.GONE);
+                callhelperLL.setVisibility(View.VISIBLE);
+
             }
             else{
                 waitRL.setVisibility(View.GONE);
                 finishRL.setVisibility(View.GONE);
                 finishedRL.setVisibility(View.VISIBLE);
+                callhelperLL.setVisibility(View.VISIBLE);
+
             }
 
         }
