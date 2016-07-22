@@ -287,10 +287,9 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
         try {
 
 
-            Object obj = datamapList.get(i).get("flag");
-            Object obj2 = datamapList.get(i).get("num");
-            int n = (int) obj2;
-            int temp = (int) obj;
+
+            int n = itemBeanList.get(i).getNum();
+            int temp = itemBeanList.get(i).getFlag();
             SharedPreferences pre = getActivity().getSharedPreferences("clickitemnum", getActivity().MODE_PRIVATE);
             SharedPreferences.Editor editor = pre.edit();
             editor.putInt("num", n);
