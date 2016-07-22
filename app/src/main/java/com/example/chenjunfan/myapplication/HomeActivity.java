@@ -61,7 +61,6 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     static Activity ActivityA;
     private  TextView timeTV;
     private boolean isLoading;
-    int lastvisibleitem,totalitemcount;
 
     @Override
     protected void onRestart() {
@@ -531,7 +530,6 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             isLoading=false;
 
             myAdapter.notifyDataSetChanged();
-           // HomeActivity.this.findViewById(R.id.load_layout).setVisibility(View.GONE);
 
 
         }
