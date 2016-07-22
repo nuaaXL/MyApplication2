@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,7 +33,11 @@ import com.lidroid.xutils.http.client.HttpRequest;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -63,6 +68,7 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
     private RadioGroup schoolGP;
     private int gender;
     private String school;
+    private User user = new User();
 
     Handler handler = new Handler(){
         @Override
@@ -185,7 +191,7 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
 
                 HttpUtils http = new HttpUtils();
                 http.send(HttpRequest.HttpMethod.POST,
-                        "http://192.168.191.1:8080/NanhangServer/uploadServlet", params,
+                        "http://"+getResources().getText(R.string.IP)+":8080/Ren_Test/uploadServlet", params,
                         new RequestCallBack<String>() {
 
 
@@ -218,6 +224,10 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
                             public void onSuccess(ResponseInfo<String> arg0) {
                                 System.out.println("hello....onSuccess");
                                 resultText.setText("onSuccess");
+                                Message msg = new Message();
+                                msg.obj = arg0.result.toString();
+                                System.out.println(msg.obj);
+                                handler_suc.sendMessage(msg);
                             }
                         });
 
@@ -301,6 +311,7 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
                         user.setPoint(c.getInt(c.getColumnIndex("point")));
 
 
+
                     }
                 }
                 user.setName(nameET.getText().toString());
@@ -314,7 +325,7 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
                             + user.getPhone() + "&school=" + URLEncoder.encode(user.getSchool(), "gbk") + "&actionCode=modifyConfirm" + "&userId=" + user.getUserId();
                     Log.i("url", Url);
                     db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
-                            ",phone text,school text,point integer)");
+                            ",phone text,school text,point integer,url text)");
 
                     URL url = new URL(Url);
                     URLConnection conn = url.openConnection();
@@ -329,17 +340,20 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
                     List<User> userList = gson.fromJson(str, new TypeToken<List<User>>() {
                     }.getType());
                     User user2;
-                    user2 = (User) userList.get(0);
+                    user=user2 = (User) userList.get(0);
                     Log.i("user2", user2.getUserId());
                     if ((user2.getUserId().toString().equals("1"))) {
 
                         db.execSQL("delete from usertb");
-                        db.execSQL("insert into usertb(userId,name,passwd,gender,phone,school,point) values('" + user.getUserId() + "','" + user.getName() + "','"
-                                + user.getPasswd() + "'," + user.getGender() + ",'" + user.getPhone() + "','" + user.getSchool() + "'," + user.getPoint() + ")");
+                        db.execSQL("insert into usertb(userId,name,passwd,gender,phone,school,point,url) values('" + user.getUserId() + "','" + user.getName() + "','"
+                                + user.getPasswd() + "'," + user.getGender() + ",'" + user.getPhone() + "','" + user.getSchool() + "'," + user.getPoint() + ",'"+user.getUrl()+"')");
                         db.close();
                         Message msg=new Message();
-                        msg.obj="修改成功，返回主界面";
+                        msg.obj="修改成功，返回登录界面";
                         handler.sendMessage(msg);
+                        HomeActivity.ActivityA.finish();
+                        Intent intent2 = new Intent(Person_visionActivity.this,LoginActivity.class);
+                        startActivity(intent2);
                         finish();
                     }
                     else
@@ -347,6 +361,9 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
                         Message msg=new Message();
                         msg.obj="修改失败，请稍候再试";
                         handler.sendMessage(msg);
+                        db.close();
+                        c.close();
+
                         finish();
                     }
 
@@ -361,5 +378,120 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
         });
 
         t.start();
+    }
+
+    Handler handler_suc = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+           final String str = (String) msg.obj;
+
+            Log.i("str",str);
+
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+
+                    SQLiteDatabase db = openOrCreateDatabase("user.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
+                    User user = new User();
+                    Cursor c = db.rawQuery("select * from usertb", null);
+                    if (c != null) {
+                        while (c.moveToNext()) {
+
+
+                            user.setUserId(c.getString(c.getColumnIndex("userId")));
+
+                        }
+                    }
+
+
+                    db.close();
+                    c.close();
+
+                    try {
+                        String Url;
+                        Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/modifyServlet" +"?actionCode=pic_apply"+"&userId="+user.getUserId()+"&url="+str;
+                        System.out.println(Url);
+                        URL url = new URL(Url);
+                        URLConnection conn = url.openConnection();
+
+                        conn.setRequestProperty("Accept-Charset", "gbk");
+                        conn.setRequestProperty("contentType", "gbk");
+
+
+                        conn.setReadTimeout(6000);
+
+                        InputStream stream = conn.getInputStream();
+
+                        InputStreamReader reader = new InputStreamReader(stream, "gbk");
+
+                        BufferedReader br = new BufferedReader(reader);
+                        String str = "";
+                        String line = "";
+
+                        while ((line = br.readLine()) != null) {
+                            str += line;
+                        }
+
+                        System.out.println("ddddddddddddd" + str);
+
+
+                        Gson gson = new Gson();
+                        List<User> userList = gson.fromJson(str, new TypeToken<List<User>>() {
+                        }.getType());
+
+                        user = (User) userList.get(0);
+                        Log.i("user1", user.getUserId());
+
+                        if(user.getUserId().toString().equals("1"))
+                        {
+                            Message msg2 = new Message();
+                            msg2.obj = "图片保存成功！";
+                            handler.sendMessage(msg2);
+                        }
+                        else
+                        {
+                            Message msg2 = new Message();
+                            msg2.obj = "图片保存失败！";
+                            handler.sendMessage(msg2);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+
+
+
+                }
+            });
+            t.start();
+        }
+    };
+
+    public static Bitmap getHttpBitmap(String url) {
+        URL myFileUrl = null;
+        Bitmap bitmap = null;
+        try {
+            Log.d("tag", url);
+            myFileUrl = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        try {
+            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
+            conn.setConnectTimeout(0);
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 }

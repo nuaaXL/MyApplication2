@@ -130,7 +130,7 @@
                         android:layout_marginTop="10dp" >
 
                         <ImageView
-                            android:id="@+id/iv_avatar"
+                            android:id="@+id/iv_home_touxiang"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_marginLeft="15dp"
@@ -143,7 +143,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="16dp"
                             android:layout_marginTop="10dp"
-                            android:layout_toRightOf="@id/iv_avatar"
+                            android:layout_toRightOf="@id/iv_home_touxiang"
                             android:orientation="horizontal" >
 
                             <TextView
@@ -170,7 +170,7 @@
                             android:layout_marginLeft="16dp"
                             android:layout_marginTop="5dp"
                             android:layout_below="@+id/ll_name"
-                            android:layout_toRightOf="@id/iv_avatar"
+                            android:layout_toRightOf="@id/iv_home_touxiang"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="学号：161430319"

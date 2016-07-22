@@ -5,6 +5,9 @@ public class Request {
 	String time;//日期
 	int flag; //1寄      2取
 	int point;
+	String url;
+
+
 	String publisher,//求助人
 			p_number, //求助人学号
 			p_phone,//求助人联系方式
@@ -154,6 +157,14 @@ public class Request {
 	public int getPoint()
 	{
 		return this.point;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }

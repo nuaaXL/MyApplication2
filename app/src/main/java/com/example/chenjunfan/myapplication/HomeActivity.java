@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
@@ -24,8 +26,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -37,7 +44,7 @@ import java.util.List;
 public class HomeActivity extends Activity implements AdapterView.OnItemClickListener,LoadListView.ILoadListener,SwipeRefreshLayout.OnRefreshListener {
     private SwipeRefreshLayout mSwipeLayout;
     private ImageView homeIV;
-    private ImageView meIV;
+    private ImageView meIV,touxiangIV;
     private RelativeLayout homeRL;
     private RelativeLayout wodeRL;
     private TextView homeTV;
@@ -201,6 +208,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         homeTV = (TextView) findViewById(R.id.tv_home);
         meTV = (TextView) findViewById(R.id.tv_me);
         timeTV = (TextView) findViewById(R.id.item_time);
+        touxiangIV = (ImageView) findViewById(R.id.iv_home_touxiang);
 
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         mSwipeLayout.setOnRefreshListener(this);
@@ -372,7 +380,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                                         request.getFlag() +","+request.getPoint()+ ",'" + request.getPublisher() + "','" + request.getP_number() + "','" + request.getP_phone() + "','" + request.getHelper()
                                         + "','" + request.getH_number() + "','" + request.getH_phone() + "','" + request.getUser_loc() + "','" + request.getContent() + "','" +
                                         request.getInfor() + "','" + request.getR_nameORmessage() + "','" + request.getR_locORpackage_loc() + "','" + request.getR_phoneORphone() +
-                                        "','" + request.getNullORpackage_Id() + "')");
+                                        "','" + request.getNullORpackage_Id() +"')");
                                 db.close();
                                 num = request.getNum();
 
@@ -452,8 +460,9 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             public void run() {
                 SQLiteDatabase db = openOrCreateDatabase("user.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
                 db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
-                        ",phone text,school text,point integer)");
+                        ",phone text,school text,point integer,url text)");
                 Cursor c = db.rawQuery("select * from usertb", null);
+                System.out.println("在refresh");
                 if (c != null) {
                     while (c.moveToNext()) {
 
@@ -465,10 +474,17 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                         user.setPhone(c.getString(c.getColumnIndex("phone")));
                         user.setSchool(c.getString(c.getColumnIndex("school")));
                         user.setPoint(c.getInt(c.getColumnIndex("point")));
+                        user.setUrl(c.getString(c.getColumnIndex("url")));
+                        System.out.println(user.getUrl());
+
 
 
                     }
                 }
+
+                Message touxiangmsg = new Message();
+                touxiangmsg.obj=user.getUrl();
+                handler_touxiang.sendMessage(touxiangmsg);
 
         /*
         显示到me里：
@@ -536,6 +552,109 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         }
     };
 
+    Handler handler_touxiang = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+             final String turl = "http://192.168.2.11/nuaaxl/"+(String) msg.obj;
+
+
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println("handler_touxiang:"+turl);
+                    Bitmap bitmap = getHttpBitmap(turl);
+                    Message msgbit = new Message();
+                    msgbit.obj=bitmap;
+                    handlerbit.sendMessage(msgbit);
+                }
+            });
+            t.start();
+
+
+//
+//            //String path =etPath.getText().toString();
+//            HttpUtils http = new HttpUtils();
+//            http.download(turl, "/sdcard"+System.currentTimeMillis()+".jpg", true, true, new RequestCallBack<File>() {
+//
+//                @Override
+//                public void onLoading(long total, long current,
+//                                      boolean isUploading) {
+//
+//                    super.onLoading(total, current, isUploading);
+//                    System.out.println("onLoading....");
+//
+//                }
+//
+//
+//                @Override
+//                public void onStart() {
+//                   System.out.println("onStart....");
+//                }
+//
+//
+//
+//                @Override
+//                public void onFailure(HttpException error, String msg) {
+//                    System.out.println("onFailure....");
+//
+//                    //tvInfo.setText(msg);
+//                }
+//
+//                @Override
+//                public void onSuccess(ResponseInfo<File> responseInfo) {
+//                    // TODO Auto-generated method stub
+//                    //tvInfo.setText("downloaded:" + responseInfo.result.getPath());
+//                    System.out.println("onSuccess....");
+//
+//                    Bitmap bitmap = getLoacalBitmap(responseInfo.result.getPath());
+//                    touxiangIV.setImageBitmap(bitmap);
+//
+//                }
+//
+//
+//            });
+
+        }
+
+
+
+    };
+
+    public static Bitmap getLoacalBitmap(String url) {
+        try {
+            FileInputStream fis = new FileInputStream(url);
+            return BitmapFactory.decodeStream(fis);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public static Bitmap getHttpBitmap(String url) {
+        URL myFileUrl = null;
+        Bitmap bitmap = null;
+        try {
+            Log.d("tag", url);
+            myFileUrl = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        try {
+            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
+            conn.setConnectTimeout(0);
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+
 
 
 
@@ -563,6 +682,17 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             }
         }, 1000);
     }
+
+    Handler handlerbit = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            touxiangIV.setImageBitmap((Bitmap) msg.obj);
+        }
+    };
+
+
 
 }
 
