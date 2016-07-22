@@ -380,6 +380,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                             }
                             else
                             {
+                                handler4.sendMessage(new Message());
                                     msg.obj = "已经显示全部条目";
                                     handler2.sendMessage(msg);
 
