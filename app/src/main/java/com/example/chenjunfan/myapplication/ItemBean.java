@@ -1,15 +1,18 @@
 package com.example.chenjunfan.myapplication;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by chenjunfan on 16/7/21.
  */
 public class ItemBean {
-    int Imagepic;
+
     int Imagedone;
     int Imageflag,num,flag,jifen;
+    Bitmap Imagepic;
     public String content,username,place,time;
 
-    public ItemBean(String time, int num, int flag, int imagepic, int imagedone,
+    public ItemBean(String time, int num, int flag, Bitmap imagepic, int imagedone,
                     int imageflag, String content, int jifen, String username, String place) {
         this.time = time;
         this.num = num;
@@ -23,11 +26,11 @@ public class ItemBean {
         this.place = place;
     }
 
-    public int getImagepic() {
+    public Bitmap getImagepic() {
         return Imagepic;
     }
 
-    public void setImagepic(int imagepic) {
+    public void setImagepic(Bitmap imagepic) {
         Imagepic = imagepic;
     }
 

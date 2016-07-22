@@ -2,8 +2,11 @@ package com.example.chenjunfan.myapplication;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,8 +23,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -76,13 +82,13 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
 
                     db3.execSQL("create table if not exists myrequesttb(num integer,time text,flag integer,point integer,publisher text" +
                             ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-                            "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+                            "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text,url text)");
                     db3.execSQL("drop table myrequesttb");
                     db3.close();
 
                     SQLiteDatabase db = getActivity().openOrCreateDatabase("user.db", getActivity().MODE_PRIVATE, null);
                     db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
-                            ",phone text,school text,point integer)");
+                            ",phone text,school text,point integer,url text)");
                     Cursor c = db.rawQuery("select * from usertb", null);
                     if (c != null) {
                         while (c.moveToNext()) {
@@ -147,13 +153,13 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
                             SQLiteDatabase db5 = getActivity().openOrCreateDatabase("request.db", getActivity().MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
                             db5.execSQL("create table if not exists myrequesttb(num integer,time text,flag integer,point integer,publisher text" +
                                     ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-                                    "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+                                    "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text,url text)");
                             db5.execSQL("insert into myrequesttb(num,time,flag,point,publisher,p_number,p_phone,helper,h_number,h_phone,user_loc,content,infor," +
-                                    "r_nameORmessage,r_locORpackage_loc,r_phoneORphone,nullORpackage_Id)values(" + request.getNum() + ",'" + request.getTime() + "'," +
+                                    "r_nameORmessage,r_locORpackage_loc,r_phoneORphone,nullORpackage_Id,url)values(" + request.getNum() + ",'" + request.getTime() + "'," +
                                     request.getFlag() +","+request.getPoint()+ ",'" + request.getPublisher() + "','" + request.getP_number() + "','" + request.getP_phone() + "','" + request.getHelper()
                                     + "','" + request.getH_number() + "','" + request.getH_phone() + "','" + request.getUser_loc() + "','" + request.getContent() + "','" +
                                     request.getInfor() + "','" + request.getR_nameORmessage() + "','" + request.getR_locORpackage_loc() + "','" + request.getR_phoneORphone() +
-                                    "','" + request.getNullORpackage_Id() + "')");
+                                    "','" + request.getNullORpackage_Id() +"','" +request.getUrl()+"')");
                             db5.close();
 
                         } else {
@@ -190,7 +196,8 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
     {
         //List<Map<String,Object>> req=new ArrayList<Map<String,Object>>();
         Request mid=new Request();
-        int iImagepic=0,iImagedone=0,iImageflag=0,iflag=0,inum=0,ijifen=0;
+        Bitmap iImagepic=null;
+        int iImagedone=0,iImageflag=0,iflag=0,inum=0,ijifen=0;
         String icontent=null,iusername=null,iplace=null,itime = null;
         for(int i=0;i<requests.size();i++)
         {
@@ -201,7 +208,8 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
 
             if(mid.getNum()!=0&&tflag%10==2)
             {
-                iImagepic=R.mipmap.ic_launcher;
+                Resources res = getResources();
+                iImagepic= BitmapFactory.decodeResource(res, R.drawable.qqtouxiang);
                 iImageflag=R.drawable.rflag;
                 icontent=mid.getContent();
                 iflag=mid.getFlag();
@@ -227,7 +235,7 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
             }
             else if(mid.getNum()!=0&&tflag%10==1)//寄
             {
-                iImagepic=R.mipmap.ic_launcher;
+                iImagepic=getHttpBitmap("http://"+getResources().getText(R.string.IP)+"/request/"+mid.getUrl());
                 iImageflag=R.drawable.sflag;
                 icontent=mid.getContent();
                 iflag=mid.getFlag();
@@ -307,6 +315,29 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static Bitmap getHttpBitmap(String url) {
+        URL myFileUrl = null;
+        Bitmap bitmap = null;
+        try {
+            Log.d("tag", url);
+            myFileUrl = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        try {
+            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
+            conn.setConnectTimeout(0);
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 
 }

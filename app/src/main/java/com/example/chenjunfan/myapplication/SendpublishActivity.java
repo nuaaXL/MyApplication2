@@ -5,9 +5,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,9 +25,20 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -33,7 +48,7 @@ import java.util.List;
  * Created by chenjunfan on 16/7/10.
  */
 public class SendpublishActivity extends Activity implements View.OnClickListener{
-    private Button fabuButton;
+    private Button fabuButton,selectpicBT,uploadBT;
     private EditText contentET;
     private EditText locET;
     private EditText nameET;
@@ -41,14 +56,26 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
     private EditText addressET;
     private RadioGroup payRG;
     private EditText noteET;
-    private ImageView imageBack;
+    private ImageView imageBack,photoIV;
     private Spinner spinner;
+    private String picturePath;
+    private String URL=null;
+
     private EditText pointET;
     private int flag=1;
     private int point=0;
     private int restpoint=0;
     private ProgressDialog prodialog;
 
+    Handler handlerImage = new Handler(){
+        public void handleMessage(android.os.Message msg) {
+
+            if(msg.arg1==1){
+
+                photoIV.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            }
+        }
+    };
 
 
     Handler handler = new Handler() {
@@ -99,6 +126,13 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
         noteET= (EditText) findViewById(R.id.et_sp_note);
         imageBack.setOnClickListener(this) ;
         spinner = (Spinner) findViewById(R.id.sp_kuaidi);
+        selectpicBT = (Button) findViewById(R.id.sp_selectImage);
+        photoIV = (ImageView) findViewById(R.id.sp_photo);
+        uploadBT = (Button) findViewById(R.id.sp_upload);
+
+        selectpicBT.setOnClickListener(this);
+        uploadBT.setOnClickListener(this);
+
 
         payRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -172,8 +206,72 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
     @Override
     public void onClick(View view) {
 
-        finish();
+        switch (view.getId()) {
 
+            case R.id.sp_selectImage:
+                Intent i = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                this.startActivityForResult(i, 1);// startActivityForResult(i, "1");
+                break;
+            case R.id.sp_upload:
+                RequestParams params = new RequestParams();
+                params.addQueryStringParameter("method", "upload");
+                params.addQueryStringParameter("path", picturePath);
+                params.addBodyParameter("file", new File(picturePath));
+
+                HttpUtils http = new HttpUtils();
+                http.send(HttpRequest.HttpMethod.POST,
+                        "http://"+getResources().getText(R.string.IP)+":8080/Ren_Test/reuploadServlet", params,
+                        new RequestCallBack<String>() {
+
+
+                            @Override
+                            public void onStart() {
+                                System.out.println("hello....onStart");
+                            }
+
+
+
+                            @Override
+                            public void onLoading(long total, long current,
+                                                  boolean isUploading) {
+
+                                super.onLoading(total, current, isUploading);
+
+//                                resultText.setText(current + "/" + total);
+                            }
+
+
+
+                            @Override
+                            public void onFailure(HttpException error, String msg) {
+                                System.out.println("hello....fail");
+                                error.printStackTrace();
+                            }
+
+                            @Override
+                            public void onSuccess(ResponseInfo<String> arg0) {
+                                System.out.println("hello....onSuccess");
+//                                resultText.setText("onSuccess");
+                                URL=arg0.result.toString();
+                                System.out.println(arg0.result.toString());
+                            }
+                        });
+
+                break;
+
+
+
+
+
+
+
+            default:
+                break;
+
+        }
     }
 
 
@@ -193,7 +291,7 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
 
                 SQLiteDatabase db = openOrCreateDatabase("user.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
                 db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
-                        ",phone text,school text,point integer)");
+                        ",phone text,school text,point integer,url text)");
                 Cursor c = db.rawQuery("select * from usertb", null);
                 if (c != null) {
                     while (c.moveToNext()) {
@@ -240,7 +338,7 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                         Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/requestServlet" + "?type=add" + "&flag=" + flag +
                                 "&publisher=" + URLEncoder.encode(user.getName(), "gbk") + "&p_number=" + user.getUserId() + "&p_phone=" + user.getPhone() + "&user_loc=" + URLEncoder.encode(locET.getText().toString(), "gbk") + "&content=" + URLEncoder.encode(contentET.getText().toString(), "gbk") +
                                 "&infor=" + URLEncoder.encode(noteET.getText().toString(), "gbk") + "&r_nameORmessage=" + URLEncoder.encode(nameET.getText().toString(), "gbk") + "&r_locORpackage_loc=" + URLEncoder.encode(addressET.getText().toString(), "gbk") + "&r_phoneORphone=" + phoneET.getText().toString() +
-                                "&nullORpackage_Id=" + URLEncoder.encode("xx", "gbk") + "&point=" + point;
+                                "&nullORpackage_Id=" + URLEncoder.encode("xx", "gbk") + "&point=" + point+"&url="+URL;
 
 //
                         locET.getText().toString();
@@ -312,4 +410,63 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
     }
 
 
+
+    public static Bitmap getHttpBitmap(String url) {
+        URL myFileUrl = null;
+        Bitmap bitmap = null;
+        try {
+            Log.d("tag", url);
+            myFileUrl = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        try {
+            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
+            conn.setConnectTimeout(0);
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            picturePath = cursor.getString(columnIndex);
+
+            //tv.setText(picturePath);
+
+            System.out.println("=============picturePath======"+picturePath);
+
+            Message msg = handlerImage.obtainMessage();
+            msg.arg1=1;
+            handlerImage.sendMessage(msg);
+
+            cursor.close();
+
+
+
+
+        }
+    }
+
 }
+
+
+
+

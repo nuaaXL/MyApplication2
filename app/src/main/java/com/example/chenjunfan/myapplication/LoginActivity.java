@@ -50,7 +50,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
          String str= (String) msg.obj;
 
             Toast.makeText(LoginActivity.this,str,Toast.LENGTH_SHORT).show();
-            finish();
+
 
         }
     };

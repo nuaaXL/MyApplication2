@@ -3,6 +3,7 @@ package com.example.chenjunfan.myapplication;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -109,7 +110,8 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     {
         //List<Map<String,Object>> req=new ArrayList<Map<String,Object>>();
         Request mid=new Request();
-        int iImagepic=0,iImagedone=0,iImageflag=0,iflag=0,inum=0,ijifen=0;
+        Bitmap iImagepic=null;
+        int iImagedone=0,iImageflag=0,iflag=0,inum=0,ijifen=0;
         String icontent=null,iusername=null,iplace=null,itime = null;
         for(int i=0;i<requests.size();i++)
         {
@@ -120,7 +122,8 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
 
             if(mid.getNum()!=0&&tflag%10==2)
             {
-                iImagepic=R.mipmap.ic_launcher;
+                Resources res = getResources();
+                iImagepic= BitmapFactory.decodeResource(res, R.drawable.qqtouxiang);
                 iImageflag=R.drawable.rflag;
                 icontent=mid.getContent();
                 iflag=mid.getFlag();
@@ -146,7 +149,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             }
             else if(mid.getNum()!=0&&tflag%10==1)//寄
             {
-                iImagepic=R.mipmap.ic_launcher;
+                iImagepic=getHttpBitmap("http://"+getResources().getText(R.string.IP)+"/request/"+mid.getUrl());
                 iImageflag=R.drawable.sflag;
                 icontent=mid.getContent();
                 iflag=mid.getFlag();
@@ -185,7 +188,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         SQLiteDatabase db5 = openOrCreateDatabase("request.db",MODE_PRIVATE,null);
         db5.execSQL("create table if not exists requesttb(num integer,time text,flag integer,point integer,publisher text" +
                 ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-                "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+                "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text,url text)");
         db5.execSQL("drop table requesttb");
         db5.close();
         getDataFromNetwork();
@@ -374,13 +377,13 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                                 SQLiteDatabase db = openOrCreateDatabase("request.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
                                 db.execSQL("create table if not exists requesttb(num integer,time text,flag integer,point integer,publisher text" +
                                         ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-                                        "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+                                        "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text,url text)");
                                 db.execSQL("insert into requesttb(num,time,flag,point,publisher,p_number,p_phone,helper,h_number,h_phone,user_loc,content,infor," +
-                                        "r_nameORmessage,r_locORpackage_loc,r_phoneORphone,nullORpackage_Id)values(" + request.getNum() + ",'" + request.getTime() + "'," +
+                                        "r_nameORmessage,r_locORpackage_loc,r_phoneORphone,nullORpackage_Id,url)values(" + request.getNum() + ",'" + request.getTime() + "'," +
                                         request.getFlag() +","+request.getPoint()+ ",'" + request.getPublisher() + "','" + request.getP_number() + "','" + request.getP_phone() + "','" + request.getHelper()
                                         + "','" + request.getH_number() + "','" + request.getH_phone() + "','" + request.getUser_loc() + "','" + request.getContent() + "','" +
                                         request.getInfor() + "','" + request.getR_nameORmessage() + "','" + request.getR_locORpackage_loc() + "','" + request.getR_phoneORphone() +
-                                        "','" + request.getNullORpackage_Id() +"')");
+                                        "','" + request.getNullORpackage_Id() +"','"+request.getUrl()+"')");
                                 db.close();
                                 num = request.getNum();
 

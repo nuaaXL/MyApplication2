@@ -64,7 +64,7 @@ public class MyAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         ItemBean bean = mList.get(position);
-        viewHolder.picIV.setImageResource(bean.Imagepic);
+        viewHolder.picIV.setImageBitmap(bean.Imagepic);
         viewHolder.doneIV.setImageResource(bean.Imagedone);
         viewHolder.flagIV.setImageResource(bean.Imageflag);
         viewHolder.timeTV.setText(bean.time);
