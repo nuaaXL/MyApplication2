@@ -31,6 +31,18 @@
         </RelativeLayout>
 
     </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -265,6 +277,15 @@
 
     </LinearLayout>
 
+        </ScrollView>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/shadow2" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -284,6 +305,8 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"/>
     </RelativeLayout>
+
+    </FrameLayout>
 
 
 </LinearLayout>
