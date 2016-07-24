@@ -277,6 +277,7 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
 
     public void submit(View view)
     {
+
         prodialog=new ProgressDialog(SendpublishActivity.this);
         prodialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         prodialog.setIndeterminate(true);
@@ -288,7 +289,7 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
             public void run() {
 
                 User user = new User();
-
+                Message msg = new Message();
                 SQLiteDatabase db = openOrCreateDatabase("user.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
                 db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
                         ",phone text,school text,point integer,url text)");
@@ -305,10 +306,17 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                         user.setSchool(c.getString(c.getColumnIndex("school")));
                         user.setPoint(c.getInt(c.getColumnIndex("point")));
                     }
-                    point = Integer.parseInt(pointET.getText().toString());
+                    if(pointET!=null&&!pointET.getText().toString().equals(""))
+                        point = Integer.parseInt(pointET.getText().toString());
+                    else
+                    {
+                        Message msg2 = new Message();
+                        msg2.obj="请输入您要悬赏的积分";
+                        handler.sendMessage(msg2);
+                    }
                 }
 
-                Message msg = new Message();
+
                 if (contentET.getText().toString().equals("")) {
                     msg.obj = "请输入包裹内容";
                     handler.sendMessage(msg);

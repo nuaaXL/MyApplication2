@@ -217,7 +217,34 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
             if(mid.getNum()!=0&&tflag%10==2)
             {
                 Resources res = getResources();
-                iImagepic= BitmapFactory.decodeResource(res, R.drawable.qqtouxiang);
+                if(tflag/1000==1)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.sf);
+                }
+                else if(tflag/1000==2)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.yt);
+                }
+                else if(tflag/1000==3)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.st);
+                }
+                else if(tflag/1000==4)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.zt);
+                }
+                else if(tflag/1000==5)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.tt);
+                }
+                else if(tflag/1000==6)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.yd);
+                }
+                else if(tflag/1000==7)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.bs);
+                }
                 iImageflag=R.drawable.rflag;
                 icontent=mid.getContent();
                 iflag=mid.getFlag();
