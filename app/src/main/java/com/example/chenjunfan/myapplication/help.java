@@ -69,6 +69,8 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
         prodialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         prodialog.setIndeterminate(true);
         prodialog.setMessage("正在刷新");
+        prodialog.setCancelable(false);
+
 
 
         Thread t2 = new Thread(new Runnable() {
