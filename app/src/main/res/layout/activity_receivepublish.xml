@@ -184,6 +184,37 @@
             android:paddingRight="12dp" >
 
             <TextView
+                android:id="@+id/tv_rp_kuaidi"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="快递公司"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rp_kuaidi"
+                android:layout_toRightOf="@+id/tv_rp_kuaidi"
+                android:textColorHint="#AAAAAA"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp" >
+
+            <TextView
                 android:id="@+id/tv_sign_temp5"
                 android:layout_width="96dp"
                 android:layout_height="wrap_content"
