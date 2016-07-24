@@ -1,5 +1,6 @@
 package com.example.chenjunfan.myapplication;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -43,6 +44,8 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
     private List<ItemBean> itemBeanList =new ArrayList<>();
     private List<Request> dataList = new ArrayList<Request>();
     private MyAdapter myAdapter;
+    private ProgressDialog prodialog;
+
     private ListView mainList;
 
     @Override
@@ -50,7 +53,11 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         View view = inflater.inflate(R.layout.helped, container, false);
-
+        prodialog=new ProgressDialog(getActivity());
+        prodialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        prodialog.setIndeterminate(true);
+        prodialog.setMessage("正在刷新");
+        prodialog.setCancelable(false);
         mainList = (ListView) view.findViewById(R.id.LVhelp_send);
         myAdapter = new MyAdapter(getActivity(),itemBeanList);
         mainList.setAdapter(myAdapter);
@@ -72,6 +79,7 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
     }
 
     private void getDataFromNetwork() {
+        handlershow.sendMessage(new Message());
 
 
         Thread t2 = new Thread(new Runnable() {
@@ -163,8 +171,10 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
                             db5.close();
 
                         } else {
-                            msg.obj = "已经显示全部条目";
-                            handler2.sendMessage(msg);
+                            if(msg!=null) {
+                                msg.obj = "已经显示全部条目";
+                                handler2.sendMessage(msg);
+                            }
 
                         }
 
@@ -209,7 +219,34 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
             if(mid.getNum()!=0&&tflag%10==2)
             {
                 Resources res = getResources();
-                iImagepic= BitmapFactory.decodeResource(res, R.drawable.qqtouxiang);
+                if(tflag/1000==1)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.sf);
+                }
+                else if(tflag/1000==2)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.yt);
+                }
+                else if(tflag/1000==3)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.st);
+                }
+                else if(tflag/1000==4)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.zt);
+                }
+                else if(tflag/1000==5)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.tt);
+                }
+                else if(tflag/1000==6)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.yd);
+                }
+                else if(tflag/1000==7)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.bs);
+                }
                 iImageflag=R.drawable.rflag;
                 icontent=mid.getContent();
                 iflag=mid.getFlag();
@@ -282,6 +319,7 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
         public void handleMessage(Message msg) {
 
             super.handleMessage(msg);
+            handlerunshow.sendMessage(new Message());
             myAdapter.notifyDataSetChanged();
             // HomeActivity.this.findViewById(R.id.load_layout).setVisibility(View.GONE);
 
@@ -339,6 +377,26 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener 
         }
         return bitmap;
     }
+    Handler handlershow = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            prodialog.show();
+        }
+    };
+    Handler handlerunshow = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            prodialog.cancel();
+        }
+    };
 
 }
 
