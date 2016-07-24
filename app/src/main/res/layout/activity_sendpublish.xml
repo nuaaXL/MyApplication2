@@ -406,18 +406,11 @@
             android:layout_width="158dp"
             android:layout_height="158dp"
             android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"
             android:id="@+id/sp_photo"
             />
 
-            <Button
-                android:id="@+id/sp_upload"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="shangchuan"
-                android:text="上传"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/button_grey"/>
+
         </RelativeLayout>
 
 
