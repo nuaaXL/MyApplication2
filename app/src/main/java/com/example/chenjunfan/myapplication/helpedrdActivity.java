@@ -42,6 +42,7 @@ public class helpedrdActivity extends Activity {
 private TextView haccoutTV,hnameTV,contentTV,userlocTV,rnameTV,rphoneTV,pckidTV,noteTV,jifenTV;
     private ImageButton callBT,msgBT;
     private Button waitBT,finishBT,finishedBT;
+    private ImageView imageBack;
     RelativeLayout waitRL,finishRL,finishedRL;
     String haccout,hname,content,userloc,rname,rphone,pckid,note,publisherid,touxiangURL;
     Bitmap touxiangbit;
@@ -57,6 +58,14 @@ private TextView haccoutTV,hnameTV,contentTV,userlocTV,rnameTV,rphoneTV,pckidTV,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.helped_rd);
+
+        imageBack = (ImageView) findViewById(R.id.img_back);
+        imageBack.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                finish();
+            }
+        });
         initview();
         refresh();
 
