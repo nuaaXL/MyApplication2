@@ -60,7 +60,7 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_marginLeft="15dp"
-                android:background="@color/button_g" />
+                android:scaleType="centerCrop"/>
 
             <LinearLayout
                 android:id="@+id/ll_name"
@@ -387,8 +387,8 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="158dp"
-                android:layout_height="158dp"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
                 android:scaleType="centerCrop"
                 android:id="@+id/sd_image"
                 android:layout_centerInParent="true"/>

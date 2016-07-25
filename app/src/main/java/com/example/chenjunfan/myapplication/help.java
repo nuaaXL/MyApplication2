@@ -186,7 +186,6 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
                     Message msg = new Message();
                     msg.obj = "服务器无响应";
                     handler2.sendMessage(msg);
-                    //  HomeActivity.this.findViewById(R.id.load_layout).setVisibility(View.GONE);
                 }
 
                     handlerunshow.sendMessage(new Message());

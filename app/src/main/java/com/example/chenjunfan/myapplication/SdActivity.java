@@ -47,7 +47,7 @@ public class SdActivity extends Activity {
     private TextView userName;
     private TextView nameTV;
     private TextView accoutTV;
-    private ImageView imageIV,touxiangIV;
+    private ImageView tupianIV,touxiangIV;
     private Button helpBT;
     private RelativeLayout nameRL,phoneRL,addressRL,helpRL,callRL;
     private TextView rnameTV,rphoneTV,raddressTV,noteTV,jifenTV;
@@ -57,6 +57,8 @@ public class SdActivity extends Activity {
     int tflag,jifen;
     private String number;
     int behelp=0;
+    Bitmap touxiangbit,tupianbit;
+    private String publisherid,picurl,headurl;
 
     String username,content,loc,pay,kuaidi,name,accout;
 
@@ -77,6 +79,7 @@ public class SdActivity extends Activity {
         callRL= (RelativeLayout) findViewById(R.id.rl_sd_call);
         noteTV= (TextView) findViewById(R.id.tv_sd_beizhu);
         touxiangIV = (ImageView) findViewById(R.id.iv_sd_touxiang);
+        tupianIV = (ImageView) findViewById(R.id.sd_image);
 
         imageBack = (ImageView) findViewById(R.id.img_back);
         imageBack.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +121,8 @@ public class SdActivity extends Activity {
                 if (c != null) {
                     c.moveToNext();
                         content = c.getString(c.getColumnIndex("content"));
+                    publisherid=c.getString(c.getColumnIndex("p_number"));
+                    picurl=c.getString(c.getColumnIndex("url"));
                         loc = c.getString(c.getColumnIndex("user_loc"));
                         rname=(c.getString(c.getColumnIndex("r_nameORmessage")));
                         rphone=(c.getString(c.getColumnIndex("r_phoneORphone")));
@@ -171,28 +176,6 @@ public class SdActivity extends Activity {
 
                 }
 
-                User user = new User();
-                SQLiteDatabase db3 = openOrCreateDatabase("user.db", MODE_PRIVATE, null);
-                db3.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
-                        ",phone text,school text,point integer)");
-                Cursor c3 = db3.rawQuery("select * from usertb", null);
-                if (c3 != null) {
-                    c3.moveToNext();
-
-
-
-                    user.setUserId(c3.getString(c3.getColumnIndex("userId")));
-                    if(user.getUserId().equals(number))
-                    {
-                        handlertouchme.sendMessage(new Message());
-                    }
-
-
-
-
-                }
-                db3.close();
-                c3.close();
 
                 handler3.sendMessage(new Message());
             }
@@ -222,14 +205,7 @@ public class SdActivity extends Activity {
         public void handleMessage(Message msg) {
 
             super.handleMessage(msg);
-            Log.i("touxiang","http://"+getResources().getText(R.string.IP)+"/nuaa/"+touxiangURL);
-            try
-            {touxiangIV.setImageBitmap(getHttpBitmap("http://"+getResources().getText(R.string.IP)+"/nuaa/"+touxiangURL));}
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-
+            handlergetpic.sendMessage(new Message());
             contentTV.setText(content);
             locTV.setText(loc);
             payTV.setText(pay);
@@ -240,6 +216,88 @@ public class SdActivity extends Activity {
 
         }
     };
+
+    Handler handlergetpic = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String Url;
+                        Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/HeadServlet" + "?userId=" + publisherid;
+                        Log.i("tag", Url);
+                        URL url = new URL(Url);
+                        URLConnection conn = url.openConnection();
+                        conn.setRequestProperty("Accept-Charset", "gbk");
+                        conn.setRequestProperty("contentType", "gbk");
+                        conn.setReadTimeout(4000);
+                        InputStreamReader reader = new InputStreamReader(conn.getInputStream(), "gbk");
+                        BufferedReader br = new BufferedReader(reader);
+                        String str = br.readLine();
+                        System.out.println(str);
+                        Gson gson = new Gson();
+                        List<User> userList = gson.fromJson(str, new TypeToken<List<User>>() {
+                        }.getType());
+                        User user = (User) userList.get(0);
+                        Log.i("user1", user.getUserId());
+                        touxiangURL=user.getUrl();
+                        pichandler.sendMessage(new Message());
+
+
+
+                    }
+                    catch (Exception e )
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+
+
+
+
+        }
+
+    };
+    Handler pichandler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        touxiangbit=getHttpBitmap("http://" + getResources().getText(R.string.IP) + "/nuaa/" + touxiangURL);
+                        tupianbit=getHttpBitmap("http://" + getResources().getText(R.string.IP) + "/request/" + picurl);
+                        setpichandler.sendMessage(new Message());
+                    }
+                    catch (Exception e )
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
+        }
+    };
+
+    Handler setpichandler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            touxiangIV.setImageBitmap(touxiangbit);
+            tupianIV.setImageBitmap(tupianbit);
+        }
+    };
+
+
 
     public void helpji(View view)
     {
@@ -341,6 +399,7 @@ public class SdActivity extends Activity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            handlergetpic.sendMessage(new Message());
             helpRL.setVisibility(View.GONE);
             callRL.setVisibility(View.VISIBLE);
             nameRL.setVisibility(View.VISIBLE);
