@@ -183,6 +183,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                                 startActivity(intent);
                                 handler.sendMessage(msg);
                                 prodialog.cancel();
+                                finish();
                             } else {
                                 Message msg = new Message();
                                 msg.obj = "登录失败，请稍候再试";
