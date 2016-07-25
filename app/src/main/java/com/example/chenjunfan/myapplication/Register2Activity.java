@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.ContentResolver;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,8 +28,20 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -49,6 +61,8 @@ public class Register2Activity extends Activity implements View.OnClickListener 
     private int year;
     private int month;
     private int day;
+    private ProgressDialog prodialog2;
+
     private Button selectImage;
     private ImageView imageBack;
     private ImageView imageView;
@@ -56,7 +70,7 @@ public class Register2Activity extends Activity implements View.OnClickListener 
     private EditText nameEt;
     private RadioGroup group;
 
-    private String userId, name, passwd, phone, school;
+    private String userId, name, passwd, phone, school,picturePath,userurl="";
     private int gender, point;
 
     Handler handler = new Handler(){
@@ -85,6 +99,12 @@ public class Register2Activity extends Activity implements View.OnClickListener 
         imageView = (ImageView) findViewById(R.id.headphoto);
         nameEt = (EditText) findViewById(R.id.et_r_name);
         group = (RadioGroup) findViewById(R.id.gp_r_group2);
+        prodialog2 = new ProgressDialog(Register2Activity.this);
+        prodialog2.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        prodialog2.setIndeterminate(true);
+        prodialog2.setCancelable(false);
+        prodialog2.setMessage("正在压缩和上传图片，请稍等");
+
 
         SharedPreferences pre = getSharedPreferences("register", MODE_PRIVATE);
         final SharedPreferences.Editor editor = pre.edit();
@@ -138,13 +158,11 @@ public class Register2Activity extends Activity implements View.OnClickListener 
         switch (view.getId()) {
 
             case R.id.selectImage:
-                /***
-                 * 这个是调用android内置的intent，来过滤图片文件 ，同时也可以过滤其他的
-                 */
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, 1);
+                Intent i = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                this.startActivityForResult(i, 1);// startActivityForResult(i, "1");
                 break;
 
             case R.id.btn_pickDate:
@@ -162,46 +180,6 @@ public class Register2Activity extends Activity implements View.OnClickListener 
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            /**
-             * 当选择的图片不为空的话，在获取到图片的途径
-             */
-            Uri uri = data.getData();
-//            Log.e(TAG, "uri = " + uri);
-            try {
-                String[] pojo = {MediaStore.Images.Media.DATA};
-
-                Cursor cursor = managedQuery(uri, pojo, null, null, null);
-                if (cursor != null) {
-                    ContentResolver cr = this.getContentResolver();
-                    int colunm_index = cursor
-                            .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                    cursor.moveToFirst();
-                    String path = cursor.getString(colunm_index);
-                    /***
-                     * 这里加这样一个判断主要是为了第三方的软件选择，比如：使用第三方的文件管理器的话，你选择的文件就不一定是图片了，
-                     * 这样的话，我们判断文件的后缀名 如果是图片格式的话，那么才可以
-                     */
-                    if (path.endsWith("jpg") || path.endsWith("png")) {
-                        picPath = path;
-                        Bitmap bitmap = BitmapFactory.decodeStream(cr
-                                .openInputStream(uri));
-                        imageView.setImageBitmap(bitmap);
-                    } else {
-                        alert();
-                    }
-                } else {
-                    alert();
-                }
-
-            } catch (Exception e) {
-            }
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
     private void alert() {
         Dialog dialog = new AlertDialog.Builder(this).setTitle("提示")
@@ -242,7 +220,7 @@ public class Register2Activity extends Activity implements View.OnClickListener 
                         String Url;
 
                         Url = "http://"+getResources().getText(R.string.IP)+":8080/Ren_Test/modifyServlet" + "?userId=" + userId + "&name=" + URLEncoder.encode(name, "gbk") + "&gender=" + gender + "&passwd=" +
-                                passwd + "&phone=" + phone + "&school=" + URLEncoder.encode(school,"gbk") + "&actionCode=register";
+                                passwd + "&phone=" + phone + "&school=" + URLEncoder.encode(school,"gbk") + "&actionCode=register"+"&url="+userurl;
                         Log.i("tag", Url);
                         SharedPreferences pre4 = getSharedPreferences("registerflag", MODE_PRIVATE);
                         SharedPreferences.Editor editor4 = pre4.edit();
@@ -304,6 +282,204 @@ public class Register2Activity extends Activity implements View.OnClickListener 
 
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            picturePath = cursor.getString(columnIndex);
+
+            //tv.setText(picturePath);
+
+            System.out.println("=============picturePath======" + picturePath);
+
+            Message msg = handlerImage.obtainMessage();
+            msg.arg1 = 1;
+            handlerImage.sendMessage(msg);
+
+            cursor.close();
+
+
+        }
+    }
+    Handler handlerImage = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+
+            if (msg.arg1 == 1) {
+
+                transform(picturePath);
+
+            }
+        }
+    };
+
+    private Bitmap compressImage(Bitmap image) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        int options = 100;
+        while (baos.toByteArray().length / 1024 > 200) {    //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+
+            System.out.println("while:" + (baos.toByteArray().length / 1024));
+            baos.reset();//重置baos即清空baos
+            if (options > 20)
+                options -= 10;//每次都减少10
+            else {
+                options -= 1;
+            }
+
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
+        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
+        return bitmap;
+    }
+
+    public void saveMyBitmap(Bitmap mBitmap) {
+        File f = new File("/sdcard/Note/temp.jpg");
+        FileOutputStream fOut = null;
+        try {
+            fOut = new FileOutputStream(f);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        mBitmap.compress(Bitmap.CompressFormat.JPEG, 50, fOut);
+        try {
+            fOut.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            fOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //将图片的长和宽缩小味原来的1/2
+
+    private BitmapFactory.Options getBitmapOption(int inSampleSize) {
+        System.gc();
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPurgeable = true;
+        options.inSampleSize = inSampleSize;
+        return options;
+    }
+
+    private void transform(final String filePath) {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("正在处理和上传图片");
+                handlershow2.sendMessage(new Message());
+
+                Bitmap bitmap = BitmapFactory.decodeFile(filePath, getBitmapOption(2));
+                bitmap = compressImage(bitmap);
+                saveMyBitmap(bitmap);
+                handlerIV.sendMessage(new Message());
+                handlerunshow2.sendMessage(new Message());
+
+            }
+        });
+        t.start();
+
+
+    }
+
+    Handler handlerIV = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            System.out.println("压缩完成！");
+            imageView.setImageBitmap(BitmapFactory.decodeFile("/sdcard/Note/temp.jpg"));
+        }
+    };
+    Handler getHandlerunshow2 = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            prodialog2.cancel();
+        }
+    };
+    Handler handlershow2 = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            prodialog2.show();
+        }
+    };
+    Handler handlerunshow2 = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+            RequestParams params = new RequestParams();
+            params.addQueryStringParameter("method", "upload");
+            params.addQueryStringParameter("path", "/sdcard/Note/temp.jpg");
+            params.addBodyParameter("file", new File( "/sdcard/Note/temp.jpg"));
+            HttpUtils http = new HttpUtils();
+            http.send(HttpRequest.HttpMethod.POST,
+                    "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/uploadServlet", params,
+                    new RequestCallBack<String>() {
+
+
+                        @Override
+                        public void onStart() {
+                          //  resultText.setText("conn...");
+                            System.out.println("hello....onStart");
+                        }
+
+
+                        @Override
+                        public void onLoading(long total, long current,
+                                              boolean isUploading) {
+
+                            super.onLoading(total, current, isUploading);
+
+                            //resultText.setText(current + "/" + total);
+                        }
+
+
+                        @Override
+                        public void onFailure(HttpException error, String msg) {
+                            System.out.println("hello....fail");
+                            error.printStackTrace();
+                        }
+
+                        @Override
+                        public void onSuccess(ResponseInfo<String> arg0) {
+                            System.out.println("hello....onSuccess");
+                            //resultText.setText("onSuccess");
+                            Message msg = new Message();
+                            msg.obj = arg0.result.toString();
+                            System.out.println(msg.obj);
+                            userurl=arg0.result.toString();
+                            getHandlerunshow2.sendMessage(new Message());
+
+                        }
+                    });
+
+
+
+        }
+    };
+
+
 
 
 }
