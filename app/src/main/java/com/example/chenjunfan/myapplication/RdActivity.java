@@ -59,10 +59,11 @@ public class RdActivity extends Activity{
     private String packid,r_phone,r_name;
     private TextView rnameTV,rphoneTV,packidTV;
     private String pphone;
-    private String touxiangURL;
+    private String touxiangURL,publisherid;
     int flag,point;
     String number;
     int behelp=0;
+    private Bitmap touxiangbit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,7 +135,7 @@ public class RdActivity extends Activity{
                         number = c.getString(c.getColumnIndex("p_number"));
                         pphone = c.getString(c.getColumnIndex("p_phone"));
                         point = c.getInt(c.getColumnIndex("point"));
-
+                        publisherid = c.getString(c.getColumnIndex("p_number"));
                     }
                 }
 
@@ -171,13 +172,7 @@ public class RdActivity extends Activity{
         @Override
         public void handleMessage(Message msg) {
 
-            super.handleMessage(msg);
-            try
-            {touxiangIV.setImageBitmap(getHttpBitmap("http://"+getResources().getText(R.string.IP)+"/nuaa/"+touxiangURL));}
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
+            handlergetpic.sendMessage(new Message());
             contentTV.setText(content);
             locTV.setText(loc);
             userName.setText(username);
@@ -200,6 +195,85 @@ public class RdActivity extends Activity{
 
         }
     };
+
+    Handler handlergetpic = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String Url;
+                        Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/HeadServlet" + "?userId=" + publisherid;
+                        Log.i("tag", Url);
+                        URL url = new URL(Url);
+                        URLConnection conn = url.openConnection();
+                        conn.setRequestProperty("Accept-Charset", "gbk");
+                        conn.setRequestProperty("contentType", "gbk");
+                        conn.setReadTimeout(4000);
+                        InputStreamReader reader = new InputStreamReader(conn.getInputStream(), "gbk");
+                        BufferedReader br = new BufferedReader(reader);
+                        String str = br.readLine();
+                        System.out.println(str);
+                        Gson gson = new Gson();
+                        List<User> userList = gson.fromJson(str, new TypeToken<List<User>>() {
+                        }.getType());
+                        User user = (User) userList.get(0);
+                        Log.i("user1", user.getUserId());
+                        touxiangURL=user.getUrl();
+                        pichandler.sendMessage(new Message());
+
+
+
+                    }
+                    catch (Exception e )
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+
+
+
+
+        }
+
+    };
+    Handler pichandler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        touxiangbit=getHttpBitmap("http://" + getResources().getText(R.string.IP) + "/nuaa/" + touxiangURL);
+                        setpichandler.sendMessage(new Message());
+                    }
+                    catch (Exception e )
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
+        }
+    };
+
+    Handler setpichandler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            touxiangIV.setImageBitmap(touxiangbit);
+        }
+    };
+
 
     public void makehelp(View view)
     {
