@@ -36,6 +36,7 @@ import java.util.List;
  * Created by chenjunfan on 16/7/20.
  */
 public class helprdActivity extends Activity  {
+    private ImageView imageBack;
     private TextView nameTV,accoutTV,contentTV,userlocTV,rnameTV,rphoneTV,pckidTV,noteTV,jifenTV;
     private RelativeLayout callRL,finishRL;
     private Button callBT,messageBT,finishBT;
@@ -51,6 +52,14 @@ public class helprdActivity extends Activity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.help_rd);
+
+        imageBack = (ImageView) findViewById(R.id.img_back);
+        imageBack.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                finish();
+            }
+        });
         initview();
         refresh();
 

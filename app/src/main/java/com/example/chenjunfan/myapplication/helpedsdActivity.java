@@ -48,13 +48,21 @@ public class helpedsdActivity extends Activity {
     private int num,tflag,jifen;
     private ProgressDialog prodialog;
     private LinearLayout callhelperLL;
-    private ImageView tupianIV,touxiangIV;
+    private ImageView tupianIV,touxiangIV,imageBack;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.helped_sd);
+
+        imageBack = (ImageView) findViewById(R.id.img_back);
+        imageBack.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         initview();
         refresh();
