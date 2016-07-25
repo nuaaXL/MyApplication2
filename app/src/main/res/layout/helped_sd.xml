@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:background="#ffffff"
     android:orientation="vertical">
@@ -71,7 +72,9 @@
                     android:layout_marginTop="10dp"
                     android:paddingRight="15dp">
 
-                    <ImageView
+                    <com.example.chenjunfan.myapplication.CircleImageView
+                        app:border_width="2dp"
+                        app:border_color="@color/purewhite"
                         android:id="@+id/sd_helper_image"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
