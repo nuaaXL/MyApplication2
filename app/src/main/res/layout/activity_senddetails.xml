@@ -60,7 +60,7 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_marginLeft="15dp"
-                android:background="@color/button_g" />
+                android:scaleType="centerCrop"/>
 
             <LinearLayout
                 android:id="@+id/ll_name"
