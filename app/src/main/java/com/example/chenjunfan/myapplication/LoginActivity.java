@@ -19,7 +19,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -86,11 +85,9 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
     public void LOGIN(View view)
     {
-        createPath("/sdcard/Note");
         prodialog=new ProgressDialog(LoginActivity.this);
         prodialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         prodialog.setIndeterminate(true);
-        prodialog.setCancelable(false);
         prodialog.setMessage("正在登录");
 
 
@@ -179,7 +176,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                                 }
 
                                 Message msg = new Message();
-                                msg.obj = "登录成功,请让我刷新一会~";
+                                msg.obj = "登录成功";
                                 startActivity(intent);
                                 handler.sendMessage(msg);
                                 prodialog.cancel();
@@ -208,18 +205,6 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
 
     }
-    public static void createPath(String path) {
-
-        File file = new File(path);
-
-        if (!file.exists()) {
-
-            file.mkdir();
-
-        }
-
-    }
-
 
 
 

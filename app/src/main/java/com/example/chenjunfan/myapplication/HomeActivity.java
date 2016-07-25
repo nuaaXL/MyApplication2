@@ -1,7 +1,6 @@
 package com.example.chenjunfan.myapplication;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -50,8 +49,6 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     private RelativeLayout homeRL;
     private RelativeLayout wodeRL;
     private TextView homeTV;
-    private ProgressDialog prodialog;
-
     private TextView meTV;
     private LoadListView mainList;
     private MyAdapter myAdapter;
@@ -214,7 +211,6 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         ActivityA=this;
         SQLiteDatabase db5 = openOrCreateDatabase("request.db",MODE_PRIVATE,null);
         db5.execSQL("create table if not exists requesttb(num integer,time text,flag integer,point integer,publisher text" +
@@ -222,7 +218,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                 "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text,url text)");
         db5.execSQL("drop table requesttb");
         db5.close();
-
+        getDataFromNetwork();
         accoutTV = (TextView) findViewById(R.id.tv_accout);
         nameTV = (TextView) findViewById(R.id.tv_name);
         homeIV = (ImageView) findViewById(R.id.IV_home);
@@ -247,116 +243,8 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setColorSchemeResources(R.color.button_g);
-        prodialog=new ProgressDialog(HomeActivity.this);
-        prodialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        prodialog.setIndeterminate(true);
-        prodialog.setCancelable(false);
-        prodialog.setMessage("正在刷新数据");
-
-
-        Thread t2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    handlershow.sendMessage(new Message());
-                    String Url;
-                    Url="http://"+getResources().getText(R.string.IP)+":8080/Ren_Test/requestServlet"+"?type=all"+"&num="+num;
-                    Log.i("tag",Url);
-                    Log.i("num",num+"");
-                    URL url = new URL(Url);
-                    URLConnection conn = url.openConnection();
-
-                    Message msg = new Message();
-
-
-
-                    conn.setRequestProperty("Accept-Charset", "gbk");
-                    conn.setRequestProperty("contentType", "gbk");
-
-
-
-                    conn.setReadTimeout(6000);
-
-                    InputStream stream = conn.getInputStream();
-
-                    InputStreamReader reader = new InputStreamReader(stream, "gbk");
-
-                    BufferedReader br = new BufferedReader(reader);
-                    String str="";
-                    String line="";
-
-                    while((line=br.readLine())!=null)
-                    {
-                        str+=line;
-                    }
-
-                    System.out.println("ddddddddddddd" + str);
-
-
-                    Gson gson = new Gson();
-                    List<Request> requestList = gson.fromJson(str, new TypeToken<List<Request>>() {
-                    }.getType());
-
-
-                    dataList = requestList;
-                    for (int i = 0; i < dataList.size(); i++) {
-
-                        Request request = (Request) dataList.get(i);
-                        if(request.getNum()!=0) {
-                            SQLiteDatabase db = openOrCreateDatabase("request.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
-                            db.execSQL("create table if not exists requesttb(num integer,time text,flag integer,point integer,publisher text" +
-                                    ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-                                    "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text,url text)");
-                            db.execSQL("insert into requesttb(num,time,flag,point,publisher,p_number,p_phone,helper,h_number,h_phone,user_loc,content,infor," +
-                                    "r_nameORmessage,r_locORpackage_loc,r_phoneORphone,nullORpackage_Id,url)values(" + request.getNum() + ",'" + request.getTime() + "'," +
-                                    request.getFlag() +","+request.getPoint()+ ",'" + request.getPublisher() + "','" + request.getP_number() + "','" + request.getP_phone() + "','" + request.getHelper()
-                                    + "','" + request.getH_number() + "','" + request.getH_phone() + "','" + request.getUser_loc() + "','" + request.getContent() + "','" +
-                                    request.getInfor() + "','" + request.getR_nameORmessage() + "','" + request.getR_locORpackage_loc() + "','" + request.getR_phoneORphone() +
-                                    "','" + request.getNullORpackage_Id() +"','"+request.getUrl()+"')");
-                            db.close();
-                            num = request.getNum();
-
-                        }
-                        else
-                        {
-                            handler4.sendMessage(new Message());
-                            msg.obj = "已经显示全部条目";
-                            handler2.sendMessage(msg);
-
-
-                            num=0;
-                            break;
-
-                        }
-
-
-                    }
-                    if(num!=0)
-                        num--;
-                    acking(dataList);
-                    handler4.sendMessage(new Message());
-
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Message msg = new Message();
-                    msg.obj = "服务器无响应";
-                    handler2.sendMessage(msg);
-                    //  HomeActivity.this.findViewById(R.id.load_layout).setVisibility(View.GONE);
-                }
-
-                handlerunshow.sendMessage(new Message());
-
-            }
-
-        });
-        t2.start();
 
         refresh();
-
-
-
 
 
 //        mainListAdp = new SimpleAdapter(this, datamapList, R.layout.item_main, new String[]{"pic", "IV_flag", "content","flag","location","num","name","time","point","done"}, new int[]{R.id.pic, R.id.IV_flag, R.id.item_content,R.id.flag,R.id.item_place,R.id.tv_num,R.id.item_username,R.id.item_time,R.id.tv_jifen,R.id.iv_done});
@@ -617,7 +505,6 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
                         user.setSchool(c.getString(c.getColumnIndex("school")));
                         user.setPoint(c.getInt(c.getColumnIndex("point")));
                         user.setUrl(c.getString(c.getColumnIndex("url")));
-
                         System.out.println(user.getUrl());
 
 
@@ -832,26 +719,6 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             touxiangIV.setImageBitmap((Bitmap) msg.obj);
-        }
-    };
-    Handler handlershow = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-
-            super.handleMessage(msg);
-
-            prodialog.show();
-        }
-    };
-    Handler handlerunshow = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-
-            super.handleMessage(msg);
-
-            prodialog.cancel();
         }
     };
 

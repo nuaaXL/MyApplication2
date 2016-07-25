@@ -35,7 +35,7 @@ public class Point_viewActivity extends Activity{
         prodialog.setIndeterminate(true);
         prodialog.setMessage("正在生成订单");
 
-        BP.init(this,"a0f03a59258733c127695d4ff069a685");
+        BP.init(this,"325b6f72cd6027952c961615031d543f");
 
         setContentView(R.layout.activity_point_view);
 

@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,11 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -47,12 +41,12 @@ public class SdActivity extends Activity {
     private TextView userName;
     private TextView nameTV;
     private TextView accoutTV;
-    private ImageView imageIV,touxiangIV;
+    private ImageView imageIV;
     private Button helpBT;
     private RelativeLayout nameRL,phoneRL,addressRL,helpRL,callRL;
     private TextView rnameTV,rphoneTV,raddressTV,noteTV,jifenTV;
     private String pphone;
-    String rname,rphone,raddress,note,touxiangURL;
+    String rname,rphone,raddress,note;
     private int num;
     int tflag,jifen;
     private String number;
@@ -76,7 +70,6 @@ public class SdActivity extends Activity {
         helpRL= (RelativeLayout) findViewById(R.id.rl_sd_help);
         callRL= (RelativeLayout) findViewById(R.id.rl_sd_call);
         noteTV= (TextView) findViewById(R.id.tv_sd_beizhu);
-        touxiangIV = (ImageView) findViewById(R.id.iv_sd_touxiang);
 
         imageBack = (ImageView) findViewById(R.id.img_back);
         imageBack.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +117,6 @@ public class SdActivity extends Activity {
                         raddress=(c.getString(c.getColumnIndex("r_locORpackage_loc")));
                         note=(c.getString(c.getColumnIndex("infor")));
                         number=c.getString(c.getColumnIndex("p_number"));
-                    touxiangURL=c.getString(c.getColumnIndex("url"));
                     jifen = c.getInt(c.getColumnIndex("point"));
                     pphone=c.getString(c.getColumnIndex("p_phone"));
                     freshhandler.sendMessage(new Message());
@@ -222,8 +214,6 @@ public class SdActivity extends Activity {
         public void handleMessage(Message msg) {
 
             super.handleMessage(msg);
-            Log.i("touxiang","http://"+getResources().getText(R.string.IP)+"/nuaa/"+touxiangURL);
-            touxiangIV.setImageBitmap(getHttpBitmap("http://"+getResources().getText(R.string.IP)+"/nuaa/"+touxiangURL));
 
             contentTV.setText(content);
             locTV.setText(loc);
@@ -401,29 +391,6 @@ public class SdActivity extends Activity {
         Intent intent = new Intent(Intent.ACTION_SENDTO,smsToUri);
         intent.putExtra("sms_body","你好，我已接单");
         startActivity(intent);
-    }
-
-    public static Bitmap getHttpBitmap(String url) {
-        URL myFileUrl = null;
-        Bitmap bitmap = null;
-        try {
-            Log.d("tag", url);
-            myFileUrl = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        try {
-            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
-            conn.setConnectTimeout(0);
-            conn.setDoInput(true);
-            conn.connect();
-            InputStream is = conn.getInputStream();
-            bitmap = BitmapFactory.decodeStream(is);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bitmap;
     }
 
 

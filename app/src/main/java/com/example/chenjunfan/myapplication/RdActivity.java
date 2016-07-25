@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,11 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -42,7 +36,7 @@ public class RdActivity extends Activity{
     private ProgressDialog prodialog;
 
 
-    private ImageView imageBack,touxiangIV;
+    private ImageView imageBack;
     private TextView userName;
     private TextView nameTV;
     private TextView accoutTV;
@@ -59,7 +53,6 @@ public class RdActivity extends Activity{
     private String packid,r_phone,r_name;
     private TextView rnameTV,rphoneTV,packidTV;
     private String pphone;
-    private String touxiangURL;
     int flag,point;
     String number;
     int behelp=0;
@@ -80,7 +73,6 @@ public class RdActivity extends Activity{
         callRL= (RelativeLayout) findViewById(R.id.ld_rd_call);
         smsgBT = (Button) findViewById(R.id.btn_rd_message);
         jifenTV = (TextView) findViewById(R.id.tv_rd_jifen);
-        touxiangIV = (ImageView) findViewById(R.id.iv_rd_avatar);
 
         nameRL = (RelativeLayout) findViewById(R.id.RD_name);
         phoneRL= (RelativeLayout) findViewById(R.id.RD_phone);
@@ -172,7 +164,7 @@ public class RdActivity extends Activity{
         public void handleMessage(Message msg) {
 
             super.handleMessage(msg);
-            touxiangIV.setImageBitmap(getHttpBitmap("http://"+getResources().getText(R.string.IP)+"/nuaa/"+touxiangURL));
+
             contentTV.setText(content);
             locTV.setText(loc);
             userName.setText(username);
@@ -370,28 +362,6 @@ public class RdActivity extends Activity{
         startActivity(intent);
     }
 
-    public static Bitmap getHttpBitmap(String url) {
-        URL myFileUrl = null;
-        Bitmap bitmap = null;
-        try {
-            Log.d("tag", url);
-            myFileUrl = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        try {
-            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
-            conn.setConnectTimeout(0);
-            conn.setDoInput(true);
-            conn.connect();
-            InputStream is = conn.getInputStream();
-            bitmap = BitmapFactory.decodeStream(is);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bitmap;
-    }
 
 
 
