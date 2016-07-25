@@ -381,21 +381,6 @@
 
                 </RelativeLayout>
 
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_width="158dp"
-                        android:layout_height="158dp"
-                        android:scaleType="centerCrop"
-                        android:id="@+id/help_sd_image"
-                        android:layout_centerInParent="true"/>
-
-
-                </RelativeLayout>
-
             </LinearLayout>
 
         </ScrollView>
