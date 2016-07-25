@@ -56,7 +56,7 @@
             android:layout_marginTop="10dp" >
 
             <ImageView
-                android:id="@+id/iv_sd_image"
+                android:id="@+id/iv_sd_touxiang"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_marginLeft="15dp"
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/iv_avatar"
+                android:layout_toRightOf="@id/iv_sd_touxiang"
                 android:orientation="horizontal" >
 
             </LinearLayout>
@@ -82,7 +82,7 @@
                 android:textColor="#AAAAAA"
                 android:textSize="14sp"
                 android:layout_alignParentBottom="true"
-                android:layout_toEndOf="@+id/iv_sd_image" />
+                android:layout_toEndOf="@+id/iv_sd_touxiang" />
 
             <TextView
                 android:id="@+id/tv_sd_name"
@@ -378,6 +378,20 @@
                 android:textSize="16sp"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                android:id="@+id/sd_image"
+                android:layout_centerInParent="true"/>
 
 
         </RelativeLayout>

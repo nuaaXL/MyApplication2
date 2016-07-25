@@ -19,6 +19,7 @@ import java.util.List;
 public class Help_odersActivity extends FragmentActivity {
 
 
+
     private ImageView imageBack;
     private List<Fragment> fragmentList;
     private ImageView cursor;
@@ -43,6 +44,8 @@ public class Help_odersActivity extends FragmentActivity {
         InitTextView();
         initCursorPos();
         InitViewPager();
+
+
     }
 
     public void InitTextView(){
@@ -129,4 +132,5 @@ public class Help_odersActivity extends FragmentActivity {
             cursor.startAnimation(animation);//是用ImageView来显示动画的
         }
     }
+
 }

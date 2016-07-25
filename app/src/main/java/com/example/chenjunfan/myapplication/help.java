@@ -3,12 +3,16 @@ package com.example.chenjunfan.myapplication;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +25,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -31,7 +38,8 @@ import java.util.List;
 /**
  * Created by 李计芃 on 2016/7/17.
  */
-public class help extends Fragment implements AdapterView.OnItemClickListener {
+public class help extends Fragment implements AdapterView.OnItemClickListener,SwipeRefreshLayout.OnRefreshListener {
+    private SwipeRefreshLayout mSwipeLayout;
     private User user =new User();
     private List<Request> dataList = new ArrayList<Request>();
     private List<ItemBean> itemBeanList =new ArrayList<>();
@@ -53,6 +61,10 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
         mainList.setOnItemClickListener(this);
         getDataFromNetwork();
 
+        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.help_swipe_container);
+        mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setColorSchemeResources(R.color.button_g);
+
 
 
         return view;
@@ -63,6 +75,8 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
         prodialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         prodialog.setIndeterminate(true);
         prodialog.setMessage("正在刷新");
+        prodialog.setCancelable(false);
+
 
 
         Thread t2 = new Thread(new Runnable() {
@@ -80,7 +94,7 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
 
                     db3.execSQL("create table if not exists myrequesttb(num integer,time text,flag integer,point integer,publisher text" +
                          ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-                            "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+                            "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text,url text)");
                     db3.execSQL("drop table myrequesttb");
                     db3.close();
 
@@ -151,13 +165,13 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
                             SQLiteDatabase db5 = getActivity().openOrCreateDatabase("request.db", getActivity().MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
                             db5.execSQL("create table if not exists myrequesttb(num integer,time text,flag integer,point integer,publisher text" +
                                     ",p_number text,p_phone text,helper text,h_number text,h_phone text,user_loc text,content text," +
-                                    "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text)");
+                                    "infor text,r_nameORmessage text,r_locORpackage_loc text,r_phoneORphone text,nullORpackage_Id text,url text)");
                             db5.execSQL("insert into myrequesttb(num,time,flag,point,publisher,p_number,p_phone,helper,h_number,h_phone,user_loc,content,infor," +
-                                    "r_nameORmessage,r_locORpackage_loc,r_phoneORphone,nullORpackage_Id)values(" + request.getNum() + ",'" + request.getTime() + "'," +
+                                    "r_nameORmessage,r_locORpackage_loc,r_phoneORphone,nullORpackage_Id,url)values(" + request.getNum() + ",'" + request.getTime() + "'," +
                                     request.getFlag() +","+request.getPoint()+ ",'" + request.getPublisher() + "','" + request.getP_number() + "','" + request.getP_phone() + "','" + request.getHelper()
                                     + "','" + request.getH_number() + "','" + request.getH_phone() + "','" + request.getUser_loc() + "','" + request.getContent() + "','" +
                                     request.getInfor() + "','" + request.getR_nameORmessage() + "','" + request.getR_locORpackage_loc() + "','" + request.getR_phoneORphone() +
-                                    "','" + request.getNullORpackage_Id() + "')");
+                                    "','" + request.getNullORpackage_Id() +"','"+request.getUrl()+ "')");
                             db5.close();
 
                         } else {
@@ -178,7 +192,6 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
                     Message msg = new Message();
                     msg.obj = "服务器无响应";
                     handler2.sendMessage(msg);
-                    //  HomeActivity.this.findViewById(R.id.load_layout).setVisibility(View.GONE);
                 }
 
                     handlerunshow.sendMessage(new Message());
@@ -198,7 +211,8 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
     {
         //List<Map<String,Object>> req=new ArrayList<Map<String,Object>>();
         Request mid=new Request();
-        int iImagepic=0,iImagedone=0,iImageflag=0,iflag=0,inum=0,ijifen=0;
+        Bitmap iImagepic=null;
+        int iImagedone=0,iImageflag=0,iflag=0,inum=0,ijifen=0;
         String icontent=null,iusername=null,iplace=null,itime = null;
         for(int i=0;i<requests.size();i++)
         {
@@ -209,7 +223,35 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
 
             if(mid.getNum()!=0&&tflag%10==2)
             {
-                iImagepic=R.mipmap.ic_launcher;
+                Resources res = getResources();
+                if(tflag/1000==1)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.sf);
+                }
+                else if(tflag/1000==2)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.yt);
+                }
+                else if(tflag/1000==3)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.st);
+                }
+                else if(tflag/1000==4)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.zt);
+                }
+                else if(tflag/1000==5)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.tt);
+                }
+                else if(tflag/1000==6)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.yd);
+                }
+                else if(tflag/1000==7)
+                {
+                    iImagepic= BitmapFactory.decodeResource(res, R.drawable.bs);
+                }
                 iImageflag=R.drawable.rflag;
                 icontent=mid.getContent();
                 iflag=mid.getFlag();
@@ -235,7 +277,7 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
             }
             else if(mid.getNum()!=0&&tflag%10==1)//寄
             {
-                iImagepic=R.mipmap.ic_launcher;
+                iImagepic=getHttpBitmap("http://"+getResources().getText(R.string.IP)+"/request/"+mid.getUrl());
                 iImageflag=R.drawable.sflag;
                 icontent=mid.getContent();
                 iflag=mid.getFlag();
@@ -336,4 +378,35 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
             prodialog.cancel();
         }
     };
+    public static Bitmap getHttpBitmap(String url) {
+        URL myFileUrl = null;
+        Bitmap bitmap = null;
+        try {
+            Log.d("tag", url);
+            myFileUrl = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        try {
+            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
+            conn.setConnectTimeout(0);
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(false);
+            }
+        }, 1000);
+    }
 }

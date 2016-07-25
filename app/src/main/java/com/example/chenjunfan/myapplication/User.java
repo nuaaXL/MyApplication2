@@ -1,7 +1,21 @@
 package com.example.chenjunfan.myapplication;
 
 public class User {
-	String userId, name, passwd, phone, school;
+	String userId;
+	String name;
+	String passwd;
+	String phone;
+	String school;
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	String url;
 	int gender, point;
 	public String getUserId() {
 		return userId;

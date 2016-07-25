@@ -10,8 +10,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -38,6 +41,8 @@ public class ReceivepublishActivity extends Activity {
     private EditText noteET;
     private int point = 0;
     private EditText pointET;
+    Spinner spinner;
+    int flag = 2;
 
 
 
@@ -54,6 +59,7 @@ public class ReceivepublishActivity extends Activity {
         rphoneET = (EditText) findViewById(R.id.et_rp_rphone);
         pgidET = (EditText) findViewById(R.id.et_rp_pgid);
         noteET = (EditText) findViewById(R.id.et_rp_note);
+        spinner = (Spinner) findViewById(R.id.rp_kuaidi);
 
 
 
@@ -64,6 +70,69 @@ public class ReceivepublishActivity extends Activity {
                 finish();
             }
         });
+
+
+        // 建立spinner数据源
+        String[] mItems = getResources().getStringArray(R.array.languages);
+// 建立Adapter并且绑定数据源
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, mItems);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//绑定 Adapter到控件
+        spinner .setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long id) {
+
+                String[] languages = getResources().getStringArray(R.array.languages);
+                if (languages[pos].equals("顺丰快递")) {
+                    if(flag>=1000)
+                        flag=flag-flag/1000*1000;
+                    flag+=1000;
+                }
+                else  if(languages[pos].equals("圆通快递")) {
+                    if(flag>=1000)
+                        flag=flag-flag/1000*1000;
+                    flag+=2000;
+                }
+                else if(languages[pos].equals("申通快递"))
+                {
+                    if(flag>=1000)
+                        flag=flag-flag/1000*1000;
+                    flag+=3000;
+                }
+                else if(languages[pos].equals("中通快递"))
+                {
+                    if(flag>=1000)
+                        flag=flag-flag/1000*1000;
+                    flag+=4000;
+                }
+                else if(languages[pos].equals("天天快递"))
+                {
+                    if(flag>=1000)
+                        flag=flag-flag/1000*1000;
+                    flag+=5000;
+                }
+                else if(languages[pos].equals("韵达快递"))
+                {
+                    if(flag>=1000)
+                        flag=flag-flag/1000*1000;
+                    flag+=6000;
+                }
+                else if(languages[pos].equals("百世汇通"))
+                {
+                    if(flag>=1000)
+                        flag=flag-flag/1000*1000;
+                    flag+=7000;
+                }
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
+            }
+        });
+
     }
 
     public void rsubmit(View view)
@@ -99,7 +168,14 @@ public class ReceivepublishActivity extends Activity {
 
 
                     }
-                    point=Integer.parseInt(pointET.getText().toString());
+                    if(pointET!=null&&!pointET.getText().toString().equals(""))
+                        point = Integer.parseInt(pointET.getText().toString());
+                    else
+                    {
+                        Message msg2 = new Message();
+                        msg2.obj="请输入您要悬赏的积分";
+                        handler.sendMessage(msg2);
+                    }
                 }
 
 
@@ -136,7 +212,7 @@ public class ReceivepublishActivity extends Activity {
 
                     try{
                         String Url;
-                        Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/requestServlet" + "?type=add" +"&flag=2" +
+                        Url = "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/requestServlet" + "?type=add" +"&flag=" +flag+
                                 "&publisher="+ URLEncoder.encode(user.getName(),"gbk")+"&p_number="+user.getUserId()+"&p_phone="+user.getPhone()+"&user_loc="+ URLEncoder.encode(locET.getText().toString(),"gbk")+"&content="+URLEncoder.encode(contentET.getText().toString(),"gbk")+
                                 "&infor="+URLEncoder.encode(noteET.getText().toString(),"gbk")+"&r_nameORmessage="+URLEncoder.encode(rnameET.getText().toString(),"gbk")+"&r_locORpackage_loc="+URLEncoder.encode(locET.getText().toString(),"gbk")+"&r_phoneORphone="+rphoneET.getText().toString()+
                                 "&nullORpackage_Id="+URLEncoder.encode(pgidET.getText().toString(),"gbk")+"&point="+point;
@@ -246,6 +322,8 @@ public class ReceivepublishActivity extends Activity {
             prodialog.cancel();
         }
     };
+
+
 
 
 

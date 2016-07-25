@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -35,6 +36,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     private User user=new User();
     private CheckBox remeberpw;
     private ProgressDialog prodialog;
+    Intent intent;
 
 
 
@@ -49,6 +51,8 @@ public class LoginActivity extends Activity implements View.OnClickListener{
          String str= (String) msg.obj;
 
             Toast.makeText(LoginActivity.this,str,Toast.LENGTH_SHORT).show();
+
+
         }
     };
 
@@ -56,6 +60,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        intent = new Intent(LoginActivity.this, HomeActivity.class);
 
 
 
@@ -81,12 +86,14 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
     public void LOGIN(View view)
     {
+        createPath("/sdcard/Note/");
         prodialog=new ProgressDialog(LoginActivity.this);
         prodialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         prodialog.setIndeterminate(true);
+        prodialog.setCancelable(false);
         prodialog.setMessage("正在登录");
 
-        final Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+
         if(idEditText.getText().toString().equals(""))
         {
             Toast.makeText(LoginActivity.this,"请输入学号",Toast.LENGTH_SHORT).show();
@@ -117,7 +124,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                             Log.i("tag", Url);
                             SQLiteDatabase db = openOrCreateDatabase("user.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
                             db.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
-                                    ",phone text,school text,point integer)");
+                                    ",phone text,school text,point integer,url text)");
                             db.execSQL("delete from usertb");
                             db.close();
                             URL url = new URL(Url);
@@ -137,9 +144,9 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
                             SQLiteDatabase db2 = openOrCreateDatabase("user.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
                             db2.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
-                                    ",phone text,school text,point integer)");
-                            db2.execSQL("insert into usertb(userId,name,passwd,gender,phone,school,point) values('" + user.getUserId() + "','" + user.getName() + "','"
-                                    + user.getPasswd() + "'," + user.getGender() + ",'" + user.getPhone() + "','" + user.getSchool() + "'," + user.getPoint() + ")");
+                                    ",phone text,school text,point integer,url text)");
+                            db2.execSQL("insert into usertb(userId,name,passwd,gender,phone,school,point,url) values('" + user.getUserId() + "','" + user.getName() + "','"
+                                    + user.getPasswd() + "'," + user.getGender() + ",'" + user.getPhone() + "','" + user.getSchool() + "'," + user.getPoint() + ",'"+user.getUrl()+"')");
                             db2.close();
 
 
@@ -170,12 +177,12 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                                     editor2.remove("passwd");
                                     editor2.commit();
                                 }
-                                startActivity(intent);
+
                                 Message msg = new Message();
-                                msg.obj = "登录成功";
+                                msg.obj = "登录成功,请让我刷新一会~";
+                                startActivity(intent);
                                 handler.sendMessage(msg);
                                 prodialog.cancel();
-                                finish();
                             } else {
                                 Message msg = new Message();
                                 msg.obj = "登录失败，请稍候再试";
@@ -201,6 +208,18 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
 
     }
+    public static void createPath(String path) {
+
+        File file = new File(path);
+
+        if (!file.exists()) {
+
+            file.mkdir();
+
+        }
+
+    }
+
 
 
 

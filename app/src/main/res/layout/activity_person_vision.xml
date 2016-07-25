@@ -253,17 +253,20 @@
 
         </RelativeLayout>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="158dp"
-            android:id="@+id/headphoto_modify"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:layout_width="158dp"
+            android:layout_height="158dp"
+            android:id="@+id/headphoto_modify"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"/>
+
+
 
 
 
@@ -273,12 +276,6 @@
             android:id="@+id/imagePath"
             android:layout_gravity="center"
             android:layout_centerHorizontal="true"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="上传"
-                android:id="@+id/upLoad"
-                android:layout_alignParentRight="true"/>
         </RelativeLayout>
 
 
