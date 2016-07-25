@@ -3,11 +3,9 @@ package com.example.chenjunfan.myapplication;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.Animation;
@@ -18,10 +16,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Help_odersActivity extends FragmentActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class Help_odersActivity extends FragmentActivity {
 
 
-    private SwipeRefreshLayout mSwipeLayout;
+
     private ImageView imageBack;
     private List<Fragment> fragmentList;
     private ImageView cursor;
@@ -47,9 +45,7 @@ public class Help_odersActivity extends FragmentActivity implements SwipeRefresh
         initCursorPos();
         InitViewPager();
 
-        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.orders_swipe_container);
-        mSwipeLayout.setOnRefreshListener(this);
-        mSwipeLayout.setColorSchemeResources(R.color.button_g);
+
     }
 
     public void InitTextView(){
@@ -137,12 +133,4 @@ public class Help_odersActivity extends FragmentActivity implements SwipeRefresh
         }
     }
 
-    public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeLayout.setRefreshing(false);
-            }
-        }, 1000);
-    }
 }

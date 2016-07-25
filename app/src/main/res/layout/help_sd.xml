@@ -60,7 +60,7 @@
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_marginLeft="15dp"
-                        android:background="@color/button_g" />
+                        android:scaleType="centerCrop"/>
 
                     <LinearLayout
                         android:id="@+id/ll_name"
@@ -71,28 +71,29 @@
                         android:layout_toRightOf="@id/iv_psd_touxiang"
                         android:orientation="horizontal" >
 
+                        <TextView
+                            android:id="@+id/tv_psd_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="张俊东"
+                            android:textColor="#353535"
+                            android:textSize="18sp" />
+
                     </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_psd_accout"
                         android:layout_marginLeft="16dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/ll_name"
+                        android:layout_toRightOf="@id/iv_psd_touxiang"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="学号：161430319"
                         android:textColor="#AAAAAA"
-                        android:textSize="14sp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_toEndOf="@+id/iv_psd_touxiang" />
+                        android:textSize="14sp" />
 
-                    <TextView
-                        android:id="@+id/tv_psd_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="张俊东"
-                        android:textColor="#353535"
-                        android:textSize="18sp"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignStart="@+id/tv_psd_accout" />
+
                 </RelativeLayout>
 
                 <RelativeLayout
