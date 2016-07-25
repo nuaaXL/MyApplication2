@@ -3,9 +3,11 @@ package com.example.chenjunfan.myapplication;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.Animation;
@@ -16,9 +18,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Help_odersActivity extends FragmentActivity {
+public class Help_odersActivity extends FragmentActivity implements SwipeRefreshLayout.OnRefreshListener {
 
 
+    private SwipeRefreshLayout mSwipeLayout;
     private ImageView imageBack;
     private List<Fragment> fragmentList;
     private ImageView cursor;
@@ -43,6 +46,10 @@ public class Help_odersActivity extends FragmentActivity {
         InitTextView();
         initCursorPos();
         InitViewPager();
+
+        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.orders_swipe_container);
+        mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setColorSchemeResources(R.color.button_g);
     }
 
     public void InitTextView(){
@@ -128,5 +135,14 @@ public class Help_odersActivity extends FragmentActivity {
             animation.setDuration(200);//动画持续时间0.2秒
             cursor.startAnimation(animation);//是用ImageView来显示动画的
         }
+    }
+
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(false);
+            }
+        }, 1000);
     }
 }
