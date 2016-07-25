@@ -43,7 +43,7 @@ public class helpedsdActivity extends Activity {
     private RelativeLayout waitRL,finishRL,finishedRL;
     private Button waitBT,finishBT,finishedBT;
     private ImageButton callBT,msgBT;
-    private String haccout,hname,content,userloc,pay,rname,rphone,raddress,kuaidi,note,hphone,touxiangURL,publisherid,picurl;
+    private String haccout,hname,content,userloc,pay,rname,rphone,raddress,kuaidi,note,hphone,touxiangURL=null,publisherid,picurl=null;
     private Bitmap tupianbit,touxiangbit;
     private int num,tflag,jifen;
     private ProgressDialog prodialog;
@@ -245,8 +245,10 @@ public class helpedsdActivity extends Activity {
                         List<User> userList = gson.fromJson(str, new TypeToken<List<User>>() {
                         }.getType());
                         User user = (User) userList.get(0);
-                        Log.i("user1", user.getUserId());
-                        touxiangURL=user.getUrl();
+                        if(user!=null) {
+                            Log.i("user1", user.getUserId());
+                            touxiangURL = user.getUrl();
+                        }
                         pichandler.sendMessage(new Message());
 
 
@@ -275,6 +277,7 @@ public class helpedsdActivity extends Activity {
                 @Override
                 public void run() {
                     try {
+                        if(touxiangURL!=null)
                         touxiangbit=getHttpBitmap("http://" + getResources().getText(R.string.IP) + "/nuaa/" + touxiangURL);
                         tupianbit=getHttpBitmap("http://" + getResources().getText(R.string.IP) + "/request/" + picurl);
                         setpichandler.sendMessage(new Message());
