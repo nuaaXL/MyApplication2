@@ -52,7 +52,7 @@ import java.util.List;
  * Created by chenjunfan on 16/7/10.
  */
 public class SendpublishActivity extends Activity implements View.OnClickListener{
-    private Button fabuButton,selectpicBT,uploadBT;
+    private Button fabuButton,selectpicBT;
     private EditText contentET;
     private EditText locET;
     private EditText nameET;
@@ -85,7 +85,6 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
 
 
     Handler handler = new Handler() {
-
         @Override
         public void handleMessage(Message msg) {
 
@@ -131,61 +130,77 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
         public void handleMessage(Message msg) {
 
             super.handleMessage(msg);
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    RequestParams params = new RequestParams();
+                    params.addQueryStringParameter("method", "upload");
+
+                    params.addQueryStringParameter("path", "/sdcard/Note/temp.jpg");
+                    params.addBodyParameter("file", new File("/sdcard/Note/temp.jpg"));
+
+                    HttpUtils http = new HttpUtils();
+                    http.send(HttpRequest.HttpMethod.POST,
+                            "http://"+getResources().getText(R.string.IP)+":8080/Ren_Test/reuploadServlet", params,
+                            new RequestCallBack<String>() {
+
+
+                                    @Override
+                                    public void onStart() {
+                                        System.out.println("hello....onStart");
+                                    }
 
 
 
-            RequestParams params = new RequestParams();
-            params.addQueryStringParameter("method", "upload");
+                                    @Override
+                                public void onLoading(long total, long current,
+                                                      boolean isUploading) {
 
-            params.addQueryStringParameter("path", "/sdcard/Note/temp.jpg");
-            params.addBodyParameter("file", new File("/sdcard/Note/temp.jpg"));
-
-            HttpUtils http = new HttpUtils();
-            http.send(HttpRequest.HttpMethod.POST,
-                    "http://"+getResources().getText(R.string.IP)+":8080/Ren_Test/reuploadServlet", params,
-                    new RequestCallBack<String>() {
-
-
-                        @Override
-                        public void onStart() {
-                            System.out.println("hello....onStart");
-                        }
-
-
-
-                        @Override
-                        public void onLoading(long total, long current,
-                                              boolean isUploading) {
-
-                            super.onLoading(total, current, isUploading);
+                                    super.onLoading(total, current, isUploading);
 
 //                                resultText.setText(current + "/" + total);
-                        }
+                                }
 
 
 
-                        @Override
-                        public void onFailure(HttpException error, String msg) {
-                            System.out.println("hello....fail");
-                            Message msgt =new Message();
-                            msgt.obj="上传失败，请重新上传";
-                            error.printStackTrace();
-                        }
+                                @Override
+                                public void onFailure(HttpException error, String msg) {
+                                    System.out.println("hello....fail");
+                                    Message msgt =new Message();
+                                    msgt.obj="上传失败，请重新上传";
+                                    error.printStackTrace();
+                                }
 
-                        @Override
-                        public void onSuccess(ResponseInfo<String> arg0) {
-                            System.out.println("hello....onSuccess");
+                                @Override
+                                public void onSuccess(ResponseInfo<String> arg0) {
+                                    System.out.println("hello....onSuccess");
 //                                resultText.setText("onSuccess");
-                            URL=arg0.result.toString();
-                            System.out.println(arg0.result.toString());
-                            scflag=1;
-                        }
-                    });
-            Message msgf = new Message();
-            msgf.obj="上传完成";
-            handleMessage(msgf);
-            prodialog2.cancel();
+                                    URL=arg0.result.toString();
+                                    System.out.println(arg0.result.toString());
+                                    scflag=1;
+                                }
+                            });
+                    Message msgf = new Message();
+                    msgf.obj="上传完成";
+                    System.out.println("上传完成");
+                    handler.sendMessage(msgf);
+                    getHandlerunshow2.sendMessage(new Message());
+                }
+            });
+            t.start();
 
+
+
+
+        }
+    };
+
+    Handler getHandlerunshow2 = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            prodialog2.cancel();
         }
     };
 
@@ -213,10 +228,10 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
         spinner = (Spinner) findViewById(R.id.sp_kuaidi);
         selectpicBT = (Button) findViewById(R.id.sp_selectImage);
         photoIV = (ImageView) findViewById(R.id.sp_photo);
-        uploadBT = (Button) findViewById(R.id.sp_upload);
+
 
         selectpicBT.setOnClickListener(this);
-        uploadBT.setOnClickListener(this);
+
 
 
         payRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -253,29 +268,44 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
 
                 String[] languages = getResources().getStringArray(R.array.languages);
                 if (languages[pos].equals("顺丰快递")) {
+                    flag=flag-flag/1000*1000;
                     flag+=1000;
                 }
                 else  if(languages[pos].equals("圆通快递")) {
+                    if(flag>=1000)
+                    flag=flag-flag/1000*1000;
+
                     flag+=2000;
                 }
                 else if(languages[pos].equals("申通快递"))
                 {
+                    if(flag>=1000)
+                        flag=flag-flag/1000*1000;
+
                     flag+=3000;
                 }
                 else if(languages[pos].equals("中通快递"))
                 {
+                    if(flag>=1000)
+                        flag=flag-flag/1000*1000;
                     flag+=4000;
                 }
                 else if(languages[pos].equals("天天快递"))
                 {
+                    if(flag>=1000)
+                        flag=flag-flag/1000*1000;
                     flag+=5000;
                 }
                 else if(languages[pos].equals("韵达快递"))
                 {
+                    if(flag>=1000)
+                        flag=flag-flag/1000*1000;
                     flag+=6000;
                 }
                 else if(languages[pos].equals("百世汇通"))
                 {
+                    if(flag>=1000)
+                        flag=flag-flag/1000*1000;
                     flag+=7000;
                 }
 
@@ -300,59 +330,6 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
 
                 this.startActivityForResult(i, 1);// startActivityForResult(i, "1");
                 break;
-            case R.id.sp_upload:
-
-                        RequestParams params = new RequestParams();
-                        params.addQueryStringParameter("method", "upload");
-
-                        params.addQueryStringParameter("path", "/sdcard/Note/temp.jpg");
-                        params.addBodyParameter("file", new File("/sdcard/Note/temp.jpg"));
-
-                        HttpUtils http = new HttpUtils();
-                        http.send(HttpRequest.HttpMethod.POST,
-                                "http://"+getResources().getText(R.string.IP)+":8080/Ren_Test/reuploadServlet", params,
-                                new RequestCallBack<String>() {
-
-
-                                    @Override
-                                    public void onStart() {
-                                        System.out.println("hello....onStart");
-                                    }
-
-
-
-                                    @Override
-                                    public void onLoading(long total, long current,
-                                                          boolean isUploading) {
-
-                                        super.onLoading(total, current, isUploading);
-
-//                                resultText.setText(current + "/" + total);
-                                    }
-
-
-
-                                    @Override
-                                    public void onFailure(HttpException error, String msg) {
-                                        System.out.println("hello....fail");
-                                        error.printStackTrace();
-                                    }
-
-                                    @Override
-                                    public void onSuccess(ResponseInfo<String> arg0) {
-                                        System.out.println("hello....onSuccess");
-//                                resultText.setText("onSuccess");
-                                        URL=arg0.result.toString();
-                                        System.out.println(arg0.result.toString());
-                                    }
-                                });
-
-
-
-
-                break;
-
-
 
 
 

@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,6 +72,7 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
     private EditText nameET;
     private RadioGroup genderGP;
     private RadioGroup schoolGP;
+    private RadioButton nanRB,nvRB,newRB,oldRB;
     private ProgressDialog prodialog2;
     private int gender;
     private String school;
@@ -114,11 +116,14 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
         genderGP = (RadioGroup) findViewById(R.id.RG_igender);
         schoolGP = (RadioGroup) findViewById(R.id.RG_ischool);
         resultText = (TextView) findViewById(R.id.imagePath);
-        btnUpload = (Button) findViewById(R.id.upLoad);
         prodialog2 = new ProgressDialog(Person_visionActivity.this);
         prodialog2.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         prodialog2.setIndeterminate(true);
         prodialog2.setCancelable(false);
+        nanRB = (RadioButton) findViewById(R.id.rb_m_nan);
+        nvRB = (RadioButton) findViewById(R.id.rb_m_nv);
+        oldRB= (RadioButton) findViewById(R.id.rb_m_old);
+        newRB= (RadioButton) findViewById(R.id.rb_m_new);
         prodialog2.setMessage("正在压缩和上传图片，请稍等");
 
 
@@ -137,7 +142,40 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
 
         modifydateButton.setOnClickListener(this);
         selectImage.setOnClickListener(this);
-        btnUpload.setOnClickListener(this);
+
+
+        SQLiteDatabase db = openOrCreateDatabase("user.db", MODE_ENABLE_WRITE_AHEAD_LOGGING, null);
+        Cursor c = db.rawQuery("select * from usertb", null);
+        if (c != null) {
+            while (c.moveToNext()) {
+
+
+                nameET.setText(c.getString(c.getColumnIndex("name")));
+                if(c.getInt(c.getColumnIndex("gender"))==1)
+                {
+                    nanRB.setChecked(true);
+                    gender=1;
+                }
+                else
+                {
+                    nvRB.setChecked(true);
+                    gender=2;
+                }
+                if(c.getString(c.getColumnIndex("school")).equals("nuaa_old"))
+                {
+                    oldRB.setChecked(true);
+                    school="nuaa_old";
+                }
+                else
+                {
+                    newRB.setChecked(true);
+                    school="nuaa_new";
+                }
+
+
+            }
+        }
+
 
 
         genderGP.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -164,10 +202,10 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (i) {
                     case R.id.rb_m_new:
-                        school = "将军路";
+                        school = "nuaa_new";
                         break;
                     case R.id.rb_m_old:
-                        school = "明故宫";
+                        school = "nuaa_old";
                         break;
 
                 }
@@ -189,53 +227,7 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
 
                 this.startActivityForResult(i, 1);// startActivityForResult(i, "1");
                 break;
-            case R.id.upLoad:
-                RequestParams params = new RequestParams();
-                params.addQueryStringParameter("method", "upload");
-                params.addQueryStringParameter("path", picturePath);
-                params.addBodyParameter("file", new File(picturePath));
 
-                HttpUtils http = new HttpUtils();
-                http.send(HttpRequest.HttpMethod.POST,
-                        "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/uploadServlet", params,
-                        new RequestCallBack<String>() {
-
-
-                            @Override
-                            public void onStart() {
-                                resultText.setText("conn...");
-                                System.out.println("hello....onStart");
-                            }
-
-
-                            @Override
-                            public void onLoading(long total, long current,
-                                                  boolean isUploading) {
-
-                                super.onLoading(total, current, isUploading);
-
-                                resultText.setText(current + "/" + total);
-                            }
-
-
-                            @Override
-                            public void onFailure(HttpException error, String msg) {
-                                System.out.println("hello....fail");
-                                error.printStackTrace();
-                            }
-
-                            @Override
-                            public void onSuccess(ResponseInfo<String> arg0) {
-                                System.out.println("hello....onSuccess");
-                                resultText.setText("onSuccess");
-                                Message msg = new Message();
-                                msg.obj = arg0.result.toString();
-                                System.out.println(msg.obj);
-                                handler_suc.sendMessage(msg);
-                            }
-                        });
-
-                break;
 
             case R.id.btn_modifyDate:
                 new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -586,7 +578,6 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
             params.addQueryStringParameter("method", "upload");
             params.addQueryStringParameter("path", "/sdcard/Note/temp.jpg");
             params.addBodyParameter("file", new File( "/sdcard/Note/temp.jpg"));
-
             HttpUtils http = new HttpUtils();
             http.send(HttpRequest.HttpMethod.POST,
                     "http://" + getResources().getText(R.string.IP) + ":8080/Ren_Test/uploadServlet", params,
