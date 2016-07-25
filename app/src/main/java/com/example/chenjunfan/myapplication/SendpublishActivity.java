@@ -145,14 +145,14 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                             new RequestCallBack<String>() {
 
 
-                                @Override
-                                public void onStart() {
-                                    System.out.println("hello....onStart");
-                                }
+                                    @Override
+                                    public void onStart() {
+                                        System.out.println("hello....onStart");
+                                    }
 
 
 
-                                @Override
+                                    @Override
                                 public void onLoading(long total, long current,
                                                       boolean isUploading) {
 
@@ -182,6 +182,7 @@ public class SendpublishActivity extends Activity implements View.OnClickListene
                             });
                     Message msgf = new Message();
                     msgf.obj="上传完成";
+                    System.out.println("上传完成");
                     handler.sendMessage(msgf);
                     getHandlerunshow2.sendMessage(new Message());
                 }
