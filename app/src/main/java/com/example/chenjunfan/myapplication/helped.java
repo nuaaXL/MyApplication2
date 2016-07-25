@@ -408,6 +408,8 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener,
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                itemBeanList =new ArrayList<ItemBean>();
+                getDataFromNetwork();
                 mSwipeLayout.setRefreshing(false);
             }
         }, 1000);

@@ -42,7 +42,7 @@ public class help extends Fragment implements AdapterView.OnItemClickListener,Sw
     private SwipeRefreshLayout mSwipeLayout;
     private User user =new User();
     private List<Request> dataList = new ArrayList<Request>();
-    private List<ItemBean> itemBeanList =new ArrayList<>();
+    private List<ItemBean> itemBeanList =new ArrayList<ItemBean>();
     private MyAdapter myAdapter;
     private ListView mainList;
     private ProgressDialog prodialog;
@@ -405,6 +405,9 @@ public class help extends Fragment implements AdapterView.OnItemClickListener,Sw
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
+               itemBeanList =new ArrayList<ItemBean>();
+                getDataFromNetwork();
                 mSwipeLayout.setRefreshing(false);
             }
         }, 1000);
