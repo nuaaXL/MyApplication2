@@ -52,7 +52,7 @@ public class helpsdActivity extends Activity {
     private String number;
     private String pphone;
     private String touxiangURL,picurl,publisherid;
-    private ImageView touxiangIV,tupianIV;
+    private ImageView touxiangIV,tupianIV,imageBack;
     private int jifen;
     private int num,tflag;
     private Bitmap touxiangbit,tupianbit;
@@ -60,6 +60,14 @@ public class helpsdActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.help_sd);
+
+        imageBack = (ImageView) findViewById(R.id.img_back);
+        imageBack.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                finish();
+            }
+        });
         initview();
 
     }
