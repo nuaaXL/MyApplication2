@@ -86,7 +86,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
     public void LOGIN(View view)
     {
-        createPath("/sdcard/Note/");
+        createPath("/sdcard/Note");
         prodialog=new ProgressDialog(LoginActivity.this);
         prodialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         prodialog.setIndeterminate(true);

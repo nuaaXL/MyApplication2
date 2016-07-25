@@ -44,6 +44,8 @@ public class Register1Activity extends Activity{
         passwd2Et = (EditText) findViewById(R.id.et_r_passwd2);
         phoneEt = (EditText) findViewById(R.id.et_r_phone);
         schoolRg = (RadioGroup) findViewById(R.id.gp_r_group);
+        messageBT= (Button) findViewById(R.id.btn_getmessage);
+        messageET= (EditText) findViewById(R.id.et_message);
 
 
         imageBack.setOnClickListener(new View.OnClickListener() {

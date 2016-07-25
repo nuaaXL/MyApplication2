@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/iv_sd_touxiang"
+                android:layout_toRightOf="@id/iv_avatar"
                 android:orientation="horizontal" >
 
             </LinearLayout>
@@ -82,7 +82,7 @@
                 android:textColor="#AAAAAA"
                 android:textSize="14sp"
                 android:layout_alignParentBottom="true"
-                android:layout_toEndOf="@+id/iv_sd_touxiang" />
+                android:layout_toEndOf="@+id/iv_sd_image" />
 
             <TextView
                 android:id="@+id/tv_sd_name"

@@ -86,43 +86,29 @@ public class ReceivepublishActivity extends Activity {
 
                 String[] languages = getResources().getStringArray(R.array.languages);
                 if (languages[pos].equals("顺丰快递")) {
-                    if(flag>=1000)
-                        flag=flag-flag/1000*1000;
                     flag+=1000;
                 }
                 else  if(languages[pos].equals("圆通快递")) {
-                    if(flag>=1000)
-                        flag=flag-flag/1000*1000;
                     flag+=2000;
                 }
                 else if(languages[pos].equals("申通快递"))
                 {
-                    if(flag>=1000)
-                        flag=flag-flag/1000*1000;
                     flag+=3000;
                 }
                 else if(languages[pos].equals("中通快递"))
                 {
-                    if(flag>=1000)
-                        flag=flag-flag/1000*1000;
                     flag+=4000;
                 }
                 else if(languages[pos].equals("天天快递"))
                 {
-                    if(flag>=1000)
-                        flag=flag-flag/1000*1000;
                     flag+=5000;
                 }
                 else if(languages[pos].equals("韵达快递"))
                 {
-                    if(flag>=1000)
-                        flag=flag-flag/1000*1000;
                     flag+=6000;
                 }
                 else if(languages[pos].equals("百世汇通"))
                 {
-                    if(flag>=1000)
-                        flag=flag-flag/1000*1000;
                     flag+=7000;
                 }
 

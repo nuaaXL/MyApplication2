@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/iv_rd_avatar"
+                android:layout_toRightOf="@id/iv_avatar"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -85,7 +85,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="5dp"
                 android:layout_below="@+id/ll_name"
-                android:layout_toRightOf="@id/iv_rd_avatar"
+                android:layout_toRightOf="@id/iv_avatar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="学号：161430319"

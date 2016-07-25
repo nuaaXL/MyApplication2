@@ -172,12 +172,7 @@ public class RdActivity extends Activity{
         public void handleMessage(Message msg) {
 
             super.handleMessage(msg);
-            try
-            {touxiangIV.setImageBitmap(getHttpBitmap("http://"+getResources().getText(R.string.IP)+"/nuaa/"+touxiangURL));}
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
+            touxiangIV.setImageBitmap(getHttpBitmap("http://"+getResources().getText(R.string.IP)+"/nuaa/"+touxiangURL));
             contentTV.setText(content);
             locTV.setText(loc);
             userName.setText(username);
