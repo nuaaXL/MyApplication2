@@ -91,7 +91,7 @@ public class SdActivity extends Activity {
         kuaidiTV = (TextView) findViewById(R.id.tv_sd_kuaidi);
         userName = (TextView) findViewById(R.id.tv_sd_name);
         accoutTV = (TextView) findViewById(R.id.tv_sd_accout);
-        imageIV = (ImageView) findViewById(R.id.iv_sd_image);
+
         helpBT = (Button) findViewById(R.id.btn_helpji);
         refresh();
     }
@@ -223,7 +223,12 @@ public class SdActivity extends Activity {
 
             super.handleMessage(msg);
             Log.i("touxiang","http://"+getResources().getText(R.string.IP)+"/nuaa/"+touxiangURL);
-            touxiangIV.setImageBitmap(getHttpBitmap("http://"+getResources().getText(R.string.IP)+"/nuaa/"+touxiangURL));
+            try
+            {touxiangIV.setImageBitmap(getHttpBitmap("http://"+getResources().getText(R.string.IP)+"/nuaa/"+touxiangURL));}
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
 
             contentTV.setText(content);
             locTV.setText(loc);
