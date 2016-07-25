@@ -60,7 +60,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:id="@+id/et_r_userId"
+                android:hint="请输入9位以内数字"
+                android:maxLength="9"
+                android:inputType="numberSigned"
                 android:textColor="#000000"
+                android:textColorHint="#AAAAAA"
                 android:layout_alignBaseline="@+id/tv_r_userId"
                 android:layout_toRightOf="@+id/tv_r_userId" />
         </RelativeLayout>
@@ -86,8 +90,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:id="@+id/et_r_passwd"
+                android:hint="请输入16位以内字符"
+                android:textColorHint="#AAAAAA"
                 android:textColor="#000000"
                 android:inputType="textPassword"
+                android:maxLength="16"
                 android:layout_alignBaseline="@+id/tv_r_passwd"
                 android:layout_toRightOf="@+id/tv_r_passwd" />
         </RelativeLayout>

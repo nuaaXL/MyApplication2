@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:textColorHint="@color/button_g"
-            android:ems="10"
+            android:maxLength="9"
             android:id="@+id/et_id"
             android:hint="帐号"
             android:layout_gravity="center_horizontal" />
@@ -49,6 +49,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="16"
             android:textColorHint="@color/button_g"
             android:inputType="textPassword"
             android:textColor="#000000"
