@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,8 +38,8 @@ import java.util.Map;
 /**
  * Created by 李计芃 on 2016/7/17.
  */
-public class helped extends Fragment implements AdapterView.OnItemClickListener,SwipeRefreshLayout.OnRefreshListener {
-    private SwipeRefreshLayout mSwipeLayout;
+public class helped extends Fragment implements AdapterView.OnItemClickListener {
+
     private User user = new User();
     private List<Map<String, Object>> datamapList = new ArrayList<Map<String, Object>>();
     private List<ItemBean> itemBeanList =new ArrayList<>();
@@ -65,10 +64,6 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener,
         mainList.setAdapter(myAdapter);
         mainList.setOnItemClickListener(this);
         getDataFromNetwork();
-
-        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.helped_swipe_container);
-        mSwipeLayout.setOnRefreshListener(this);
-        mSwipeLayout.setColorSchemeResources(R.color.button_g);
 
 
         //对View中控件的操作方法
@@ -404,16 +399,7 @@ public class helped extends Fragment implements AdapterView.OnItemClickListener,
         }
     };
 
-    public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                itemBeanList =new ArrayList<ItemBean>();
-                getDataFromNetwork();
-                mSwipeLayout.setRefreshing(false);
-            }
-        }, 1000);
-    }
+
 
 }
 

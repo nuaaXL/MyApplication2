@@ -251,13 +251,19 @@ public class ReceivepublishActivity extends Activity {
                             finish();
 
                         }
-                        else if(user.getUserId().toString().equals("-1"))
+                        else if(user!=null&&user.getUserId().toString().equals("-1"))
                         {
                             msg.obj="失败";
                             handler.sendMessage(msg);
                             handlerunshow.sendMessage(new Message());
 
 
+                        }
+                        else if(user!=null&&user.getUserId().toString().equals("-2"))
+                        {
+                            msg.obj="内容中含有敏感词汇，请修改";
+                            handler.sendMessage(msg);
+                            handlerunshow.sendMessage(new Message());
                         }
                         else
                         {
