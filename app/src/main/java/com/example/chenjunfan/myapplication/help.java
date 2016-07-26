@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,8 +37,8 @@ import java.util.List;
 /**
  * Created by 李计芃 on 2016/7/17.
  */
-public class help extends Fragment implements AdapterView.OnItemClickListener,SwipeRefreshLayout.OnRefreshListener {
-    private SwipeRefreshLayout mSwipeLayout;
+public class help extends Fragment implements AdapterView.OnItemClickListener {
+
     private User user =new User();
     private List<Request> dataList = new ArrayList<Request>();
     private List<ItemBean> itemBeanList =new ArrayList<ItemBean>();
@@ -61,9 +60,7 @@ public class help extends Fragment implements AdapterView.OnItemClickListener,Sw
         mainList.setOnItemClickListener(this);
         getDataFromNetwork();
 
-        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.help_swipe_container);
-        mSwipeLayout.setOnRefreshListener(this);
-        mSwipeLayout.setColorSchemeResources(R.color.button_g);
+
 
 
 
@@ -401,15 +398,5 @@ public class help extends Fragment implements AdapterView.OnItemClickListener,Sw
         return bitmap;
     }
 
-    public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
 
-               itemBeanList =new ArrayList<ItemBean>();
-                getDataFromNetwork();
-                mSwipeLayout.setRefreshing(false);
-            }
-        }, 1000);
-    }
 }

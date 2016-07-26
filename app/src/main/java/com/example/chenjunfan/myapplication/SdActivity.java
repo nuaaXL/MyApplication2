@@ -175,7 +175,28 @@ public class SdActivity extends Activity {
 
 
                 }
+                User user = new User();
+                SQLiteDatabase db3 = openOrCreateDatabase("user.db", MODE_PRIVATE, null);
+                db3.execSQL("create table if not exists usertb(userId text,name text,passwd text,gender integer" +
+                        ",phone text,school text,point integer)");
+                Cursor c3 = db3.rawQuery("select * from usertb", null);
+                if (c3 != null) {
+                    c3.moveToNext();
 
+
+
+                    user.setUserId(c3.getString(c3.getColumnIndex("userId")));
+                    if(user.getUserId().equals(number))
+                    {
+                        handlertouchme.sendMessage(new Message());
+                    }
+
+
+
+
+                }
+                db3.close();
+                c3.close();
 
                 handler3.sendMessage(new Message());
             }
