@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +38,7 @@ import java.util.List;
  * Created by 李计芃 on 2016/7/17.
  */
 public class help extends Fragment implements AdapterView.OnItemClickListener {
-    private SwipeRefreshLayout mSwipeLayout;
+
     private User user =new User();
     private List<Request> dataList = new ArrayList<Request>();
     private List<ItemBean> itemBeanList =new ArrayList<ItemBean>();
