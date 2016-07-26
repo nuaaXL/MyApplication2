@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * Created by 李计芃 on 2016/7/17.
  */
-public class help extends Fragment implements AdapterView.OnItemClickListener,SwipeRefreshLayout.OnRefreshListener {
+public class help extends Fragment implements AdapterView.OnItemClickListener {
     private SwipeRefreshLayout mSwipeLayout;
     private User user =new User();
     private List<Request> dataList = new ArrayList<Request>();
@@ -61,9 +61,7 @@ public class help extends Fragment implements AdapterView.OnItemClickListener,Sw
         mainList.setOnItemClickListener(this);
         getDataFromNetwork();
 
-        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.help_swipe_container);
-        mSwipeLayout.setOnRefreshListener(this);
-        mSwipeLayout.setColorSchemeResources(R.color.button_g);
+
 
 
 
@@ -401,15 +399,5 @@ public class help extends Fragment implements AdapterView.OnItemClickListener,Sw
         return bitmap;
     }
 
-    public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
 
-               itemBeanList =new ArrayList<ItemBean>();
-                getDataFromNetwork();
-                mSwipeLayout.setRefreshing(false);
-            }
-        }, 1000);
-    }
 }
