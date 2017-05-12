@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     tools:context="com.example.chenjunfan.myapplication.Help_odersActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true">
 
     <FrameLayout
         android:layout_width="match_parent"

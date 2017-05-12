@@ -6,7 +6,9 @@
     android:background="#ffffff"
     android:orientation="vertical"
     android:weightSum="1"
-    android:contextClickable="false">
+    android:contextClickable="false"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true">
 
 
     <FrameLayout

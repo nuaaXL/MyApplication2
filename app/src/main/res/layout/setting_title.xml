@@ -11,9 +11,23 @@
         android:text="设置"
         android:layout_centerInParent="true"  />
 
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="6dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/shadow2" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/button_g" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/shadow" />
+
+    </LinearLayout>
 </RelativeLayout>

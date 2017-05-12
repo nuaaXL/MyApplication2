@@ -33,7 +33,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -179,7 +178,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             }
             else if(mid.getNum()!=0&&tflag%10==1)//寄
             {
-                iImagepic=getHttpBitmap("http://"+getResources().getText(R.string.IP)+"/request/"+mid.getUrl());
+                iImagepic=getHttpBitmap("ftp://"+getResources().getText(R.string.IP)+"/request/"+mid.getUrl());
                 iImageflag=R.drawable.sflag;
                 icontent=mid.getContent();
                 iflag=mid.getFlag();
@@ -213,6 +212,27 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+/*
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            //获取样式中的属性值
+            TypedValue typedValue = new TypedValue();
+            this.getTheme().resolveAttribute(android.R.attr.colorPrimary, typedValue, true);
+            int[] attribute = new int[]{android.R.attr.colorPrimary};
+            TypedArray array = this.obtainStyledAttributes(typedValue.resourceId, attribute);
+            int color = array.getColor(0, Color.TRANSPARENT);
+            array.recycle();
+
+            window.setStatusBarColor(color);
+
+        }
+        */
         setContentView(R.layout.activity_home);
 
         ActivityA=this;
@@ -700,7 +720,7 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-             final String turl = "http://"+getResources().getText(R.string.IP)+"/nuaa/"+(String) msg.obj;
+             final String turl = "ftp://"+getResources().getText(R.string.IP)+"/picture/"+(String) msg.obj;
 
 
             Thread t = new Thread(new Runnable() {
@@ -784,8 +804,8 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             e.printStackTrace();
         }
         try {
-            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
-            conn.setConnectTimeout(0);
+            URLConnection conn = (URLConnection) myFileUrl.openConnection();
+            conn.setConnectTimeout(600);
             conn.setDoInput(true);
             conn.connect();
             InputStream is = conn.getInputStream();
