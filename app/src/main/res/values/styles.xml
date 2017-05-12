@@ -65,6 +65,14 @@
         <item name="android:focusable">false</item>
     </style>
 
+        <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+            <!-- Customize your theme here. -->
+            <!-- toolbar（actionbar）颜色 -->
+            <item name="colorPrimary">#ffffff</item>
+            <item name="android:windowTranslucentStatus">true</item>
+        </style>
+
+        <style name="AppTheme2" parent="@style/AppBaseTheme"></style>
 
 
 

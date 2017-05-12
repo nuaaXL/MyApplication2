@@ -5,7 +5,9 @@
 
     android:background="#ffffff"
     android:orientation="vertical"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true">
 
 
 
@@ -311,12 +313,22 @@
 
         </ScrollView>
 
-
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/shadow2" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:background="@color/button_g" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:background="@drawable/shadow" />
+
+        </LinearLayout>
 
 
     <RelativeLayout

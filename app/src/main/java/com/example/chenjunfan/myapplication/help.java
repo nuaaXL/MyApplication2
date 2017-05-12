@@ -27,7 +27,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -274,7 +273,7 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
             }
             else if(mid.getNum()!=0&&tflag%10==1)//寄
             {
-                iImagepic=getHttpBitmap("http://"+getResources().getText(R.string.IP)+"/request/"+mid.getUrl());
+                iImagepic=getHttpBitmap("ftp://"+getResources().getText(R.string.IP)+"/request/"+mid.getUrl());
                 iImageflag=R.drawable.sflag;
                 icontent=mid.getContent();
                 iflag=mid.getFlag();
@@ -385,8 +384,8 @@ public class help extends Fragment implements AdapterView.OnItemClickListener {
             e.printStackTrace();
         }
         try {
-            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
-            conn.setConnectTimeout(0);
+            URLConnection conn = (URLConnection) myFileUrl.openConnection();
+            conn.setConnectTimeout(600);
             conn.setDoInput(true);
             conn.connect();
             InputStream is = conn.getInputStream();

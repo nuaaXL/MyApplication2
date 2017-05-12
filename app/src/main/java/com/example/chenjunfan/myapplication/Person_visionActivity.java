@@ -42,7 +42,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -63,7 +62,6 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
     private int year;
     private int month;
     private int day;
-    private static String requestURL = "http://192.168.191.1:8080/NanhangServer/uploadServlet";
     private TextView resultText;
     private String picturePath;
     private Button selectImage;
@@ -462,8 +460,8 @@ public class Person_visionActivity  extends Activity implements View.OnClickList
             e.printStackTrace();
         }
         try {
-            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
-            conn.setConnectTimeout(0);
+            URLConnection conn = (URLConnection) myFileUrl.openConnection();
+            conn.setConnectTimeout(600);
             conn.setDoInput(true);
             conn.connect();
             InputStream is = conn.getInputStream();

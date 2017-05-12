@@ -26,39 +26,51 @@
         android:icon="@mipmap/ico"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".Register1Activity" />
-        <activity android:name=".Register2Activity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".Person_visionActivity" />
-        <activity android:name=".Point_viewActivity" />
-        <activity android:name=".SettingActivity" />
-        <activity android:name=".ReceivepublishActivity" />
-        <activity android:name=".SendpublishActivity" />
-        <activity android:name=".RdActivity" />
-        <activity android:name=".SdActivity" />
-        <!--
- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
-
-        <activity android:name=".Register3Activity" />
-        <activity android:name=".ChangepasswdActivity" />
+        android:theme="@style/AppTheme2">
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Register1Activity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Register2Activity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Person_visionActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Point_viewActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ReceivepublishActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".SendpublishActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".RdActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".SdActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Register3Activity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ChangepasswdActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".splashScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Help_odersActivity" />
-        <activity android:name=".helprdActivity" />
-        <activity android:name=".helpedrdActivity" />
-        <activity android:name=".helpedsdActivity" />
-        <activity android:name=".helpsdActivity" />
+        <activity android:name=".Help_odersActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".helprdActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".helpedrdActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".helpedsdActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".helpsdActivity"
+            android:screenOrientation="portrait" />
 
 
 

@@ -5,7 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:background="#ffffff"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true">
 
 
     <FrameLayout
@@ -39,13 +41,13 @@
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="45dp">
+        android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
+        android:paddingBottom="45dp"
         android:orientation="vertical" >
 
 
@@ -405,11 +407,22 @@
 
     </ScrollView>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/shadow2" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:background="@color/button_g" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:background="@drawable/shadow" />
+
+            </LinearLayout>
 
 
 

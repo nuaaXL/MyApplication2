@@ -27,7 +27,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -293,8 +292,8 @@ public class SdActivity extends Activity {
                 @Override
                 public void run() {
                     try {
-                        touxiangbit=getHttpBitmap("http://" + getResources().getText(R.string.IP) + "/nuaa/" + touxiangURL);
-                        tupianbit=getHttpBitmap("http://" + getResources().getText(R.string.IP) + "/request/" + picurl);
+                        touxiangbit=getHttpBitmap("ftp://" + getResources().getText(R.string.IP) + "/picture/" + touxiangURL);
+                        tupianbit=getHttpBitmap("ftp://" + getResources().getText(R.string.IP) + "/request/" + picurl);
                         setpichandler.sendMessage(new Message());
                     }
                     catch (Exception e )
@@ -498,8 +497,8 @@ public class SdActivity extends Activity {
             e.printStackTrace();
         }
         try {
-            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
-            conn.setConnectTimeout(0);
+            URLConnection conn = (URLConnection) myFileUrl.openConnection();
+            conn.setConnectTimeout(6000);
             conn.setDoInput(true);
             conn.connect();
             InputStream is = conn.getInputStream();
